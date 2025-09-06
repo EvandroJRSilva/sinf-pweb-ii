@@ -1,0 +1,218 @@
+\documentclass[a4paper, 12pt]{article}
+%\documentclass[a4paper,12pt,openany]{memoir}
+
+\input{preambulo.tex}
+
+\title{\vspace{-2cm}\large\textbf{PLANO DE ENSINO}}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+%\vspace{-6em}
+\vspace{-2.5cm}
+    
+%-----------------------------------------------------------    
+\section{Identificação}
+    
+\begin{tblr}{vlines, hlines}
+    \SetCell[c=2]{wd=0.7\linewidth}Disciplina: Programação para a Web II & & \SetCell{wd=0.25\linewidth}Créditos: 2.2.0 \\
+    \SetCell[c=2]{wd=0.7\linewidth}Carga horária: 60 horas & &  \SetCell{wd=0.25\linewidth}Período: 5\textordmasculine
+\end{tblr}
+
+%-----------------------------------------------------------
+\section{Ementa}
+
+\begin{itemize}
+    \item Comunicação entre navegador e servidor: Assíncrono e Síncrona.
+    \item Segurança.
+    \item Frameworks e ferramentas de desenvolvimento de aplicações web.
+    \item Controle de sessão.
+    \item Esquema de funcionamento de uma página web com acesso a banco de dados.
+\end{itemize}  
+
+%-----------------------------------------------------------
+\section{Objetivos}
+
+\begin{itemize}
+    \item Compreender como ocorre a comunicação entre navegador e servidor, diferenciando os modos síncrono e assíncrono, e aplicar mecanismos de controle de sessão em aplicações web.
+    \item Conhecer os principais riscos de segurança em aplicações web e aplicar boas práticas de desenvolvimento, utilizando frameworks e ferramentas de apoio para estruturar aplicações seguras.
+    \item Desenvolver aplicações web completas, capazes de se comunicar com bancos de dados relacionais, aplicando conceitos de modelagem, consultas SQL e boas práticas de integração.
+\end{itemize}
+
+%\newpage
+%-----------------------------------------------------------
+\section{Conteúdo Programático}
+
+\DeclareTblrTemplate{conthead-text}{default}{ (Continuação)}
+\DeclareTblrTemplate{contfoot-text}{default}{Continua na próxima página}
+\DeclareTblrTemplate{caption-text}{default}{Conteúdo Programático}
+\begin{longtblr}{colspec = {Q[l, 0.8\textwidth] X[c]},
+        row{1} = {font=\bfseries, m},
+        cells = {m},
+        hlines, vlines
+        }
+    Conteúdo & Carga Horária\\
+    \begin{itemize}
+        \item Fundamentos de Comunicação Web e Sessões
+            \begin{itemize}
+                \item \textbf{Arquitetura da Web}: Navegador, servidor, protocolos HTTP/HTTPS.
+                \item \textbf{Comunicação síncrona e assíncrona}: conceitos, exemplos práticos com requisições HTTP.
+                \item \textbf{Ajax e Fetch API}: diferenças, aplicações em páginas dinâmicas.
+                \item \textbf{Controle de sessão – fundamentos}: cookies, session storage, local storage.
+                \item \textbf{Autenticação e gerenciamento de usuários}: login, logout, persistência de sessão.
+                \item Prática.
+            \end{itemize}
+        \item Avaliação 1
+    \end{itemize} & 20\\
+    \begin{itemize}
+        \item Segurança e Desenvolvimento Estruturado
+            \begin{itemize}
+                \item \textbf{Conceitos de segurança na Web}: ameaças comuns (XSS, CSRF, SQL Injection).
+                \item \textbf{HTTPS e certificados digitais}: funcionamento e importância.
+                \item \textbf{Boas práticas de segurança em formulários}: validação no cliente e no servidor.
+                \item \textbf{Introdução a frameworks de desenvolvimento}: o papel dos frameworks, vantagens.
+                \item \textbf{Ferramentas de apoio ao desenvolvimento}: IDEs, sistemas de versionamento, bibliotecas auxiliares.
+                \item Prática.
+            \end{itemize}
+        \item Avaliação 2
+    \end{itemize} & 20\\
+    \begin{itemize}
+        \item Integração com Banco de Dados
+            \begin{itemize}
+                \item \textbf{Funcionamento de uma aplicação com banco de dados}: modelo cliente-servidor.
+                \item \textbf{Modelagem básica de dados}: entidades, atributos e relacionamentos.
+                \item \textbf{Conexão servidor–banco de dados}: drivers, bibliotecas de acesso.
+                \item \textbf{Consultas SQL em aplicações web}: SELECT, INSERT, UPDATE, DELETE.
+                \item \textbf{Boas práticas na integração banco de dados – servidor web}: segurança e desempenho.
+                \item Prática.
+            \end{itemize}
+        \item Avaliação 3
+    \end{itemize} & 20\\
+\end{longtblr}
+
+%-----------------------------------------------------------
+\section{Procedimento de Ensino}
+
+O ensino desta disciplina se dará a partir de variados métodos, os quais incluem: 
+\begin{itemize}
+    \item Aula expositiva, com uso de \textit{slides} e códigos de exemplo;
+    \item Atividades práticas
+        \begin{itemize}
+            \item Trabalhos individuais ou em grupo;
+            \item Resolução de exercícios.
+        \end{itemize}
+\end{itemize}
+
+%-----------------------------------------------------------
+\section{Competências e Habilidades}
+
+\begin{itemize}
+    \item Competências
+        \begin{itemize}
+            \item\textbf{ Compreensão da arquitetura web}: Entender o funcionamento da comunicação entre navegador, servidor e banco de dados, reconhecendo a lógica cliente-servidor.
+            \item \textbf{Desenvolvimento de aplicações web dinâmicas}: Projetar e implementar páginas que interagem com o servidor de forma síncrona e assíncrona.
+            \item \textbf{Gestão de segurança em aplicações web}: Reconhecer ameaças, aplicar boas práticas de desenvolvimento seguro e empregar protocolos de comunicação criptografados.
+            \item \textbf{Uso de frameworks e ferramentas modernas}: Integrar frameworks, bibliotecas e ferramentas de versionamento no processo de desenvolvimento de sistemas web.
+            \item \textbf{Integração de banco de dados com aplicações web}: Desenvolver aplicações com persistência de dados, utilizando SQL, boas práticas de modelagem e técnicas de prevenção contra falhas de segurança.
+            \item \textbf{Capacidade de trabalho em equipe e desenvolvimento colaborativo}: Utilizar práticas de versionamento e organização de projetos, facilitando o desenvolvimento conjunto.
+            \item \textbf{Autonomia na aprendizagem tecnológica}: Pesquisar, explorar e adaptar novos frameworks, ferramentas e técnicas para diferentes cenários da programação web.
+        \end{itemize}
+    \item Habilidades
+        \begin{itemize}
+            \item Diferenciar e aplicar requisições síncronas e assíncronas em aplicações web.
+            \item Manipular cookies, sessionStorage e localStorage para controle de sessão.
+            \item Implementar sistemas de login/logout básicos com persistência de sessão.
+            \item Identificar e corrigir falhas de segurança (XSS, CSRF, SQL Injection).
+            \item Configurar e utilizar HTTPS e certificados digitais em aplicações web.
+            \item Utilizar frameworks (como Flask, Django ou Express) para estruturar aplicações.
+            \item Empregar IDEs, Git/GitHub e gerenciadores de pacotes no ciclo de desenvolvimento.
+            \item Realizar a modelagem básica de dados para aplicações web.
+            \item Escrever e executar consultas SQL (CRUD) integradas a aplicações web.
+            \item Desenvolver uma aplicação CRUD completa (frontend + backend + banco de dados).
+            \item Trabalhar de forma organizada em projetos colaborativos com versionamento.
+            \item Avaliar e aplicar boas práticas de segurança e desempenho em sistemas web.
+        \end{itemize}
+\end{itemize}
+
+%-----------------------------------------------------------
+\section{Sistemática de Avaliação}
+
+Ao fim de cada unidade, será realizada uma avaliação parcial dos conteúdos ministrados durante o curso da unidade, totalizando em 03 (três) avaliações. A nota de cada avaliação poderá ser composta por um ou mais instrumentos de avaliação, de acordo com um dos seguintes casos: (1) Uma prova escrita; (2) um ou mais trabalhos (individuais ou em grupo); (3) Um ou mais trabalhos, mais uma prova escrita.
+
+Nos casos em que a avaliação for composta por mais de um instrumento, será realizado o somatório ou a média ponderada das notas obtidas em cada instrumento para compor a nota final de uma avaliação parcial. Os instrumentos a serem utilizados em cada avaliação serão definidos e informados no decorrer do curso.
+
+As notas obedecem a uma escala de 0,0 (zero) a 10,0 (dez), contando até a primeira ordem decimal com possíveis arredondamentos. Considerar-se-á aprovado na disciplina o aluno que obtiver assiduidade igual ou superior a 75\% e a média aritmética nas avaliações parciais (média parcial) igual ou superior a 7,0 (sete), ou que se submeta a exame final e obtenha média aritmética entre a média parcial e exame final (média final) igual ou superior a 6,0 (seis). Terá direito de realizar exame final o aluno que satisfaça os requisitos de assiduidade e que obtenha média parcial maior ou igual a 4,0 (quatro) e menor que 7,0 (sete).
+
+A seguir são apresentadas algumas normas, que regulamentam o rendimento escolar
+nos Cursos de Graduação da UFPI, aprovados pela resolução no 177/12 de 05/11/2012 do CEPEX/UFPI, atualizada em 03 de maio de 2023:
+
+\vspace{10pt}
+
+\noindent\textbf{Art. 100.} Entende-se por assiduidade do aluno a frequência às atividades didáticas (aulas teóricas e práticas e demais atividades exigidas em cada disciplina) programadas para o período letivo.
+
+\textbf{Parágrafo Único.} Não haverá abono de faltas, ressalvado os casos previstos em legislação específica.
+
+\noindent\textbf{Art. 105.} O professor deve discutir os resultados obtidos em cada instrumento de avaliação junto aos alunos.
+
+\textbf{Parágrafo único.} A discussão referida no caput deste artigo será realizada por ocasião da publicação dos resultados e o aluno terá vista dos instrumentos de avaliação, devendo devolvê-los após o fim da discussão.
+
+\noindent\textbf{Art. 108.} Impedido de participar de qualquer avaliação, o aluno tem direito de requerer a oportunidade de realizá-la em segunda chamada.
+
+\textbf{§ 1º} O aluno poderá requerer exame de segunda chamada por si ou por procurador legalmente constituído. O requerimento dirigido ao professor responsável pela disciplina, devidamente justificado e comprovado, deve ser protocolado à chefia do departamento ou curso a qual o componente curricular esteja vinculada, no prazo de 3 (três) dias úteis, contado este prazo a partir da data da avaliação não realizada.
+
+\textbf{§ 2º} Consideram-se motivos que justificam a ausência do aluno às verificações parciais ou ao exame final:
+\begin{enumerate}[label= \alph*)]
+    \item doença;
+    \item doença ou óbito de familiares diretos;
+    \item audiência judicial;
+    \item militares, policiais e outros profissionais em missão oficial;
+    \item participação em congressos, reuniões oficiais ou eventos culturais
+    representando a UFPI, o Município ou o Estado;
+    \item outros motivos que, apresentados, possam ser julgados procedentes.
+\end{enumerate}
+
+%-----------------------------------------------------------
+\section{Bibliografia}
+
+\subsection{Básica}
+
+\begin{itemize}
+    \item HAVERBEKE, Marijn. \textbf{Eloquent JavaScript}. 4 ed. No starch press. Disponível em <\url{https://eloquentjavascript.net/}>. Acesso em 21 ago. 2025.
+    \item GRINBERG, Miguel. \textbf{Flask Web Development: Developing Web Applications with Python}. 2 ed. O'Reilly Media, 2018.
+    \item \textbf{Mozilla Developer Network (MDN Web Docs)}. Disponível em <\url{https://developer.mozilla.org/pt-BR/}>. Acesso em 21 ago. 2025.
+    \item DEITEL, H. M; DEITEL, P. J; et al. \textbf{Java TM: como programar}. 8 ed. São Paulo: Pearson, 2010.
+    \item HORTMAN, C. S.; CORNELL, G. \textbf{Core Java: Volume 1}. 8 ed. São Paulo: Pearson, 2010.
+    \item HORTMAN, C. S.; CORNELL, G. \textbf{Core Java: Volume 2}. 8 ed. São Paulo: Pearson, 2010.
+\end{itemize}
+
+\subsection{Complementar}
+
+\begin{itemize}
+    \item PILGRIM, Mark. \textbf{Dive into HTML5 with illustrations from the public domain}. Disponível em <\url{https://mislav.github.io/diveintohtml5/}> (HTML, contéudo em Inglês), ou <\url{https://www.jesusda.com/docs/ebooks/ebook_manual_en_dive-into-html5.pdf}> (PDF), ou <\url{https://github.com/zenorocha/diveintohtml5}> (conteúdo traduzido). Acesso a todas as páginas citadas em 20 ago. 2025.
+    \item \textbf{OWASP Application Security Verification Standard (ASVS)}. Disponível em <\url{https://owasp.org/www-project-application-security-verification-standard/}>. Acesso em 21 ago. 2025.
+    \item \textbf{SQL Tutorial}. Disponível em <\url{https://www.sqltutorial.org/}>. Acesso em 21 ago. 2025.
+    \item CRANE, D.; PASCARELLO, E.; DARREN, J. \textbf{Ajax em Ação}. 1 ed. São Paulo: Pearson, 2007.
+    \item BURKE, B.; MONSON, R. \textbf{Enterprise JavaBeans 3.0}. 5 ed. São Paulo: Pearson, 2007.
+    \item JENDROCK, E.; GOLLAPUDI, H.; SRIVATHSA. \textbf{JAVA EE 6 Tutorial: The Basic Concepts}. 4 ed. São Paulo: Pearson, 2011.
+    \item FELKE-MORRIS, T. \textbf{Basic of Web HTML5 Design \& CSS3}. São Paulo: Prentice-hall, 2012.
+    \item GRAHAM, S. \textbf{Building WebService with Java}. 2 ed. Pearson, 2005.
+\end{itemize}
+
+
+\vfill
+%-----------------------------------------------------------
+% ASSINATURAS
+\begin{center}
+    \rule{6cm}{0.4pt} \\ 
+    \textbf{Evandro José da Rocha e Silva} \\
+    Professor(a) do Curso de Sistemas de Informação \\[1.5cm]
+    
+    \rule{6cm}{0.4pt} \\ 
+    \textbf{Frank César Lopes Véras} \\
+    Professor e Coordenador do Curso de Sistemas de Informação
+\end{center}
+    
+\end{document}
