@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servidores Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+      
+      body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: linear-gradient(135deg, #ECF0F1 0%, #D6EAF8 100%);
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .content-container {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+      
+      h1 {
+        color: #2D3E50;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      .main-content {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+      }
+      
+      .text-content {
+        width: 45%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+      }
+      
+      .server-info {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      
+      .server-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      
+      .server-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+      
+      .apache-icon {
+        background-color: #D22128;
+        color: white;
+      }
+      
+      .nginx-icon {
+        background-color: #009639;
+        color: white;
+      }
+      
+      .server-name {
+        color: #2D3E50;
+        font-size: 22px;
+        font-weight: 700;
+      }
+      
+      .server-description {
+        color: #2D3E50;
+        font-size: 16px;
+        line-height: 1.4;
+        margin-bottom: 10px;
+      }
+      
+      .server-features {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .server-feature {
+        display: flex;
+        align-items: flex-start;
+      }
+      
+      .server-feature i {
+        color: #2ECC71;
+        margin-right: 8px;
+        margin-top: 3px;
+      }
+      
+      .server-feature-text {
+        color: #2D3E50;
+        font-size: 15px;
+      }
+      
+      .image-container {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .image-container img {
+        width: 500px;
+        height: 350px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        object-fit: contain;
+      }
+      
+      .image-caption {
+        margin-top: 15px;
+        color: #2D3E50;
+        font-size: 16px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      .slide-number {
+        align-self: flex-end;
+        margin: 10px 20px;
+        font-size: 18px;
+        color: #2D3E50;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="content-container">
+        <h1>Servidores Web</h1>
+        
+        <div class="main-content">
+          <div class="text-content">
+            <div class="server-info">
+              <div class="server-title">
+                <div class="server-icon apache-icon">
+                  <i class="fas fa-server"></i>
+                </div>
+                <div class="server-name">Apache HTTP Server</div>
+              </div>
+              <div class="server-description">
+                Servidor web de código aberto mais utilizado no mundo, desenvolvido pela Apache Software Foundation.
+              </div>
+              <div class="server-features">
+                <div class="server-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <div class="server-feature-text">
+                    <strong>Arquitetura:</strong> Baseada em processos/threads (um para cada conexão)
+                  </div>
+                </div>
+                <div class="server-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <div class="server-feature-text">
+                    <strong>Módulos:</strong> Sistema extensível com diversos módulos disponíveis
+                  </div>
+                </div>
+                <div class="server-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <div class="server-feature-text">
+                    <strong>Compatibilidade:</strong> Suporte a múltiplas plataformas e linguagens
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="server-info">
+              <div class="server-title">
+                <div class="server-icon nginx-icon">
+                  <i class="fas fa-server"></i>
+                </div>
+                <div class="server-name">Nginx</div>
+              </div>
+              <div class="server-description">
+                Servidor web de alto desempenho, também usado como proxy reverso, balanceador de carga e cache HTTP.
+              </div>
+              <div class="server-features">
+                <div class="server-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <div class="server-feature-text">
+                    <strong>Arquitetura:</strong> Orientada a eventos, assíncrona (um processo atende múltiplas conexões)
+                  </div>
+                </div>
+                <div class="server-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <div class="server-feature-text">
+                    <strong>Performance:</strong> Excelente para conteúdo estático e muitas conexões simultâneas
+                  </div>
+                </div>
+                <div class="server-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <div class="server-feature-text">
+                    <strong>Uso:</strong> Ideal para sites de alto tráfego e aplicações modernas
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="image-container">
+            <img src="./imagens/servidores_web_img.png" alt="Comparação Apache vs Nginx">
+            <div class="image-caption">Comparação entre Apache e Nginx: arquitetura e processamento de requisições</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">4</div>
+    </div>
+  </body>
+</html>
+

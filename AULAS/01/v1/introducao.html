@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introdução à Arquitetura da Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+      
+      body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: linear-gradient(135deg, #ECF0F1 0%, #D6EAF8 100%);
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .content-container {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+      }
+      
+      h1 {
+        color: #2D3E50;
+        font-size: 42px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      
+      .subtitle {
+        color: #3498DB;
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      .main-content {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .image-container {
+        width: 45%;
+        text-align: center;
+      }
+      
+      .image-container img {
+        width: 450px;
+        height: 280px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        object-fit: contain;
+      }
+      
+      .topics-container {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .topic-column {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      
+      .topic-title {
+        color: #2D3E50;
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .topic-title i {
+        margin-right: 10px;
+        color: #3498DB;
+      }
+      
+      .topic-items {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      
+      .topic-item {
+        font-size: 16px;
+        color: #2D3E50;
+        display: flex;
+        align-items: center;
+      }
+      
+      .topic-item i {
+        color: #2ECC71;
+        margin-right: 8px;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+      
+      .slide-number {
+        align-self: flex-end;
+        margin: 10px 20px;
+        font-size: 18px;
+        color: #2D3E50;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="content-container">
+        <h1>Arquitetura da Web e Comunicação Síncrona/Assíncrona</h1>
+        <p class="subtitle">Uma introdução para iniciantes em programação web</p>
+        
+        <div class="main-content">
+          <div class="image-container">
+            <img src="./imagens/introducao_img.png" alt="Arquitetura Cliente-Servidor">
+          </div>
+          
+          <div class="topics-container">
+            <div class="topic-column">
+              <div class="topic-title">
+                <i class="fas fa-server"></i> Arquitetura da Web
+              </div>
+              <div class="topic-items">
+                <div class="topic-item">
+                  <i class="fas fa-check-circle"></i> Cliente-servidor
+                </div>
+                <div class="topic-item">
+                  <i class="fas fa-check-circle"></i> Navegadores
+                </div>
+                <div class="topic-item">
+                  <i class="fas fa-check-circle"></i> Servidores web
+                </div>
+                <div class="topic-item">
+                  <i class="fas fa-check-circle"></i> HTTP/HTTPS
+                </div>
+              </div>
+            </div>
+            
+            <div class="topic-column">
+              <div class="topic-title">
+                <i class="fas fa-exchange-alt"></i> Comunicação Web
+              </div>
+              <div class="topic-items">
+                <div class="topic-item">
+                  <i class="fas fa-check-circle"></i> Síncrona vs. Assíncrona
+                </div>
+                <div class="topic-item">
+                  <i class="fas fa-check-circle"></i> Problema da espera
+                </div>
+                <div class="topic-item">
+                  <i class="fas fa-check-circle"></i> Exemplos práticos
+                </div>
+                <div class="topic-item">
+                  <i class="fas fa-check-circle"></i> Callbacks
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">1</div>
+    </div>
+  </body>
+</html>
+

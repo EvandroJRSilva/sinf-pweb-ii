@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrutura Cliente-Servidor</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+      
+      body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: linear-gradient(135deg, #ECF0F1 0%, #D6EAF8 100%);
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .content-container {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+      
+      h1 {
+        color: #2D3E50;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      .main-content {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+      }
+      
+      .text-content {
+        width: 45%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      .concept-box {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      
+      .concept-title {
+        color: #3498DB;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .concept-title i {
+        margin-right: 10px;
+      }
+      
+      .concept-description {
+        color: #2D3E50;
+        font-size: 18px;
+        line-height: 1.5;
+      }
+      
+      .key-points {
+        margin-top: 15px;
+      }
+      
+      .key-point {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 8px;
+      }
+      
+      .key-point i {
+        color: #2ECC71;
+        margin-right: 10px;
+        margin-top: 4px;
+      }
+      
+      .key-point-text {
+        color: #2D3E50;
+        font-size: 16px;
+      }
+      
+      .image-container {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .image-container img {
+        width: 500px;
+        height: 350px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        object-fit: contain;
+      }
+      
+      .image-caption {
+        margin-top: 15px;
+        color: #2D3E50;
+        font-size: 16px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      .slide-number {
+        align-self: flex-end;
+        margin: 10px 20px;
+        font-size: 18px;
+        color: #2D3E50;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="content-container">
+        <h1>Estrutura Cliente-Servidor</h1>
+        
+        <div class="main-content">
+          <div class="text-content">
+            <div class="concept-box">
+              <div class="concept-title">
+                <i class="fas fa-network-wired"></i> O que é?
+              </div>
+              <div class="concept-description">
+                A arquitetura cliente-servidor é um modelo de comunicação onde recursos e serviços são fornecidos por servidores e consumidos por clientes através de uma rede.
+              </div>
+            </div>
+            
+            <div class="concept-box">
+              <div class="concept-title">
+                <i class="fas fa-list-ul"></i> Características principais
+              </div>
+              <div class="key-points">
+                <div class="key-point">
+                  <i class="fas fa-check-circle"></i>
+                  <div class="key-point-text">
+                    <strong>Cliente:</strong> Solicita recursos ou serviços (navegador, app mobile)
+                  </div>
+                </div>
+                <div class="key-point">
+                  <i class="fas fa-check-circle"></i>
+                  <div class="key-point-text">
+                    <strong>Servidor:</strong> Fornece recursos ou serviços (web, email, banco de dados)
+                  </div>
+                </div>
+                <div class="key-point">
+                  <i class="fas fa-check-circle"></i>
+                  <div class="key-point-text">
+                    <strong>Comunicação:</strong> Através de protocolos padronizados (HTTP, FTP)
+                  </div>
+                </div>
+                <div class="key-point">
+                  <i class="fas fa-check-circle"></i>
+                  <div class="key-point-text">
+                    <strong>Distribuição:</strong> Processamento dividido entre cliente e servidor
+                  </div>
+                </div>
+                <div class="key-point">
+                  <i class="fas fa-check-circle"></i>
+                  <div class="key-point-text">
+                    <strong>Escalabilidade:</strong> Permite crescimento independente de clientes e servidores
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="image-container">
+            <img src="./imagens/cliente_servidor_img.png" alt="Diagrama Cliente-Servidor">
+            <div class="image-caption">Modelo básico de arquitetura cliente-servidor</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">2</div>
+    </div>
+  </body>
+</html>
+
