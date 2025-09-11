@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo AJAX 2</title>
+</head>
+<body>
+    <h1>Carregar Dados JSON com AJAX</h1>
+    <button onclick="carregarDados()">Carregar Produtos</button>
+    <ul id="lista-produtos"></ul>
+
+    <script>
+        function carregarDados() {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Convertendo a string JSON para um objeto JavaScript
+                    const dados = JSON.parse(xhr.responseText);
+                    const lista = document.getElementById('lista-produtos');
+                    
+                    // Limpando a lista antes de adicionar novos itens
+                    lista.innerHTML = ''; 
+
+                    // Iterando sobre o array de produtos
+                    dados.produtos.forEach(produto => {
+                        const li = document.createElement('li');
+                        li.textContent = `${produto.nome} - R$ ${produto.preco.toFixed(2)}`;
+                        lista.appendChild(li);
+                    });
+                } else {
+                    document.getElementById('lista-produtos').innerHTML = 'Erro ao carregar os dados.';
+                }
+            };
+            xhr.open('GET', 'dados.json', true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

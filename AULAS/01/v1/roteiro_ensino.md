@@ -26,6 +26,8 @@ Ao final desta aula, os alunos serão capazes de:
 
 ### BLOCO 1: Fundamentos da Arquitetura Web (45 minutos)
 
+---
+
 #### Abertura e Contextualização (10 minutos)
 **Tempo**: 0:00 - 0:10
 
@@ -47,6 +49,8 @@ Ao final desta aula, os alunos serão capazes de:
 - Use linguagem acessível, evite jargões técnicos desnecessários
 - Estabeleça um ambiente colaborativo e encorajador
 
+---
+
 #### Estrutura Cliente-Servidor (10 minutos)
 **Tempo**: 0:10 - 0:20
 
@@ -66,6 +70,8 @@ Ao final desta aula, os alunos serão capazes de:
 - **Atividade Hands-On 1** (5 minutos): Explorando o ciclo de requisição-resposta
 - Os alunos abrem as ferramentas de desenvolvedor e observam requisições HTTP
 
+---
+
 #### Funcionamento do Navegador (8 minutos)
 **Tempo**: 0:20 - 0:28
 
@@ -81,6 +87,8 @@ Ao final desta aula, os alunos serão capazes de:
 - Explique cada componente usando metáforas (motor de renderização = tradutor)
 - Demonstre como o navegador "constrói" uma página passo a passo
 
+---
+
 #### Servidores Web (8 minutos)
 **Tempo**: 0:28 - 0:36
 
@@ -95,6 +103,8 @@ Ao final desta aula, os alunos serão capazes de:
 - Use analogias: Apache = biblioteca tradicional (um livro por vez), Nginx = biblioteca moderna (vários livros simultaneamente)
 - Mostre logos e interfaces reais dos servidores
 - Explique quando usar cada um com exemplos práticos
+
+---
 
 #### HTTP vs HTTPS (9 minutos)
 **Tempo**: 0:36 - 0:45
@@ -117,6 +127,8 @@ Ao final desta aula, os alunos serão capazes de:
 
 ### BLOCO 2: Comunicação Síncrona vs Assíncrona (60 minutos)
 
+---
+
 #### Conceitos Fundamentais (15 minutos)
 **Tempo**: 0:50 - 1:05
 
@@ -135,6 +147,8 @@ Ao final desta aula, os alunos serão capazes de:
 **Atividade Prática**:
 - **Atividade Hands-On 2** (10 minutos): Sentindo a diferença - Síncrono vs Assíncrono
 - Os alunos criam e testam o experimento prático
+
+---
 
 #### Exemplos Práticos em JavaScript (15 minutos)
 **Tempo**: 1:05 - 1:20
@@ -157,6 +171,8 @@ Ao final desta aula, os alunos serão capazes de:
 - Projete o código e execute ao vivo
 - Permita que alunos testem em seus computadores
 
+---
+
 #### Introdução aos Callbacks (15 minutos)
 **Tempo**: 1:20 - 1:35
 
@@ -175,6 +191,8 @@ Ao final desta aula, os alunos serão capazes de:
 **Atividade Prática**:
 - **Atividade Hands-On 3** (10 minutos): Construindo um sistema de callbacks
 - Implementação do simulador de pedido de pizza
+
+---
 
 #### Exemplos em Python (15 minutos)
 **Tempo**: 1:35 - 1:50
@@ -196,6 +214,8 @@ Ao final desta aula, os alunos serão capazes de:
 
 ### BLOCO 3: Consolidação e Aplicação (15 minutos)
 
+---
+
 #### Discussão e Síntese (10 minutos)
 **Tempo**: 1:50 - 2:00
 
@@ -211,6 +231,8 @@ Ao final desta aula, os alunos serão capazes de:
 - Crie um mapa mental colaborativo no quadro
 - Incentive perguntas e discussão entre alunos
 
+---
+
 #### Encerramento e Recursos (5 minutos)
 **Tempo**: 2:00 - 2:05
 
@@ -224,8 +246,6 @@ Ao final desta aula, os alunos serão capazes de:
 - Exemplos práticos completos
 - Lista de exercícios teóricos e práticos
 - Links para recursos adicionais
-
----
 
 ## 🎯 Estratégias Pedagógicas por Perfil de Aluno
 

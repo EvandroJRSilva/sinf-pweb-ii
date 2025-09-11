@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo Fetch 2</title>
+</head>
+<body>
+    <h1>Carregar Dados JSON com Fetch</h1>
+    <button onclick="carregarDados()">Carregar Produtos</button>
+    <ul id="lista-produtos"></ul>
+
+    <script>
+        function carregarDados() {
+            fetch('dados.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro na requisição: ' + response.statusText);
+                    }
+                    // Converte a resposta para JSON
+                    return response.json();
+                })
+                .then(data => {
+                    const lista = document.getElementById('lista-produtos');
+                    lista.innerHTML = '';
+                    
+                    data.produtos.forEach(produto => {
+                        const li = document.createElement('li');
+                        li.textContent = `${produto.nome} - R$ ${produto.preco.toFixed(2)}`;
+                        lista.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('lista-produtos').innerHTML = 'Erro: ' + error.message;
+                });
+        }
+    </script>
+</body>
+</html>

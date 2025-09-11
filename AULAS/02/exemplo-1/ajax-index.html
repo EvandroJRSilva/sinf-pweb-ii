@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo AJAX 1</title>
+</head>
+<body>
+    <h1>Carregar Conteúdo com AJAX</h1>
+    <button onclick="carregarConteudo()">Carregar Conteúdo do Arquivo</button>
+    <div id="conteudo-div"></div>
+
+    <script>
+        function carregarConteudo() {
+            // Criando uma instância de objeto XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+
+            // Definindo a função a ser executada quando a requisição for concluída
+            xhr.onload = function() {
+                // Se a requisição foi concluída com sucesso
+                if (xhr.status === 200) {
+                    // Atualiza a div com o conteúdo recebido
+                    document.getElementById('conteudo-div').innerHTML = xhr.responseText;
+                } else {
+                    // Exibe uma mensagem de erro caso a requisição falhe
+                    document.getElementById('conteudo-div').innerHTML = 'Erro ao carregar o conteúdo.';
+                }
+            };
+
+            // Abrindo a requisição: método GET para o arquivo 'conteudo.txt'
+            xhr.open('GET', 'conteudo.txt', true);
+
+            // Enviando a requisição
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

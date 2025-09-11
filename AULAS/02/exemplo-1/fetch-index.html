@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo Fetch 1</title>
+</head>
+<body>
+    <h1>Carregar Conteúdo com Fetch</h1>
+    <button onclick="carregarConteudo()">Carregar Conteúdo do Arquivo</button>
+    <div id="conteudo-div"></div>
+
+    <script>
+        function carregarConteudo() {
+            // A função fetch() retorna uma Promise
+            fetch('conteudo.txt')
+                .then(response => {
+                    // Verifica se a resposta foi bem-sucedida (status 200-299)
+                    if (!response.ok) {
+                        throw new Error('Erro na requisição: ' + response.statusText);
+                    }
+                    // Retorna o conteúdo da resposta como texto
+                    return response.text();
+                })
+                .then(data => {
+                    // Manipula os dados de texto recebidos
+                    document.getElementById('conteudo-div').innerHTML = data;
+                })
+                .catch(error => {
+                    // Captura e trata qualquer erro que ocorra
+                    document.getElementById('conteudo-div').innerHTML = 'Erro: ' + error.message;
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo Fetch 4 (Async/Await)</title>
+</head>
+<body>
+    <h1>Exemplo Fetch com Async/Await</h1>
+    <button onclick="obterDadosAsync()">Obter Dados de API Externa</button>
+    <pre id="dados-api"></pre>
+
+    <script>
+        async function obterDadosAsync() {
+            const url = 'https://jsonplaceholder.typicode.com/todos/1';
+            const dadosDiv = document.getElementById('dados-api');
+
+            try {
+                // await "espera" a resposta da Promise
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error('Erro na requisição: ' + response.statusText);
+                }
+
+                // await "espera" a conversão para JSON
+                const data = await response.json();
+
+                dadosDiv.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                dadosDiv.textContent = 'Erro ao carregar os dados: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

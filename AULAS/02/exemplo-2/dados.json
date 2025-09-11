@@ -1,0 +1,16 @@
+{
+    "produtos": [
+        {
+            "nome": "Smartphone",
+            "preco": 1200.50
+        },
+        {
+            "nome": "Notebook",
+            "preco": 3500.00
+        },
+        {
+            "nome": "Mouse sem fio",
+            "preco": 150.75
+        }
+    ]
+}

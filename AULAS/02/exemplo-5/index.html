@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo Fetch 5 (POST JSON)</title>
+</head>
+<body>
+    <h1>Enviar Dados JSON com Fetch</h1>
+    <button onclick="enviarDadosJson()">Enviar Dados JSON</button>
+    <div id="resposta-json"></div>
+
+    <script>
+        async function enviarDadosJson() {
+            const url = 'https://jsonplaceholder.typicode.com/posts';
+            const dados = {
+                title: 'Meu Post de Teste',
+                body: 'Este é o conteúdo do meu post enviado via Fetch API.',
+                userId: 1
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Erro na requisição: ' + response.statusText);
+                }
+
+                const respostaServidor = await response.json();
+                document.getElementById('resposta-json').innerHTML = 'Dados enviados com sucesso! Resposta do servidor:<br>' + JSON.stringify(respostaServidor, null, 2);
+
+            } catch (error) {
+                document.getElementById('resposta-json').innerHTML = 'Erro: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
