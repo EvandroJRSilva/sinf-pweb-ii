@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo: Callbacks em JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2D3E50;
+            border-bottom: 2px solid #F39C12;
+            padding-bottom: 10px;
+        }
+        .info {
+            background-color: #e8f4fd;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        button {
+            background-color: #F39C12;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #E67E22;
+        }
+        .result {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            min-height: 50px;
+        }
+        .example-section {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #fafafa;
+        }
+        pre {
+            background-color: #2D3E50;
+            color: #ECF0F1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .comment {
+            color: #7FB3D5;
+            font-style: italic;
+        }
+        .keyword {
+            color: #E74C3C;
+        }
+        .string {
+            color: #2ECC71;
+        }
+        .function {
+            color: #F39C12;
+        }
+        .log {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Exemplo Prático: Callbacks em JavaScript</h1>
+        
+        <div class="info">
+            <strong>💡 Conceito:</strong> Callbacks são funções passadas como argumentos para outras funções, que são executadas em um momento específico (geralmente após uma operação assíncrona ser concluída).
+        </div>
+        
+        <div class="example-section">
+            <h2>Exemplo 1: Callback Simples</h2>
+            <p>Este exemplo mostra como uma função pode receber outra função como parâmetro e executá-la:</p>
+            
+            <pre><code><span class="comment">// Função que recebe um callback</span>
+<span class="keyword">function</span> <span class="function">cumprimentar</span>(nome, callback) {
+    <span class="keyword">const</span> mensagem = <span class="string">`Olá, ${nome}!`</span>;
+    console.log(mensagem);
+    
+    <span class="comment">// Executa o callback passando a mensagem</span>
+    <span class="keyword">if</span> (callback && <span class="keyword">typeof</span> callback === <span class="string">'function'</span>) {
+        callback(mensagem);
+    }
+}
+
+<span class="comment">// Função callback que será executada</span>
+<span class="keyword">function</span> <span class="function">mostrarAlerta</span>(mensagem) {
+    alert(<span class="string">`Callback executado: ${mensagem}`</span>);
+}
+
+<span class="comment">// Chamando a função com callback</span>
+cumprimentar(<span class="string">'Maria'</span>, mostrarAlerta);</code></pre>
+            
+            <button onclick="exemploCallback1()">Executar Exemplo 1</button>
+            <div id="resultado1" class="result"></div>
+        </div>
+        
+        <div class="example-section">
+            <h2>Exemplo 2: Callback com Operação Assíncrona</h2>
+            <p>Este exemplo simula uma operação que demora um tempo para ser concluída:</p>
+            
+            <pre><code><span class="comment">// Simula uma operação assíncrona (ex: buscar dados do servidor)</span>
+<span class="keyword">function</span> <span class="function">buscarDados</span>(callback) {
+    console.log(<span class="string">'Iniciando busca de dados...'</span>);
+    
+    <span class="comment">// setTimeout simula uma operação que demora 2 segundos</span>
+    setTimeout(<span class="keyword">function</span>() {
+        <span class="keyword">const</span> dados = {
+            id: 1,
+            nome: <span class="string">'João Silva'</span>,
+            email: <span class="string">'joao@email.com'</span>
+        };
+        
+        <span class="comment">// Chama o callback quando os dados estão prontos</span>
+        callback(<span class="keyword">null</span>, dados); <span class="comment">// null = sem erro, dados = resultado</span>
+    }, 2000);
+}
+
+<span class="comment">// Callback para processar os dados recebidos</span>
+<span class="keyword">function</span> <span class="function">processarDados</span>(erro, dados) {
+    <span class="keyword">if</span> (erro) {
+        console.error(<span class="string">'Erro:'</span>, erro);
+        <span class="keyword">return</span>;
+    }
+    
+    console.log(<span class="string">'Dados recebidos:'</span>, dados);
+    <span class="comment">// Aqui você processaria os dados...</span>
+}</code></pre>
+            
+            <button onclick="exemploCallback2()">Executar Exemplo 2</button>
+            <div id="resultado2" class="result"></div>
+            <div id="log2" class="log"></div>
+        </div>
+        
+        <div class="example-section">
+            <h2>Exemplo 3: Múltiplos Callbacks</h2>
+            <p>Este exemplo mostra como usar diferentes callbacks para diferentes situações:</p>
+            
+            <pre><code><span class="comment">// Função que pode ter sucesso ou falha</span>
+<span class="keyword">function</span> <span class="function">operacaoComRisco</span>(sucesso, onSuccess, onError) {
+    console.log(<span class="string">'Executando operação...'</span>);
+    
+    setTimeout(<span class="keyword">function</span>() {
+        <span class="keyword">if</span> (sucesso) {
+            onSuccess(<span class="string">'Operação concluída com sucesso!'</span>);
+        } <span class="keyword">else</span> {
+            onError(<span class="string">'Algo deu errado na operação!'</span>);
+        }
+    }, 1500);
+}
+
+<span class="comment">// Callbacks para diferentes cenários</span>
+<span class="keyword">function</span> <span class="function">callbackSucesso</span>(mensagem) {
+    console.log(<span class="string">'✅ Sucesso:'</span>, mensagem);
+}
+
+<span class="keyword">function</span> <span class="function">callbackErro</span>(mensagem) {
+    console.log(<span class="string">'❌ Erro:'</span>, mensagem);
+}</code></pre>
+            
+            <button onclick="exemploCallback3(true)">Simular Sucesso</button>
+            <button onclick="exemploCallback3(false)">Simular Erro</button>
+            <div id="resultado3" class="result"></div>
+            <div id="log3" class="log"></div>
+        </div>
+        
+        <div class="example-section">
+            <h2>Exemplo 4: Callback Hell (Problema)</h2>
+            <p>Este exemplo mostra o problema do "Callback Hell" - quando temos muitos callbacks aninhados:</p>
+            
+            <pre><code><span class="comment">// Exemplo de Callback Hell (evitar!)</span>
+<span class="keyword">function</span> <span class="function">exemploCallbackHell</span>() {
+    console.log(<span class="string">'Iniciando sequência de operações...'</span>);
+    
+    <span class="function">operacao1</span>(<span class="keyword">function</span>(resultado1) {
+        console.log(<span class="string">'Operação 1 concluída:'</span>, resultado1);
+        
+        <span class="function">operacao2</span>(resultado1, <span class="keyword">function</span>(resultado2) {
+            console.log(<span class="string">'Operação 2 concluída:'</span>, resultado2);
+            
+            <span class="function">operacao3</span>(resultado2, <span class="keyword">function</span>(resultado3) {
+                console.log(<span class="string">'Operação 3 concluída:'</span>, resultado3);
+                console.log(<span class="string">'Todas as operações concluídas!'</span>);
+            });
+        });
+    });
+}</code></pre>
+            
+            <button onclick="exemploCallbackHell()">Demonstrar Callback Hell</button>
+            <div id="resultado4" class="result"></div>
+            <div id="log4" class="log"></div>
+        </div>
+        
+        <h2>Vantagens e Desvantagens dos Callbacks:</h2>
+        <div style="display: flex; gap: 20px;">
+            <div style="flex: 1; background-color: #d4edda; padding: 15px; border-radius: 5px;">
+                <h3 style="color: #155724;">✅ Vantagens</h3>
+                <ul>
+                    <li>Permitem operações assíncronas</li>
+                    <li>Flexibilidade na execução</li>
+                    <li>Reutilização de código</li>
+                    <li>Controle do fluxo de execução</li>
+                </ul>
+            </div>
+            <div style="flex: 1; background-color: #f8d7da; padding: 15px; border-radius: 5px;">
+                <h3 style="color: #721c24;">❌ Desvantagens</h3>
+                <ul>
+                    <li>Callback Hell (aninhamento excessivo)</li>
+                    <li>Dificuldade de leitura e manutenção</li>
+                    <li>Tratamento de erros complexo</li>
+                    <li>Debugging mais difícil</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="info" style="margin-top: 20px;">
+            <strong>💡 Evolução:</strong> Para resolver os problemas dos callbacks, foram criadas as <strong>Promises</strong> e posteriormente <strong>async/await</strong>, que oferecem uma sintaxe mais limpa para operações assíncronas.
+        </div>
+    </div>
+
+    <script>
+        // Exemplo 1: Callback Simples
+        function cumprimentar(nome, callback) {
+            const mensagem = `Olá, ${nome}!`;
+            console.log(mensagem);
+            
+            if (callback && typeof callback === 'function') {
+                callback(mensagem);
+            }
+            
+            return mensagem;
+        }
+
+        function mostrarAlerta(mensagem) {
+            alert(`Callback executado: ${mensagem}`);
+        }
+
+        function exemploCallback1() {
+            const resultado = document.getElementById('resultado1');
+            resultado.innerHTML = '<p>Executando exemplo 1...</p>';
+            
+            const mensagem = cumprimentar('Maria', function(msg) {
+                resultado.innerHTML = `<p><strong>Resultado:</strong> ${msg}</p><p><em>O callback foi executado e mostrou um alerta!</em></p>`;
+            });
+        }
+
+        // Exemplo 2: Callback com Operação Assíncrona
+        function buscarDados(callback) {
+            const log = document.getElementById('log2');
+            log.textContent += 'Iniciando busca de dados...\n';
+            
+            setTimeout(function() {
+                const dados = {
+                    id: 1,
+                    nome: 'João Silva',
+                    email: 'joao@email.com'
+                };
+                
+                callback(null, dados);
+            }, 2000);
+        }
+
+        function processarDados(erro, dados) {
+            const resultado = document.getElementById('resultado2');
+            const log = document.getElementById('log2');
+            
+            if (erro) {
+                log.textContent += `Erro: ${erro}\n`;
+                resultado.innerHTML = '<p style="color: red;">❌ Erro no processamento!</p>';
+                return;
+            }
+            
+            log.textContent += `Dados recebidos: ${JSON.stringify(dados)}\n`;
+            resultado.innerHTML = `
+                <h4>✅ Dados processados com sucesso!</h4>
+                <p><strong>ID:</strong> ${dados.id}</p>
+                <p><strong>Nome:</strong> ${dados.nome}</p>
+                <p><strong>Email:</strong> ${dados.email}</p>
+            `;
+        }
+
+        function exemploCallback2() {
+            const resultado = document.getElementById('resultado2');
+            const log = document.getElementById('log2');
+            
+            resultado.innerHTML = '<p class="loading">Aguardando dados... (2 segundos)</p>';
+            log.textContent = '';
+            
+            buscarDados(processarDados);
+        }
+
+        // Exemplo 3: Múltiplos Callbacks
+        function operacaoComRisco(sucesso, onSuccess, onError) {
+            const log = document.getElementById('log3');
+            log.textContent += 'Executando operação...\n';
+            
+            setTimeout(function() {
+                if (sucesso) {
+                    onSuccess('Operação concluída com sucesso!');
+                } else {
+                    onError('Algo deu errado na operação!');
+                }
+            }, 1500);
+        }
+
+        function callbackSucesso(mensagem) {
+            const resultado = document.getElementById('resultado3');
+            const log = document.getElementById('log3');
+            
+            log.textContent += `✅ Sucesso: ${mensagem}\n`;
+            resultado.innerHTML = `<p style="color: green;"><strong>✅ ${mensagem}</strong></p>`;
+        }
+
+        function callbackErro(mensagem) {
+            const resultado = document.getElementById('resultado3');
+            const log = document.getElementById('log3');
+            
+            log.textContent += `❌ Erro: ${mensagem}\n`;
+            resultado.innerHTML = `<p style="color: red;"><strong>❌ ${mensagem}</strong></p>`;
+        }
+
+        function exemploCallback3(sucesso) {
+            const resultado = document.getElementById('resultado3');
+            const log = document.getElementById('log3');
+            
+            resultado.innerHTML = '<p class="loading">Executando operação... (1.5 segundos)</p>';
+            log.textContent = '';
+            
+            operacaoComRisco(sucesso, callbackSucesso, callbackErro);
+        }
+
+        // Exemplo 4: Callback Hell
+        function operacao1(callback) {
+            setTimeout(() => {
+                callback('Resultado da operação 1');
+            }, 500);
+        }
+
+        function operacao2(entrada, callback) {
+            setTimeout(() => {
+                callback(`${entrada} + Resultado da operação 2`);
+            }, 500);
+        }
+
+        function operacao3(entrada, callback) {
+            setTimeout(() => {
+                callback(`${entrada} + Resultado da operação 3`);
+            }, 500);
+        }
+
+        function exemploCallbackHell() {
+            const resultado = document.getElementById('resultado4');
+            const log = document.getElementById('log4');
+            
+            resultado.innerHTML = '<p class="loading">Executando sequência de operações...</p>';
+            log.textContent = 'Iniciando sequência de operações...\n';
+            
+            operacao1(function(resultado1) {
+                log.textContent += `Operação 1 concluída: ${resultado1}\n`;
+                
+                operacao2(resultado1, function(resultado2) {
+                    log.textContent += `Operação 2 concluída: ${resultado2}\n`;
+                    
+                    operacao3(resultado2, function(resultado3) {
+                        log.textContent += `Operação 3 concluída: ${resultado3}\n`;
+                        log.textContent += 'Todas as operações concluídas!\n';
+                        
+                        resultado.innerHTML = `
+                            <h4>✅ Sequência concluída!</h4>
+                            <p><strong>Resultado final:</strong> ${resultado3}</p>
+                            <p><em>Note como o código fica "aninhado" (Callback Hell)</em></p>
+                        `;
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+

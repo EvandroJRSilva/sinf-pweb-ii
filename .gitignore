@@ -9,9 +9,11 @@
 *.synctex.gz
 *.toc
 *.tex
+*.zip
 
 # Diretórios
 AULAS/Apresentação/imagens/
+AULAS/imagens/
 AULAS/01/slides/
 AULAS/01/v2/
 Documentos/Plano\ de\ Ensino/
@@ -19,3 +21,5 @@ Documentos/Plano\ de\ Ensino/
 # Arquivos
 mapa_SINF_CSHNB032_2025.2_01_.pdf
 mapa_SINF_CSHNB032_2025.2_02_.pdf
+AULAS/01/v1/**/*.py
+AULAS/01/v1/*.md

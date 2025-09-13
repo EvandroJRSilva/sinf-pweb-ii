@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunicação Síncrona vs. Assíncrona</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+      
+      body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: linear-gradient(135deg, #ECF0F1 0%, #D6EAF8 100%);
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .content-container {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+      
+      h1 {
+        color: #2D3E50;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      .main-content {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+      }
+      
+      .text-content {
+        width: 45%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+      }
+      
+      .comm-type {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      
+      .comm-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      
+      .comm-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+      
+      .sync-icon {
+        background-color: #3498DB;
+        color: white;
+      }
+      
+      .async-icon {
+        background-color: #E74C3C;
+        color: white;
+      }
+      
+      .comm-name {
+        color: #2D3E50;
+        font-size: 22px;
+        font-weight: 700;
+      }
+      
+      .comm-description {
+        color: #2D3E50;
+        font-size: 16px;
+        line-height: 1.4;
+        margin-bottom: 10px;
+      }
+      
+      .comm-features {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .comm-feature {
+        display: flex;
+        align-items: flex-start;
+      }
+      
+      .comm-feature i {
+        margin-right: 8px;
+        margin-top: 3px;
+      }
+      
+      .feature-pro {
+        color: #2ECC71;
+      }
+      
+      .feature-con {
+        color: #E74C3C;
+      }
+      
+      .comm-feature-text {
+        color: #2D3E50;
+        font-size: 15px;
+      }
+      
+      .image-container {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .image-container img {
+        width: 500px;
+        height: 350px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        object-fit: contain;
+      }
+      
+      .image-caption {
+        margin-top: 15px;
+        color: #2D3E50;
+        font-size: 16px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      .slide-number {
+        align-self: flex-end;
+        margin: 10px 20px;
+        font-size: 18px;
+        color: #2D3E50;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="content-container">
+        <h1>Comunicação Síncrona vs. Assíncrona</h1>
+        
+        <div class="main-content">
+          <div class="text-content">
+            <div class="comm-type">
+              <div class="comm-title">
+                <div class="comm-icon sync-icon">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <div class="comm-name">Comunicação Síncrona</div>
+              </div>
+              <div class="comm-description">
+                Operações são executadas sequencialmente, uma após a outra. O programa espera a conclusão de uma operação antes de continuar.
+              </div>
+              <div class="comm-features">
+                <div class="comm-feature">
+                  <i class="fas fa-check-circle feature-pro"></i>
+                  <div class="comm-feature-text">
+                    <strong>Simples:</strong> Fácil de entender e implementar
+                  </div>
+                </div>
+                <div class="comm-feature">
+                  <i class="fas fa-check-circle feature-pro"></i>
+                  <div class="comm-feature-text">
+                    <strong>Previsível:</strong> Execução em ordem garantida
+                  </div>
+                </div>
+                <div class="comm-feature">
+                  <i class="fas fa-times-circle feature-con"></i>
+                  <div class="comm-feature-text">
+                    <strong>Bloqueante:</strong> Bloqueia a execução durante operações demoradas
+                  </div>
+                </div>
+                <div class="comm-feature">
+                  <i class="fas fa-times-circle feature-con"></i>
+                  <div class="comm-feature-text">
+                    <strong>Ineficiente:</strong> Recursos ficam ociosos durante a espera
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="comm-type">
+              <div class="comm-title">
+                <div class="comm-icon async-icon">
+                  <i class="fas fa-bolt"></i>
+                </div>
+                <div class="comm-name">Comunicação Assíncrona</div>
+              </div>
+              <div class="comm-description">
+                Operações são iniciadas e continuam em segundo plano, permitindo que o programa continue executando outras tarefas.
+              </div>
+              <div class="comm-features">
+                <div class="comm-feature">
+                  <i class="fas fa-check-circle feature-pro"></i>
+                  <div class="comm-feature-text">
+                    <strong>Não-bloqueante:</strong> Permite continuar a execução durante operações demoradas
+                  </div>
+                </div>
+                <div class="comm-feature">
+                  <i class="fas fa-check-circle feature-pro"></i>
+                  <div class="comm-feature-text">
+                    <strong>Eficiente:</strong> Melhor utilização de recursos e tempo
+                  </div>
+                </div>
+                <div class="comm-feature">
+                  <i class="fas fa-times-circle feature-con"></i>
+                  <div class="comm-feature-text">
+                    <strong>Complexidade:</strong> Mais difícil de implementar e depurar
+                  </div>
+                </div>
+                <div class="comm-feature">
+                  <i class="fas fa-times-circle feature-con"></i>
+                  <div class="comm-feature-text">
+                    <strong>Ordem:</strong> Não garante ordem de execução sem tratamento adequado
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="image-container">
+            <img src="./imagens/sincrono_assincrono_img.png" alt="Comunicação Síncrona vs. Assíncrona">
+            <div class="image-caption">Comparação entre comunicação síncrona e assíncrona</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">7</div>
+    </div>
+  </body>
+</html>
+

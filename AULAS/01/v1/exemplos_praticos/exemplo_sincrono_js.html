@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo: Requisição Síncrona em JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2D3E50;
+            border-bottom: 2px solid #3498DB;
+            padding-bottom: 10px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        button {
+            background-color: #3498DB;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #2980B9;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .result {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            min-height: 50px;
+        }
+        .loading {
+            color: #e67e22;
+            font-weight: bold;
+        }
+        pre {
+            background-color: #2D3E50;
+            color: #ECF0F1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .comment {
+            color: #7FB3D5;
+            font-style: italic;
+        }
+        .keyword {
+            color: #E74C3C;
+        }
+        .string {
+            color: #2ECC71;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Exemplo Prático: Requisição Síncrona em JavaScript</h1>
+        
+        <div class="warning">
+            <strong>⚠️ Aviso:</strong> Este exemplo demonstra uma requisição síncrona, que é considerada uma má prática em aplicações web modernas pois bloqueia a interface do usuário. Use apenas para fins educacionais!
+        </div>
+        
+        <h2>Como funciona:</h2>
+        <p>Quando você clicar no botão abaixo, o navegador fará uma requisição síncrona para uma API pública. Durante esse tempo, a interface ficará completamente bloqueada e você não conseguirá interagir com a página.</p>
+        
+        <button id="btnSincrono" onclick="exemploSincrono()">Fazer Requisição Síncrona</button>
+        <button onclick="tentarClicar()">Tente Clicar Aqui Durante a Requisição</button>
+        
+        <div id="resultado" class="result">
+            <p>Clique no botão acima para ver o resultado...</p>
+        </div>
+        
+        <h2>Código do Exemplo:</h2>
+        <pre><code><span class="comment">// Função que demonstra requisição síncrona (BLOQUEANTE)</span>
+<span class="keyword">function</span> exemploSincrono() {
+    <span class="keyword">const</span> resultado = document.getElementById(<span class="string">'resultado'</span>);
+    <span class="keyword">const</span> btn = document.getElementById(<span class="string">'btnSincrono'</span>);
+    
+    <span class="comment">// Desabilita o botão e mostra status</span>
+    btn.disabled = <span class="keyword">true</span>;
+    resultado.innerHTML = <span class="string">'&lt;p class="loading"&gt;Fazendo requisição síncrona... A interface está BLOQUEADA!&lt;/p&gt;'</span>;
+    
+    <span class="keyword">try</span> {
+        <span class="comment">// Cria XMLHttpRequest em modo síncrono (terceiro parâmetro = false)</span>
+        <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
+        xhr.open(<span class="string">'GET'</span>, <span class="string">'https://jsonplaceholder.typicode.com/posts/1'</span>, <span class="keyword">false</span>);
+        
+        <span class="comment">// Esta linha BLOQUEIA a execução até receber resposta</span>
+        xhr.send();
+        
+        <span class="keyword">if</span> (xhr.status === 200) {
+            <span class="keyword">const</span> dados = JSON.parse(xhr.responseText);
+            resultado.innerHTML = <span class="string">`
+                &lt;h3&gt;✅ Requisição concluída!&lt;/h3&gt;
+                &lt;p&gt;&lt;strong&gt;Título:&lt;/strong&gt; ${dados.title}&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;Conteúdo:&lt;/strong&gt; ${dados.body}&lt;/p&gt;
+                &lt;p&gt;&lt;em&gt;Note que a interface ficou bloqueada durante toda a requisição.&lt;/em&gt;&lt;/p&gt;
+            `</span>;
+        } <span class="keyword">else</span> {
+            resultado.innerHTML = <span class="string">'&lt;p style="color: red;"&gt;❌ Erro na requisição: '</span> + xhr.status + <span class="string">'&lt;/p&gt;'</span>;
+        }
+    } <span class="keyword">catch</span> (error) {
+        resultado.innerHTML = <span class="string">'&lt;p style="color: red;"&gt;❌ Erro: '</span> + error.message + <span class="string">'&lt;/p&gt;'</span>;
+    } <span class="keyword">finally</span> {
+        btn.disabled = <span class="keyword">false</span>;
+    }
+}
+
+<span class="comment">// Função para demonstrar que a interface fica bloqueada</span>
+<span class="keyword">function</span> tentarClicar() {
+    alert(<span class="string">'Se você conseguiu ver este alerta durante a requisição, significa que a interface NÃO estava bloqueada!'</span>);
+}</code></pre>
+        
+        <h2>Observações Importantes:</h2>
+        <ul>
+            <li><strong>Bloqueio da Interface:</strong> Durante a requisição síncrona, você não conseguirá clicar em nenhum botão ou interagir com a página.</li>
+            <li><strong>Experiência do Usuário:</strong> O navegador pode parecer "travado" ou não responsivo.</li>
+            <li><strong>Uso Moderno:</strong> Requisições síncronas são desencorajadas em aplicações web modernas.</li>
+            <li><strong>Alternativa:</strong> Use requisições assíncronas com fetch(), Promises ou async/await.</li>
+        </ul>
+    </div>
+
+    <script>
+        // Função que demonstra requisição síncrona (BLOQUEANTE)
+        function exemploSincrono() {
+            const resultado = document.getElementById('resultado');
+            const btn = document.getElementById('btnSincrono');
+            
+            // Desabilita o botão e mostra status
+            btn.disabled = true;
+            resultado.innerHTML = '<p class="loading">Fazendo requisição síncrona... A interface está BLOQUEADA!</p>';
+            
+            try {
+                // Cria XMLHttpRequest em modo síncrono (terceiro parâmetro = false)
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts/1', false);
+                
+                // Esta linha BLOQUEIA a execução até receber resposta
+                xhr.send();
+                
+                if (xhr.status === 200) {
+                    const dados = JSON.parse(xhr.responseText);
+                    resultado.innerHTML = `
+                        <h3>✅ Requisição concluída!</h3>
+                        <p><strong>Título:</strong> ${dados.title}</p>
+                        <p><strong>Conteúdo:</strong> ${dados.body}</p>
+                        <p><em>Note que a interface ficou bloqueada durante toda a requisição.</em></p>
+                    `;
+                } else {
+                    resultado.innerHTML = '<p style="color: red;">❌ Erro na requisição: ' + xhr.status + '</p>';
+                }
+            } catch (error) {
+                resultado.innerHTML = '<p style="color: red;">❌ Erro: ' + error.message + '</p>';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // Função para demonstrar que a interface fica bloqueada
+        function tentarClicar() {
+            alert('Se você conseguiu ver este alerta durante a requisição, significa que a interface NÃO estava bloqueada!');
+        }
+    </script>
+</body>
+</html>
+
