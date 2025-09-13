@@ -25,6 +25,13 @@
             const dados = new FormData(formulario);
 
             const xhr = new XMLHttpRequest();
+            
+            // Configura a requisição POST para o arquivo Python (rota '/processar')
+            xhr.open('POST', '/processar', true);
+
+            // Envia os dados do formulário
+            xhr.send(dados);
+
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     document.getElementById('resposta-div').innerHTML = 'Resposta do servidor: ' + xhr.responseText;
@@ -32,12 +39,6 @@
                     document.getElementById('resposta-div').innerHTML = 'Erro ao enviar os dados.';
                 }
             };
-            
-            // Configura a requisição POST para o arquivo Python (rota '/processar')
-            xhr.open('POST', '/processar', true);
-
-            // Envia os dados do formulário
-            xhr.send(dados);
         });
     </script>
 </body>
