@@ -15,11 +15,17 @@
     <script>
         // TODO: implemente a função para trocar o tema e salvar em localStorage
         function mudarTema(tema) {
-        // salvar tema
-        // aplicar classe no body
+            // salvar tema
+            localStorage.setItem("tema", tema)
+            // aplicar classe no body
+            document.body.className = tema;
         }
 
-        // TODO: ao carregar a página, aplicar o tema salvo
+        // TODO: ao carregar a página, aplicar o tema salvo 
+        document.addEventListener('DOMContentLoaded', function(){
+            const temaSalvo = localStorage.getItem("tema") || 'light';
+            document.body.className = temaSalvo;
+        })
     </script>
 </body>
 </html>

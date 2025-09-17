@@ -19,9 +19,16 @@
             const nomeEQ = nome + "=";
             const cookies = document.cookie.split(';');
             for(let c of cookies) {
-                while(c.charAt(0)==' ') c = c.substring(1);
-                if(c.indexOf(nomeEQ) == 0) return c.substring(nomeEQ.length, c.length);
-                }
+                console.log(c);
+                while(c.charAt(0)==' '){
+                    c = c.substring(1);
+                    console.log(c);
+                } 
+                if(c.indexOf(nomeEQ) == 0){
+                    console.log(nomeEQ);
+                    return c.substring(nomeEQ.length, c.length);
+                } 
+            }
             return null;
         }
   </script>

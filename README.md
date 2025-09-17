@@ -10,6 +10,8 @@ PROGRAMAÇÃO_WEB_II
 |  ├─ 01/
 |  ├─ 02/
 |  ├─ 03/
+|  |  ├─ exercícios base/
+|  |  └─ mdn web-storage example/
 |  └─ Apresentação/
 ├─ Documentos/
 ├─ .gitignore
