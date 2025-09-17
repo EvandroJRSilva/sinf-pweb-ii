@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemplo Cookies</title>
+</head>
+<body>
+    <h2>Cookies</h2>
+    <button onclick="setCookie('tema', 'escuro', 7)">Salvar Tema Escuro</button>
+    <button onclick="alert(getCookie('tema'))">Mostrar Tema</button>
+
+    <script>
+        function setCookie(nome, valor, dias) {
+            const d = new Date();
+            d.setTime(d.getTime() + (dias*24*60*60*1000));
+            document.cookie = `${nome}=${valor};expires=${d.toUTCString()};path=/`;
+        }
+
+        function getCookie(nome) {
+            const nomeEQ = nome + "=";
+            const cookies = document.cookie.split(';');
+            for(let c of cookies) {
+                while(c.charAt(0)==' ') c = c.substring(1);
+                if(c.indexOf(nomeEQ) == 0) return c.substring(nomeEQ.length, c.length);
+                }
+            return null;
+        }
+  </script>
+</body>
+</html>

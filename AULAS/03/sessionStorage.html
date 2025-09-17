@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemplo sessionStorage</title>
+</head>
+<body>
+    <h2>sessionStorage</h2>
+    <button onclick="salvar()">Salvar Nome</button>
+    <button onclick="mostrar()">Mostrar Nome</button>
+
+    <script>
+        function salvar() {
+            sessionStorage.setItem("nome", "Alice");
+            alert("Nome salvo na sessão!");
+        }
+        function mostrar() {
+            alert("Nome: " + sessionStorage.getItem("nome"));
+        }
+    </script>
+</body>
+</html>

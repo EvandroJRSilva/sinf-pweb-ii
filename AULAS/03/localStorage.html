@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemplo localStorage</title>
+</head>
+<body>
+    <h2>localStorage</h2>
+    <button onclick="salvar()">Salvar Cor</button>
+    <button onclick="mostrar()">Mostrar Cor</button>
+
+    <script>
+        function salvar() {
+            localStorage.setItem("cor", "azul");
+            alert("Cor azul salva no localStorage!");
+        }
+        function mostrar() {
+            alert("Cor: " + localStorage.getItem("cor"));
+        }
+    </script>
+</body>
+</html>
