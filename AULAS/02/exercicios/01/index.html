@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <button onclick="carregar()">Clique aqui!</button>
+    <p id="parágrafo"></p>
+
+    <script>
+        function carregar(){
+            fetch("texto.txt")
+                .then(response => {
+                    if(response.ok) return response.text();
+                    else throw new Error('Deu erro!');       
+                })
+            .then(data => {
+                document.getElementById("parágrafo").innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById("parágrafo").innerHTML = 'Erro: ' + error.message;
+            })
+        }
+    </script>
+</body>
+</html>

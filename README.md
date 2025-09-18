@@ -8,9 +8,12 @@ Organização do repositório (sofrerá atualizações constantes):
 PROGRAMAÇÃO_WEB_II
 ├─ AULAS/
 |  ├─ 01/
+|  |  ├─ exemplos_praticos/
+|  |  └─ exercicios/
 |  ├─ 02/
+|  |  └─ exercicios/
 |  ├─ 03/
-|  |  ├─ exercícios base/
+|  |  ├─ exercicios_base/
 |  |  └─ mdn web-storage example/
 |  └─ Apresentação/
 ├─ Documentos/

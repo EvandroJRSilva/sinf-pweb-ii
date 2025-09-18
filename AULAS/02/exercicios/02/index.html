@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <button onclick="carregar()">Clique aqui!</button>
+    <ul id="lista"></ul>
+
+    <script>
+        function carregar(){
+            fetch("usuarios.json")
+                .then(response => {
+                    if(response.ok) return response.json();
+                    else throw new Error('Deu erro!');       
+                })
+            .then(data => {
+                lista = document.getElementById("lista");
+                lista.innerHTML = '';
+
+                data.usuários.forEach(user => {
+                    const li = document.createElement('li');
+                    li.textContent = `${user.nome}: ${user.idade} anos.`;
+                    lista.appendChild(li);
+                });
+            })
+            .catch(error => {
+                document.getElementById("lista").innerHTML = 'Erro: ' + error.message;
+            })
+        }
+    </script>
+</body>
+</html>

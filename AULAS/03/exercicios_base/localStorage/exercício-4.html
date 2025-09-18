@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-do com localStorage</title>
+</head>
+<body>
+    <h2>Lista de Tarefas</h2>
+    <input type="text" id="tarefa">
+    <button onclick="adicionar()">Adicionar</button>
+    <ul id="lista"></ul>
+
+    <script>
+        // TODO: carregar lista do localStorage ao iniciar
+        document.addEventListener('DOMContentLoaded', renderizaLista());
+
+        // TODO: função adicionar() deve salvar no localStorage também
+        function adicionar() {
+            const tarefa = document.getElementById("tarefa").value;
+
+            const lista = document.getElementById("lista");
+            lista.innerHTML = ''; // limpando para refazer
+            
+            let listaStr; // String a ser armazenada no localStorage
+
+            // Se o to-do já foi iniciado
+            if (localStorage.getItem("to-do")){
+                listaStr = localStorage.getItem("to-do");
+                listaStr += ';'+tarefa;
+                
+                localStorage.setItem('to-do', listaStr);
+            } else{
+                localStorage.setItem('to-do', tarefa);
+            }
+            // Atualizar lista
+            //  localStorage é uma operação síncrona
+            renderizaLista();
+        }
+
+        function renderizaLista(){
+            if (localStorage.getItem("to-do")){
+                let listaArray = localStorage.getItem("to-do").split(';');
+                listaArray.forEach(la =>{
+                document.getElementById("lista").innerHTML += `<li>${la}.</li>`;
+            });
+            }
+        }
+    </script>
+</body>
+</html>
