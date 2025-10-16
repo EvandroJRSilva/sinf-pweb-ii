@@ -11,15 +11,15 @@ PROGRAMAÇÃO_WEB_II
 |  |  ├─ exemplos_praticos/
 |  |  └─ exercicios/
 |  ├─ 02/
+|  |  ├─ exemplo-n/
 |  |  └─ exercicios/
 |  ├─ 03/
 |  |  ├─ exercicios_base/
 |  |  └─ mdn web-storage example/
+|  ├─ 04/ 
+|  ├─ 05/
 |  └─ Apresentação/
-├─ Documentos/
-├─ .gitignore
-├─ exercícios_av1.md
-└─ README.md
+└─ Documentos/
 ```
 
 - **AULAS**: diretório para todos os arquivos referentes às aulas.
