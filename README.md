@@ -18,6 +18,8 @@ PROGRAMAÇÃO_WEB_II
 |  |  └─ mdn web-storage example/
 |  ├─ 04/ 
 |  ├─ 05/
+|  ├─ 06/
+|  ├─ 07/
 |  └─ Apresentação/
 └─ Documentos/
 ```

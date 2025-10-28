@@ -3,10 +3,10 @@ def validar_idade(idade_str):
     """Garante que a entrada é um número inteiro positivo."""
     try:
         idade = int(idade_str)
-        if idade > 0 and idade < 120:
+        if idade > 0 and idade < 121:
             return True, "Idade válida."
         else:
-            return False, "A idade deve estar entre 1 e 119."
+            return False, "A idade deve estar entre 1 e 120."
     except ValueError:
         return False, "A idade deve ser um número."
 

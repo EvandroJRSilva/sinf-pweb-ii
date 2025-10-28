@@ -73,6 +73,27 @@ Exemplos:
 - [*Built-in form validation exemples*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation#built-in_form_validation_examples).
 - [*Validating forms using JavaScript*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation#validating_forms_using_javascript).
 
+
+<!--
+**Validação** de dados é o processo de **verificação** da **precisão**, **integridade** e **consistência** dos dados **antes de serem processados ​​ou armazenados**.
+
+**Boas práticas de validação**:
+
+- **Definir regras de validação claras**: estabeleça regras explícitas para os formatos dos dados, faixa de valores e campos obrigatórios durante a fase de planejamento. Essas regras devem ser simples, consistentes e alinhadas com as regras de negócio para garantir a integridade dos dados desde o início do projeto.
+- **Implementar validação de múltiplas camadas**: valide os dados em múltiplos estágios para identificar erros precocemente e reduzir o risco de propagação deles pelo(s) sistema(s).
+  - ***Client-side***: em formulários web, tanto HTML/CSS quanto JavaScript podem fornecer *feedback* aos usuários, de forma a melhorar a experiência de usuário. Ao mesmo tempo, podem também ser usados como os primeiros "filtros", os quais evitam o envio para o servidor de dados inconsistentes ou vazios.
+  - ***Server-side***: todos os dados precisam ser reavaliados para prevenir vulnerabilidades de segurança, como SQL Injetction, e forçar a integridade dos dados, mesmo que a validação no *client-side* tenha sido OK.
+  - **Nível de banco de dados**: devem ser usadas restrições (`UNIQUE`, `CHECK`, `NOT NULL`) e integridade referencial[^1] como precaução de armazenamento de dados inválidos.
+- **Automatizar o processo de validação**.
+- **Fornecer feedback claro e imediato sobre erros**: quando necessário exiba mensagens de erro precisas e empáticas próximas aos seus respectivos campos cuja validação falhou. Explique o que aconteceu de errado e o que fazer para evitar o erro novamente. Evite mensagens genéricas.
+- **Registre e monitore falhas de validação**: mantenha *logs* detalhados dos erros de validação. Este documento pode ajudar no diagnóstico de erros recorrentes e identificação de padrões sobre os dados errados. Monitore o andamento sistema como um todo.
+- **Implemente a rigorosidade e desempenho de forma balanceada**: validações muito complexas podem diminuir o desempenho do sistema, piorando a experiência de usuário. Otimize os processos de validação para que sejam o mais eficiente possível.
+- **Valide considerando fontes externas**: quando possível, cruze os dados com alguma referência externa. Por exemplo, a validação de um endereço pode ocorrer com a checagem da base de dados dos Correios.
+- **Faça auditorias e revise as regras de validação regularmente**: à medida em que os dados e sistemas evoluem, as regras de validação também evoluem. Periodicamente reveja os procedimentos de validação e garanta que elas continuem relevantes e efetivas.
+
+[^1]: Trata-se de um conceito em banco de dados sobre garantir que o relacioanemnto entre tabelas seja consistente e precisa.
+-->
+
 ---
 
 ### 2\. Princípio do Menor Privilégio (PoLP)

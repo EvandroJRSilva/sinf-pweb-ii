@@ -10,6 +10,7 @@
 *.toc
 *.tex
 *.zip
+*.pcapng
 
 # Diretórios
 AULAS/Apresentação/imagens/
@@ -18,6 +19,7 @@ AULAS/01/slides/
 AULAS/01/v1/
 AULAS/01/v2/
 Documentos/Plano\ de\ Ensino/
+Trabalhos/
 
 # Arquivos
 Documentos/mapa_SINF_CSHNB032_2025.2_01_.pdf
