@@ -1,0 +1,83 @@
+---
+config:
+    theme: 'forest'
+---
+erDiagram
+
+Forcenedor ||--|{ Transacao: faz
+Fornecedor ||--|| Endereco: possui
+
+Atacadasso ||--|{ Transacao: faz
+Atacadasso ||--|| Endereco: possui
+Atacadasso ||--|{ Funcionario: emprega
+
+PessoaFisica ||--|| Endereco: possui
+PessoaFisica ||--|{ Contato: possui
+PessoaFisica ||--o{ Cliente: pode_ser
+PessoaFisica ||--o{ Funcionario: pode_ser
+
+Cliente ||--|{ Transacao: faz
+
+Mercadoria }|--o{ Transacao: faz_parte
+
+Forcenedor{
+    string cnpj
+    string nome   
+}
+
+Atacadasso{
+    string cnpj
+    string nome
+}
+
+Endereco{
+    string logradouro
+    string numero
+    string complemento
+    string bairro
+    string cidade
+    string estado
+}
+
+Transacao{
+    int id
+    date data_transacao
+    float custo_total
+    string numero_nota_fiscal
+    int quantidade
+}
+
+Mercadoria{
+    string codigo_barras
+    string nome
+    float custo_unitario
+    string descricao
+    string categoria
+    int quantidade_estoque
+    float preco_vendo
+    float preco_compra
+}
+
+PessoaFisica{
+    string cpf
+    string nome
+}
+
+Cliente{
+    string id
+    bool fidelizado
+    int pontos
+}
+
+Funcionario{
+    string matricula
+    date data_admissao
+    date data_demissao
+    string cargo
+    string setor
+    float salario
+}
+
+Contato{
+    string contato
+}

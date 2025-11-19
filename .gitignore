@@ -1,6 +1,7 @@
 # Extensões
 *.aux
 *.bcf
+*.bkp
 *.log
 *.nav
 *.out
