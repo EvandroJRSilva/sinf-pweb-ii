@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciador de Inventário</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input, button { margin: 5px; padding: 5px; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 5px 0; padding: 10px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Gerenciador de Inventário</h1>
+    <input type="text" id="nome" placeholder="Nome do item">
+    <input type="number" id="quantidade" placeholder="Quantidade">
+    <input type="number" step="0.01" id="preco" placeholder="Preço">
+    <button onclick="adicionarItem()">Adicionar</button>
+    <button onclick="listarItens()">Listar Itens</button>
+    <ul id="lista"></ul>
+
+    <script>
+        const BASE_URL = 'http://localhost:5000';
+
+        function listarItens() {
+            fetch(`${BASE_URL}/inventario`)
+                .then(response => response.json())
+                .then(items => {
+                    const lista = document.getElementById('lista');
+                    lista.innerHTML = '';
+                    items.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = `${item.nome}: ${item.quantidade} unidades - R$${item.preco} (ID: ${item.id})`;
+                        lista.appendChild(li);
+                    });
+                })
+                .catch(error => alert('Erro na conexão: ' + error));
+        }
+
+        function adicionarItem() {
+            const nome = document.getElementById('nome').value;
+            const quantidade = parseInt(document.getElementById('quantidade').value);
+            const preco = parseFloat(document.getElementById('preco').value);
+            if (!nome || !quantidade || !preco) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+            fetch(`${BASE_URL}/inventario`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, quantidade, preco })
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('nome').value = '';
+                    document.getElementById('quantidade').value = '';
+                    document.getElementById('preco').value = '';
+                    listarItens();
+                } else {
+                    alert('Falha ao adicionar item');
+                }
+            })
+            .catch(error => alert('Erro na conexão: ' + error));
+        }
+
+        // Carrega itens iniciais
+        listarItens();
+    </script>
+</body>
+</html>

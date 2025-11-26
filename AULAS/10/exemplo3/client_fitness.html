@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Rastreador de Fitness</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input, button { margin: 5px; padding: 5px; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 5px 0; padding: 10px; background: #e8f5e8; }
+        #total { font-weight: bold; color: green; }
+    </style>
+</head>
+<body>
+    <h1>Rastreador de Fitness</h1>
+    <input type="text" id="exercicio" placeholder="Exercício">
+    <input type="number" id="duracao" placeholder="Duração (minutos)">
+    <button onclick="adicionarTreino()">Adicionar Treino</button>
+    <button onclick="listarTreinos()">Listar e Total</button>
+    <div id="total">Total de Horas: 0</div>
+    <ul id="lista"></ul>
+
+    <script>
+        const BASE_URL = 'http://localhost:5003';
+
+        function listarTreinos() {
+            fetch(`${BASE_URL}/treino`)
+                .then(response => response.json())
+                .then(data => {
+                    const lista = document.getElementById('lista');
+                    lista.innerHTML = '';
+                    data.treino.forEach(w => {
+                        const li = document.createElement('li');
+                        li.textContent = `${w.data}: ${w.exercicio} - ${w.duracao} min (ID: ${w.id})`;
+                        lista.appendChild(li);
+                    });
+                    document.getElementById('total').textContent = `Total de Horas: ${data.total_horas / 60}`;
+                })
+                .catch(error => alert('Erro na conexão: ' + error));
+        }
+
+        function adicionarTreino() {
+            const exercicio = document.getElementById('exercicio').value;
+            const duracao = parseInt(document.getElementById('duracao').value);
+            if (!exercicio || !duracao) {
+                alert('Preencha exercício e duração!');
+                return;
+            }
+            fetch(`${BASE_URL}/treino`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ exercicio, duracao })
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('exercicio').value = '';
+                    document.getElementById('duracao').value = '';
+                    listarTreinos();
+                } else {
+                    alert('Falha ao adicionar treino');
+                }
+            })
+            .catch(error => alert('Erro na conexão: ' + error));
+        }
+
+        listarTreinos();
+    </script>
+</body>
+</html>

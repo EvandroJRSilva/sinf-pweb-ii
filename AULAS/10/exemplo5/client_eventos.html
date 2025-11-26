@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Planejador de Eventos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input, textarea { margin: 5px; padding: 5px; width: 200px; }
+        button { padding: 5px 10px; margin: 5px; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 10px 0; padding: 10px; background: #fffacd; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Planejador de Eventos</h1>
+    <input type="text" id="nome" placeholder="Nome do evento">
+    <input type="date" id="data">
+    <textarea id="descricao" placeholder="Descrição"></textarea>
+    <button onclick="adicionarEvento()">Adicionar</button>
+    <button onclick="listarEventos()">Listar Eventos</button>
+    <ul id="lista"></ul>
+
+    <script>
+        const BASE_URL = 'http://localhost:5005';
+
+        function listarEventos() {
+            fetch(`${BASE_URL}/eventos`)
+                .then(response => response.json())
+                .then(eventos => {
+                    const lista = document.getElementById('lista');
+                    lista.innerHTML = '';
+                    eventos.forEach(event => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<strong>${event.nome}</strong> em ${event.data}<br>${event.descricao} (ID: ${event.id})`;
+                        lista.appendChild(li);
+                    });
+                })
+                .catch(error => alert('Erro na conexão: ' + error));
+        }
+
+        function adicionarEvento() {
+            const nome = document.getElementById('nome').value;
+            const data = document.getElementById('data').value;
+            const descricao = document.getElementById('descricao').value;
+            if (!nome || !data || !descricao) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+            fetch(`${BASE_URL}/eventos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, data, descricao })
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('nome').value = '';
+                    document.getElementById('data').value = '';
+                    document.getElementById('descricao').value = '';
+                    listarEventos();
+                } else {
+                    alert('Falha ao adicionar evento');
+                }
+            })
+            .catch(error => alert('Erro na conexão: ' + error));
+        }
+
+        listarEventos();
+    </script>
+</body>
+</html>

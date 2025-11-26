@@ -3,7 +3,7 @@ import sqlite3
 
 try:
     # Criando e conectando ao banco, e criando um cursor
-    conexao = sqlite3.connect('teste.db')
+    conexao = sqlite3.connect('AULAS/09/teste.db')
     cursor = conexao.cursor()
     print('Iniciando o banco')
 

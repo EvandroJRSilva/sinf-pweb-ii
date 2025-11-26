@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Livro de Receitas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        textarea { width: 300px; height: 60px; margin: 5px; }
+        button { padding: 5px 10px; margin: 5px; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 10px 0; padding: 10px; background: #f9f9f9; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Livro de Receitas</h1>
+    <input type="text" id="nome" placeholder="Nome da receita">
+    <textarea id="ingredientes" placeholder="Ingredientes (separados por vírgula)"></textarea>
+    <textarea id="instrucoes" placeholder="Instruções"></textarea>
+    <button onclick="adicionarReceita()">Adicionar</button>
+    <button onclick="listarReceitas()">Listar Receitas</button>
+    <ul id="lista"></ul>
+
+    <script>
+        const BASE_URL = 'http://localhost:5001';
+
+        function listarReceitas() {
+            fetch(`${BASE_URL}/receitas`)
+                .then(response => response.json())
+                .then(receitas => {
+                    const lista = document.getElementById('lista');
+                    lista.innerHTML = '';
+                    receitas.forEach(recipe => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<strong>${recipe.nome}</strong><br>Ingredientes: ${recipe.ingredientes}<br>Instruções: ${recipe.instrucoes} (ID: ${recipe.id})`;
+                        lista.appendChild(li);
+                    });
+                })
+                .catch(error => alert('Erro na conexão: ' + error));
+        }
+
+        function adicionarReceita() {
+            const nome = document.getElementById('nome').value;
+            const ingredientes = document.getElementById('ingredientes').value;
+            const instrucoes = document.getElementById('instrucoes').value;
+            if (!nome || !ingredientes || !instrucoes) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+            fetch(`${BASE_URL}/receitas`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, ingredientes, instrucoes })
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('nome').value = '';
+                    document.getElementById('ingredientes').value = '';
+                    document.getElementById('instrucoes').value = '';
+                    listarReceitas();
+                } else {
+                    alert('Falha ao adicionar receita');
+                }
+            })
+            .catch(error => alert('Erro na conexão: ' + error));
+        }
+
+        listarReceitas();
+    </script>
+</body>
+</html>

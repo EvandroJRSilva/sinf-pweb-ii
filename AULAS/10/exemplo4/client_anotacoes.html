@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>App de Anotações</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input, textarea { width: 300px; margin: 5px; }
+        button { padding: 5px 10px; margin: 5px; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 10px 0; padding: 10px; background: #f0f8ff; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>App de Anotações</h1>
+    <input type="text" id="titulo" placeholder="Título">
+    <textarea id="conteudo" placeholder="Conteúdo da anotação"></textarea>
+    <button onclick="adicionarNota()">Adicionar</button>
+    <button onclick="listarNotas()">Listar Anotações</button>
+    <ul id="lista"></ul>
+
+    <script>
+        const BASE_URL = 'http://localhost:5004';
+
+        function listarNotas() {
+            fetch(`${BASE_URL}/anotacoes`)
+                .then(response => response.json())
+                .then(anotacoes => {
+                    const lista = document.getElementById('lista');
+                    lista.innerHTML = '';
+                    anotacoes.forEach(note => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<strong>${note.titulo}</strong><br>${note.conteudo} (ID: ${note.id})`;
+                        lista.appendChild(li);
+                    });
+                })
+                .catch(error => alert('Erro na conexão: ' + error));
+        }
+
+        function adicionarNota() {
+            const titulo = document.getElementById('titulo').value;
+            const conteudo = document.getElementById('conteudo').value;
+            if (!titulo || !conteudo) {
+                alert('Preencha título e conteúdo!');
+                return;
+            }
+            fetch(`${BASE_URL}/anotacoes`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ titulo, conteudo })
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('titulo').value = '';
+                    document.getElementById('conteudo').value = '';
+                    listarNotas();
+                } else {
+                    alert('Falha ao adicionar anotação');
+                }
+            })
+            .catch(error => alert('Erro na conexão: ' + error));
+        }
+
+        listarNotas();
+    </script>
+</body>
+</html>
