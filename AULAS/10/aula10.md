@@ -1,6 +1,6 @@
 # Aula 10
 
-Exemplos de aplicação web (`HTML` + `CSS` + `JavaScript`) se comunicando com um banco de dados remoto (requisições `HTTP` com `Requests` e servidor executando com `Flask`).
+Exemplos de aplicação web (`HTML` + `CSS` + `JavaScript`) se comunicando com um banco de dados remoto (requisições `HTTP` com `fetch` e servidor executando com `Flask`).
 
 - Gerenciador de inventário
   - [Servidor](exemplo1/server_inventario.py)
@@ -15,5 +15,5 @@ Exemplos de aplicação web (`HTML` + `CSS` + `JavaScript`) se comunicando com u
   - [Servidor](exemplo4/server_anotacoes.py)
   - [Cliente](exemplo4/client_anotacoes.html)
 - Planejador de eventos
-  - [Servidor]
-  - [Cliente]
+  - [Servidor](exemplo5/server_eventos.py)
+  - [Cliente](exemplo5/client_eventos.html)

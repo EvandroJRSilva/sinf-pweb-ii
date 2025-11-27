@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tarefas</title>
+</head>
+<body>
+    <h1>Minha Lista de Tarefas</h1>
+    <a href="{% url 'criar_tarefa' %}">Adicionar Nova Tarefa</a>
+    <ul>
+        {% for tarefa in tarefas %}
+            <li>
+                <strong>{{ tarefa.titulo }}</strong> - {{ tarefa.descricao }}
+                <span style="color: {% if tarefa.concluido %}green{% else %}red{% endif %}">
+                    Status: {% if tarefa.concluido %}Concluída{% else %}Pendente{% endif %}
+                </span>
+                <a href="{% url 'atualizar_tarefa' tarefa.pk %}">Editar</a>
+                <a href="{% url 'excluir_tarefa' tarefa.pk %}">Excluir</a>
+            </li>
+        {% empty %}
+            <li>Nenhuma tarefa cadastrada.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

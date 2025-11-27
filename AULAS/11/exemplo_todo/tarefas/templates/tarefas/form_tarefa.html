@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if form.instance.pk %}Editar{% else %}Criar{% endif %} Tarefa</title>
+</head>
+<body>
+    <h1>{% if form.instance.pk %}Editar{% else %}Criar{% endif %} Tarefa</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button>
+    </form>
+    <a href="{% url 'lista_de_tarefas' %}">Voltar à Lista</a>
+</body>
+</html>
