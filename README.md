@@ -26,10 +26,11 @@ Repositório para os materiais da disciplina P. Web II.
 
 #### Atualizada
 
+- ROADMAP.SH. **Backend Developer**. Developer Roadmaps, 2026. Disponível em: https://roadmap.sh/backend. Acesso em: 07 fev. 2026.
 - HAVERBEKE, Marijn. **Eloquent JavaScript**. 4 ed. No starch press. Disponível em [https://eloquentjavascript.net/](https://eloquentjavascript.net/). Acesso em 21 ago. 2025.
 - GRINBERG, Miguel. **Flask Web Development: Developing Web Applications with Python**. 2 ed. O'Reilly Media, 2018.
 - **Mozilla Developer Network (MDN Web Docs)**. Disponível em [https://developer.mozilla.org/pt-BR/](https://developer.mozilla.org/pt-BR/). Acesso em 21 ago. 2025.
-- roadmap.sh. **Backend Developer**. Developer Roadmaps, 2026. Disponível em: https://roadmap.sh/backend. Acesso em: 07 fev. 2026.
+
 
 ### Complementar
 
