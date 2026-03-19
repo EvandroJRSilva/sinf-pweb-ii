@@ -1,240 +1,195 @@
 # Aula 05
 
-## 🔒 Conceitos Fundamentais de Segurança na Web
+**Sumário**
+- [Aula 05](#aula-05)
+  - [Comunicação Síncrona vs. Assíncrona](#comunicação-síncrona-vs-assíncrona)
+    - [Comunicação síncrona](#comunicação-síncrona)
+    - [Comunicação assíncrona](#comunicação-assíncrona)
+  - [AJAX](#ajax)
+    - [Exemplos](#exemplos)
+    - [Exercícios](#exercícios)
+      - [Fácil](#fácil)
+      - [Médio](#médio)
+      - [Difícil](#difícil)
 
-A segurança na web é um conjunto de medidas e práticas projetadas para proteger sites e aplicações contra ataques, roubo de dados, e interrupções.
+## Comunicação Síncrona vs. Assíncrona
 
-### 1\. O Papel da Validação de Dados
+Para começar vamos relembrar um pouco de como funciona o modelo Cliente-Servidor:
 
-A **validação de dados** é, talvez, sua primeira e mais importante linha de defesa. Ela garante que os dados de entrada (seja de formulários, URLs ou APIs) estejam no formato, tipo e faixa de valores esperados, **antes** que sejam processados ou armazenados.
-
-  * **Princípio:** Nunca confie na entrada do usuário. Trate todo dado externo como potencialmente malicioso.
-  * **Ação:** Implementar validação tanto no lado do cliente (para usabilidade, mas **não segurança**) quanto no lado do servidor (para segurança real).
-
-Exemplo em Python (Validação Simples):
-
-```python
-# Exemplo introdutório de validação no lado do servidor
-def validar_idade(idade_str):
-    """Garante que a entrada é um número inteiro positivo."""
-    try:
-        idade = int(idade_str)
-        if idade > 0 and idade <= 120:
-            return True, "Idade válida."
-        else:
-            return False, "A idade deve estar entre 1 e 120."
-    except ValueError:
-        return False, "A idade deve ser um número."
-
-# Testes
-print(f"25: {validar_idade('25')}")
-print(f"'abc': {validar_idade('abc')}")
-print(f"-5: {validar_idade('-5')}")
-```
-
-#### 1\.1 Tipos de validação de dados
-
-1. **Formato**: consiste em verificar se um valor segue um padrão predefinido. Por exemplo, verificar: se um endereço de e-mail é válido; se os números inseridos seguem um padrão para cartão de crédito; etc.
-2. **Tipo**: consiste em verificar se o tipo de dado é correto. Por exemplo, em um campo para nome não pode ter *int* ou *float*.
-3. **Faixa** (*range*): consiste em verificar se um valor está dentro de limites estabelecidos. Por exemplo, um campo de idade que aceita de 1 a 120 anos.
-4. **Null** e **Presença**: o primeiro é utilizado para verificar valores ausentes, intencionais (ex.: campos opcionais) ou acidentais (ex.: erro no sistema). O segundo é relacionado às informações críticas, que não podem ser deixadas em branco (*required*).
-5. **Unicidade** e **Conferência**/**Pesquisa**: o primeiro serve para garantir que nenhum valor esteja/seja duplicado. Exemplo: cada nome de usuário deve ser único. O segundo é a validação a partir da comparação da entrada com uma lista ou outra fonte externa.
-6. **Consistência** ou **Cruzada**: consiste em verificar o relacionamento entre os dados. Por exemplo, a data de registro de um novo usuário não pode ser posterior à data do primeiro login.
-7. **Personalizada**: verificações ligadas à lógica do negócio, ou ao contexto do cliente/empresa.
-8. **Regex**: o uso de expressões regulares é ideal para verificar strings que devam obedecer a alguma lógica. Por exemplo: regex para validar e-mail.
-9. **Detecção de anomalia estatística**: um pouco mais avançado, com uso Aprendizado de Máquina ou modelos estatísticos para detectar anomalias ou irregularidades nos dados.
-10. **Checksum** e **hash**: o primeiro é utilizado para garantir a integridade dos dados, enquanto o segundo pode ser melhor utilizado para comparar valores sensíveis, como senhas.
-
-#### 1\.2 [Validação de formulário no lado cliente](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation)
-
-A validação no lado cliente, conhecida também como validação de formulário, é uma verificação inicial dos dados fornecidos, sendo também um recurso importante para uma boa experiência de usuário. Porém, essa validação não deve ser **exaustiva**.
-
-Existem dois tipos de validação do lado cliente:
-
-- **Validação por HTML**: os atributos dos elementos do formulário podem definir quais controles são requeridos e quais formatos os dados inseridos pelo usuário precisam seguir.
-- **Validação por JavaScript**: funciona como uma extenção ou personalização da validação por HTML.
-
-##### 1\.2\.1 Validação de formulário nativa do HTML
-
-Essa validação costuma ser feita com o uso de atributos. Por exemplo:
-
-- `required`: para especificar se um campo tem preenchimento obrigarótio.
-- `minlength` e `maxlength`: para especificar o comprimento mínimo e máximo de algum dado textual.
-- `min`, `max` e `step`: para especificar valores mínimos e máximos de dados numéricos, e também progressão aritmética entre esses valores.
-- `type`: para especificar o tipo de dado de uma determinada entrada.
-- `pattern`: especifica a expressão regular que define o padrão que deve ser seguido pela entrada.
-
-Quando um elemento é válido, ele corresponde à pseudo-classe CSS `:valid`, de forma que isso permite ao desenvolvedor aplicar um estilo específico para esse caso. Existem outras pseudo-classes nesse sentido, como `:user-valid` e `:in-range`.
-
-Da mesma forma, quando um elemento é inválido, ele corresponde à pseudo-classe CSS `:invalid`, e pode ser estilizado de acordo.
-
-Exemplos:
-
-- [*Built-in form validation exemples*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation#built-in_form_validation_examples).
-- [*Validating forms using JavaScript*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation#validating_forms_using_javascript).
-
-
-<!--
-**Validação** de dados é o processo de **verificação** da **precisão**, **integridade** e **consistência** dos dados **antes de serem processados ​​ou armazenados**.
-
-**Boas práticas de validação**:
-
-- **Definir regras de validação claras**: estabeleça regras explícitas para os formatos dos dados, faixa de valores e campos obrigatórios durante a fase de planejamento. Essas regras devem ser simples, consistentes e alinhadas com as regras de negócio para garantir a integridade dos dados desde o início do projeto.
-- **Implementar validação de múltiplas camadas**: valide os dados em múltiplos estágios para identificar erros precocemente e reduzir o risco de propagação deles pelo(s) sistema(s).
-  - ***Client-side***: em formulários web, tanto HTML/CSS quanto JavaScript podem fornecer *feedback* aos usuários, de forma a melhorar a experiência de usuário. Ao mesmo tempo, podem também ser usados como os primeiros "filtros", os quais evitam o envio para o servidor de dados inconsistentes ou vazios.
-  - ***Server-side***: todos os dados precisam ser reavaliados para prevenir vulnerabilidades de segurança, como SQL Injetction, e forçar a integridade dos dados, mesmo que a validação no *client-side* tenha sido OK.
-  - **Nível de banco de dados**: devem ser usadas restrições (`UNIQUE`, `CHECK`, `NOT NULL`) e integridade referencial[^1] como precaução de armazenamento de dados inválidos.
-- **Automatizar o processo de validação**.
-- **Fornecer feedback claro e imediato sobre erros**: quando necessário exiba mensagens de erro precisas e empáticas próximas aos seus respectivos campos cuja validação falhou. Explique o que aconteceu de errado e o que fazer para evitar o erro novamente. Evite mensagens genéricas.
-- **Registre e monitore falhas de validação**: mantenha *logs* detalhados dos erros de validação. Este documento pode ajudar no diagnóstico de erros recorrentes e identificação de padrões sobre os dados errados. Monitore o andamento sistema como um todo.
-- **Implemente a rigorosidade e desempenho de forma balanceada**: validações muito complexas podem diminuir o desempenho do sistema, piorando a experiência de usuário. Otimize os processos de validação para que sejam o mais eficiente possível.
-- **Valide considerando fontes externas**: quando possível, cruze os dados com alguma referência externa. Por exemplo, a validação de um endereço pode ocorrer com a checagem da base de dados dos Correios.
-- **Faça auditorias e revise as regras de validação regularmente**: à medida em que os dados e sistemas evoluem, as regras de validação também evoluem. Periodicamente reveja os procedimentos de validação e garanta que elas continuem relevantes e efetivas.
-
-[^1]: Trata-se de um conceito em banco de dados sobre garantir que o relacioanemnto entre tabelas seja consistente e precisa.
--->
-
----
-
-### 2\. Princípio do Menor Privilégio (PoLP)
-
-O **Princípio do Menor Privilégio (*Principle of Least Privilege* - PoLP)** é um conceito de cybersegurança e afirma que um usuário, processo ou programa, deve ter apenas as permissões necessárias para realizar suas tarefas designadas e **nada mais**.
-
-  * **Impacto:** Se um invasor comprometer uma parte do sistema, seus danos serão limitados pela baixa permissão que essa parte tinha.
-  * **Aplicação:** Se o servidor web só precisa *ler* arquivos de configuração, ele não deve ter permissão de *escrita* neles. Se a aplicação só precisa de acesso a dados específicos do banco de dados, a conta de acesso ao DB deve ser restrita a esses dados.
-
-#### 2\.1 Aspectos chave do princípio
-
-- **Minimizar a exposição**: a limitação de privilégios restringe o ataque de superfície, ou seja, uma conta comprometida terá um escopo limitado do que pode afetar.
-- **Aplicação ampla**: o PoLP não é aplicável somente a usuários humanos, mas também a aplicações, serviços e dispositivos.
-- **Acesso baseado em papel**: um método de implementação comum é definir papéis baseados na função de um funcionário e atribuir permissões de acordo com o cargo. Isso garante que um usuário do setor de marketing, por exemplo, não tenha acesso ao ambiente de desenvolvimento.
-- **Proteção contra erro humano**: a restrição de acesso previna que usuários executem funções que não precisam executar, evitando ou mitigando erros acidentais ou ainda desconfigurando parte do sistema.
-- **Acesso *Just-in-Time* (JIT)**: consiste em garantir privilégios somente quando necessário e por tempo limitado.
-
----
-
-### 3\. Conceito de Segurança por Camadas (Defense in Depth)
-
-A **Segurança por Camadas (Defense in Depth)** é a prática de usar **múltiplas** camadas de controles de segurança independentes para proteger recursos. Se uma camada falhar, a próxima servirá de backup.
-
-  * **Exemplo de Camadas:** Firewall (rede) $\rightarrow$ Autenticação/Autorização (aplicação) $\rightarrow$ Validação de dados (código) $\rightarrow$ Criptografia de dados (armazenamento).
-  * **Vantagem:** Não há um "ponto único de falha".
-
-> **Youtube**: [Network Security | Defense in Depth](https://www.youtube.com/watch?v=IiWFMIgKaqQ).
-
-
-## 💣 Principais Ameaças na Web
-
-Agora, vamos mergulhar nas três ameaças mais comuns e perigosas que vocês encontrarão.
-
-> **Código Fonte TX: [💀 TOP 10 Ameaças de Segurança em Aplicações Web - DICAS DE PREVENÇÃO!](https://www.youtube.com/watch?v=OzBy8nYLY-I)**
-
-### 1\. Cross-Site Scripting (XSS)
-
-O **XSS** ocorre quando um invasor injeta *scripts* maliciosos (geralmente JavaScript) em um website que é visualizado por outros usuários. Ele permite que o atacante roube cookies de sessão, altere o conteúdo da página ou redirecione o usuário.
-
-  * **Tipos Comuns:** Armazenado (Strored), Refletido (Reflected) e Baseado no DOM (DOM-based).
-  * **Mitigação:** **Sanitização de dados** e **Escape/Codificação de *Output***. Qualquer dado do usuário que será renderizado na página deve ser codificado para que o navegador o trate como texto, e não como código executável.
-
-#### 1\.1 Exemplo (Conceitual de Mitigação)
-
-Imagine um sistema que mostra o nome do usuário:
-
-  * **Vulnerável:** Se o nome for `<script>alert('XSS!')</script>`, o navegador executa o script.
-  * **Mitigado:** Se o código for *escapado*, o navegador o exibe como o texto `&lt;script&gt;alert('XSS!')&lt;/script&gt;`, sem executar nada.
-
-Para um aprofundamento visual e prático no XSS, vejam este vídeo (é um vídeo popular e muito instrutivo sobre o ataque):
-
-> **Código Fonte TV:** [⚔️ XSS Attack (Como Funciona e Como Prevenir Ataques) // Dicionário do Programador)](https://www.youtube.com/watch?v=2LYPyUk-L0k)
-
------
-
-### 2\. Cross-Site Request Forgery (CSRF)
-
-O **CSRF** (pronuncia-se "Sea-Surf") força um usuário autenticado a enviar uma requisição indesejada para uma aplicação web na qual ele está logado. O ataque explora a confiança que um site tem no navegador de um usuário.
-
-  * **Cenário:** Um usuário está logado em seu banco (Site A). Ele visita um site malicioso (Site B). O Site B carrega uma imagem oculta ou um formulário automático que envia uma requisição (ex: "transferir $1000") para o Site A. O Site A vê os cookies de sessão e processa a requisição, achando que o usuário a iniciou.
-  * **Mitigação:** O uso de **Tokens Anti-CSRF** (tokens únicos e imprevisíveis incluídos em cada requisição *POST*).
-
-#### 2\.2 Exemplo em Python (Token Anti-CSRF Conceitual com Flask)
-
-Embora a implementação completa use um framework web, o conceito de token é simples:
-
-```python
-import secrets
-
-# No servidor, ao gerar o formulário
-def gerar_token_csrf():
-    return secrets.token_hex(16) # Gera um token aleatório
-
-# Token é inserido no formulário (campo hidden)
-token_atual = gerar_token_csrf()
-# <input type="hidden" name="csrf_token" value="{{ token_atual }}">
-
-# No servidor, ao receber a requisição
-def processar_requisicao(token_recebido, token_na_sessao):
-    if token_recebido == token_nao_sessao:
-        print("Requisição VÁLIDA: Tokens correspondem. Ação executada.")
-        return True
-    else:
-        print("Requisição INVÁLIDA (CSRF provável): Tokens NÃO correspondem.")
-        return False
-
-# Teste (Sucesso)
-print(processar_requisicao(token_atual, token_atual))
-
-# Teste (Falha - O token do atacante seria NULO ou FALSO)
-print(processar_requisicao("token_falso", token_atual))
-```
-
------
-
-### 3\. SQL Injection (SQLi)
-
-A **SQL Injection** ocorre quando um invasor interfere nas *queries* (consultas) SQL que uma aplicação faz ao seu banco de dados, permitindo a visualização, modificação ou exclusão de dados. É um ataque direto à camada de dados.
-
-  * **Vulnerabilidade:** Acontece quando a entrada do usuário é concatenada diretamente em uma string SQL.
-  * **Mitigação:** Uso de **Consultas Parametrizadas** (ou *Prepared Statements*). Isso garante que a entrada do usuário seja tratada *sempre* como dados, e não como parte do comando SQL.
-
-#### 3\.1 Exemplo em Python (SQL Injection VS. Consulta Segura)
-
-```python
-# Módulo de Banco de Dados (exemplo conceitual)
-class Database:
-    def execute(self, query):
-        # Apenas simula a execução
-        print(f"Executando SQL: {query}")
-
-db = Database()
-username_entrada = "user_normal"
-password_entrada = "' OR '1'='1" # Payload de Ataque Comum!
-
-# --- 1. CÓDIGO VULNERÁVEL (Concatenando a string) ---
-# A query final fica: "SELECT * FROM users WHERE username = 'user_normal' AND password = '' OR '1'='1'"
-# O 'OR 1=1' faz o WHERE ser TRUE para qualquer linha, permitindo o login sem senha.
-vulnerable_query = f"SELECT * FROM users WHERE username = '{username_entrada}' AND password = '{password_entrada}';"
-print("--- 1. CÓDIGO VULNERÁVEL ---")
-db.execute(vulnerable_query)
-
-
-# --- 2. CÓDIGO SEGURO (Consultas Parametrizadas) ---
-# A query é passada separada dos dados. O banco trata a entrada como VALOR de campo.
-# O payload inteiro (' OR '1'='1) é tratado como a senha que o usuário está procurando, o que falhará.
-secure_query = "SELECT * FROM users WHERE username = %s AND password = %s;"
-parametros = (username_entrada, password_entrada)
-
-print("\n--- 2. CÓDIGO SEGURO (Consultas Parametrizadas) ---")
-print(f"SQL a ser executado: {secure_query}")
-print(f"Parâmetros: {parametros}")
-# O módulo de banco de dados se encarrega de garantir que os parâmetros sejam escapados.
-```
-
-> **Código Fonte TV:** [SQL Injection (Do Ataque a Prevenção) // Dicionário do Programador](https://www.youtube.com/watch?v=jN8QGOxdhvM)
-
-## 📚 Referências e Próximos Passos
-
-Referências e estratégias para aprofundar seus conhecimentos:
-
-  * [**OWASP Top 10**](https://owasp.org/www-project-top-ten/): A lista mais importante dos riscos de segurança mais críticos para aplicações web.
-  * **Documentação dos *Frameworks***: Todo framework moderno (como Django, Flask, Rails, Spring) tem documentação específica sobre como mitigar CSRF, XSS e SQLi.
-  * **Artigos de Segurança:** Pesquisar as mitigações específicas para a linguagem/tecnologia que você está usando (ex: "SQL injection prevention in Python").
+<figure style="text-align: center; width:700px;">
+  <img src="imagens/cliente-servidor.png">
+</figure>
+
+Melhor ainda, vamos ver isso acontecendo em um navegador.
+
+O ponto principal para esta aula é a **comunicação** que está ocorrendo entre navegador (cliente) e servidor. Essa comunicação pode ocorrer de duas formas: **síncrona** e **assíncrona**.
+
+### Comunicação síncrona
+
+A comunicação síncrona é aquela que ocorre em **tempo real**, ou seja, quando duas ou mais partes trocam informação ao mesmo tempo sem qualquer atraso. Exemplos do dia-a-dia:
+
+- Conversa no WhatsApp (quando o(a) crush responde, obviamente, e melhor ainda, responde logo).
+- Reunião no Meet, ou live na Twitch (considerando o chat ao vivo).
+- Ligações telefônicas.
+- Conversa entre amigos.
+
+Por mais que seja "ao mesmo tempo", é importante notar que isso significa que as partes estão se ouvindo e uma requisição é prontamente respondida. Contudo, note o fato de que a resposta vem **APÓS** uma requisição. Ou seja, na comunicação síncrona as operações são executadas **sequencialmente**.
+
+Um servidor que esteja em comunicação síncrona com um cliente vai receber uma requisição por vez, passando para a seguinte somente após concluir a atual. Como consequência temos que a comunicação síncrona é:
+
+- **Simples**: fácil de entender e implementar.
+- **Previsível**: a execução em ordem é garantida.
+- **Bloqueante**: bloqueia a execução durante operações demoradas.
+- **Ineficiente**: recursos ficam ociosos durante a espera.
+
+**[Exemplo de requisição síncrona](exemplos/exemplo_sincrono.html)**.
+
+<figure style="text-align: center; width:700px;">
+  <img src="imagens/sincrono-assincrono.png">
+</figure>
+
+### Comunicação assíncrona
+
+É a comunicação que **não** ocorre em tempo real, ou seja, a resposta a uma requisição sofrerá atraso (isso não é necessariamente ruim). Em outras palavras, não há resposta ou feedback imediato. Exemplos do dia-a-dia:
+
+- Conversa no WhatsApp, quando o(a) crush sempre demora para responder.
+- Troca de e-mails.
+- YouTube (ou outra plataforma de vídeos), quando você assiste conteúdo novo dias depois.
+
+Um servidor que esteja em comunicação assíncrona com um cliente vai recebendo as requisições e respondendo à medida em que as execuções terminam. Como consequência temos que a comunicação assíncrona é:
+
+- **Não-bloqueante**: permite continuar a execução durante operações demoradas.
+- **Eficiente**: melhor utilização de recursos e tempo.
+- **Complexa**: mais difícil de implementar e depurar.
+- **Não previsível**: não garante ordem de execução sem tratamento adequado.
+
+**[Exemplo de requisição assíncrona](exemplos/exemplo_assincrono.html)**.
+
+## AJAX
+
+AJAX (**A**synchronous **J**avaScript **A**nd **X**ML), JavaScript Assíncrono e XML (em tradução livre) é um conjunto de **técnicas de desenvolvimento web que usa várias tecnologias** (HTML, CSS, JavaScript, DOM e XMLHttpRequest object) no **lado cliente** para criar aplicações web assíncronas. Foi inicialmente desenvolvido por [Jesse James Garret](https://en.wikipedia.org/wiki/Jesse_James_Garrett) em um [artigo publicado em 2005](https://web.archive.org/web/20150910072359/http://adaptivepath.org/ideas/ajax-new-approach-web-applications/).
+
+Com o AJAX é possível que partes de uma página web possam ser atualizadas sem a necessidade de carregar a página inteira novamente. Além disso, apesar do XML fazer parte do nome, seu uso não é obrigatório e atualmente o JSON é mais utilizado que o XML devido às suas vantagens, como ser mais leve e ser parte do JavaScript.
+
+Sua implementação se dá com o uso da API XMLHttpRequest ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest), [Documentação](https://xhr.spec.whatwg.org/)).
+
+### Exemplos
+
+O [exemplo 1](./exemplos/ajax1.html) mostra como usar o AJAX para carregar o conteúdo de um [arquivo de texto](./exemplos/conteudo.txt) (.txt) e exibi-lo em uma página web sem a necessidade de recarregá-la.
+
+O [exemplo 2](./exemplos/ajax2.html) mostra o uso do AJAX para carregar o conteúdo de um [arquivo JSON](./exemplos/dados.json) e exibindo os dados em uma lista.
+
+### Exercícios
+
+#### Fácil
+
+1. Crie um botão “Carregar Mensagem”. Ao clicar, faça uma requisição GET para o arquivo mensagem.txt e coloque o conteúdo dentro de `<div id="resultado">`.
+2. Adicione um botão “Mostrar Saudação”. Ao clicar, carregue saudacao.json (conteúdo: {"texto": "Bem-vindo ao sistema!") e atualize um `<h2>` com o valor da propriedade texto.
+3. Crie um botão “Carregar Imagem”. Ao clicar, use XMLHttpRequest para obter a URL https://picsum.photos/300/200 e defina como src de um `<img id="foto">`.
+4. Ao clicar em um botão “Atualizar Título”, carregue o arquivo titulo.txt e substitua o texto de um `<h1 id="titulo-pagina">`.
+5. Crie um `<select>` com opções “Post 1”, “Post 2”, “Post 3”. Ao mudar a seleção, carregue https://jsonplaceholder.typicode.com/posts/1 (ou 2 ou 3) e mostre o título no `<p id="post-titulo">`.
+6. Botão “Carregar Nome”. Carregue usuario.json ({"nome": "Ana Silva"}) e atualize um `<span id="nome-usuario">`.
+7. Ao clicar em “Ler Bio”, carregue bio.txt e insira o texto em um `<textarea id="bio">` (read-only).
+8. Crie um botão “Mostrar Foto de Perfil”. Carregue https://jsonplaceholder.typicode.com/photos/1 e use a propriedade url para atualizar um `<img>`.
+9. Ao clicar em qualquer lugar de uma `<div id="area">`, carregue frase.txt e substitua todo o conteúdo da div.
+10. Botão “Atualizar Rodapé”. Carregue rodape.html (um fragmento simples) e use innerHTML para colocar dentro de `<footer>`.
+11. Selecione um usuário em um `<select>` (1 a 5) → carregue https://jsonplaceholder.typicode.com/users/{id} e mostre apenas o nome e email em dois `<span>`.
+12. Botão “Carregar Lista Simples”. Carregue lista.txt (uma linha por item) e transforme em `<ul>` dentro de `<div id="lista">`.
+13. Ao clicar em “Ver Status”, carregue https://jsonplaceholder.typicode.com/todos/1 e atualize um `<span>` com “✅Concluído” ou “⭕ Pendente” conforme o campo completed.
+14. Crie um botão que carregue logo.png (colocado na mesma pasta) e substitua o src de uma imagem já existente.
+15. Ao digitar qualquer coisa em um `<input>` e pressionar Enter, carregue https://jsonplaceholder.typicode.com/comments/1 e mostre o nome do autor em um badge.
+16. Botão “Atualizar Contador”. Carregue contador.json ({"valor": 42}) e coloque o número em um `<h3>` com emoji de fogo.
+17. Clique em um card → carregue https://jsonplaceholder.typicode.com/albums/1 e atualize o título do card.
+18. Botão “Carregar Dica do Dia”. Use arquivo dica.txt e mostre dentro de um `<blockquote>` com fundo amarelo.
+19. Ao clicar em “Ver Avatar”, carregue https://jsonplaceholder.typicode.com/users/3 e use o campo avatar (ou uma URL fixa de picsum) para atualizar uma imagem circular.
+20. Crie três botões (Texto, JSON, Imagem). Cada um carrega seu respectivo recurso e atualiza o mesmo `<div id="area-dinamica">` (limpe antes de cada requisição).
+21. **Carregamento de TXT**: Crie um botão que, ao ser clicado, busque um arquivo mensagem.txt e exiba o conteúdo dentro de uma `<div>`.
+22. **Boas-vindas Personalizado**: Consuma o JSON de https://jsonplaceholder.typicode.com/users/1 e atualize um `<h1>` com o nome do usuário retornado.
+23. **Alterar ID de Elemento**: Ao clicar em um botão, busque um número aleatório em uma API e defina-o como o id de um parágrafo no HTML.
+24. **Troca de Imagem**: Crie um botão "Ver Foto". Ao clicar, busque a URL de uma imagem em https://jsonplaceholder.typicode.com/photos/1 e atualize o atributo src de uma tag `<img>`.
+25. **Contador de Postagens**: Busque a lista de posts de um usuário e atualize um `<span>` com o texto: "Este usuário tem X posts".
+26. **Status de Carregamento**: Exiba a frase "Carregando..." em um parágrafo enquanto o readyState for menor que 4, e limpe-o ao terminar.
+27. **Botão Desabilitado**: Desabilite um botão de "Enviar" via JavaScript assim que o AJAX começar e reabilite-o apenas no onload.
+28. **Cópia de Conteúdo**: Busque o corpo de um e-mail em uma API e coloque-o como o valor (value) de uma `<textarea>`.
+29. **Alerta de Erro no HTML**: Se a requisição para uma URL inexistente falhar (status 404), escreva "Erro: Conteúdo não encontrado" em vermelho dentro de uma div.
+30. **Atualizar Link**: Busque o site de um usuário no JSONPlaceholder e atualize o href e o texto de um link `<a>` na página.
+31. **Estilo Dinâmico**: Se o título de um post recebido via AJAX tiver mais de 20 caracteres, mude a cor da fonte do título no HTML para azul.
+32. **Título da Página**: Altere o document.title da aba do navegador para o título do post recuperado via AJAX.
+33. **Data da Última Atualização**: Adicione um texto no rodapé da página com a data e hora atual toda vez que uma requisição AJAX for concluída com sucesso.
+34. **Placeholder Dinâmico**: Busque o "username" de um perfil e defina-o como o placeholder de um campo de comentário.
+35. **Esconder Card**: Crie um botão "Remover". Ao clicar, dispare um DELETE (simulado) para a API e, no sucesso, use display: none para sumir com o card no HTML.
+36. **Verificar Checkbox**: Se uma tarefa (todo) vinda da API estiver com completed: true, marque um checkbox HTML automaticamente.
+37. **Lista de Endereço**: Extraia "rua", "suíte" e "cidade" do JSON de usuário e concatene-os em um único parágrafo `<p>`.
+38. **Tooltip Simples**: Ao passar o mouse sobre um elemento, busque o "email" do usuário e coloque-o no atributo title de uma div.
+39. **Mudar Fundo de Parágrafo**: Busque um post. Se o id do post for par, mude o fundo da div de resultado para cinza claro.
+40. **Limpar Resultados**: Crie um botão que, além de disparar um novo AJAX, limpe todo o conteúdo gerado pela requisição anterior antes de exibir o novo.
+
+#### Médio
+
+1. **Lista Dinâmica de Títulos:** Busque os 10 primeiros posts e gere uma lista `<ul>` onde cada `<li>` contém o título do post.
+2. **Tabela de Contatos:** Preencha uma `<table>` com colunas de Nome, Email e Telefone de 10 usuários vindos da API.
+3. **Galeria de Miniaturas:** Busque um álbum de fotos e crie 5 elementos `<img>` dentro de um container, definindo as dimensões via CSS.
+4. **Filtro de Busca Local:** Carregue uma lista de nomes via AJAX. Conforme o usuário digita em um `<input>`, esconda os elementos da lista que não correspondem.
+5. **Seleção de Usuário:** Crie um `<select>` com IDs. Ao mudar a opção (`change`), busque os detalhes daquele usuário e preencha um card lateral.
+6. **Comentários de um Post:** Ao clicar no título de um post, dispare uma segunda requisição para buscar os comentários daquele ID e exiba-os abaixo dele.
+7. **Formulário de Cadastro:** Capture dados de inputs, envie via POST e, no retorno de sucesso, adicione o novo usuário no topo de uma lista HTML existente.
+8. **Barra de Progresso:** Simule o carregamento de um arquivo e atualize o `width` de uma `div` interna (barra) proporcionalmente ao evento `onprogress`.
+9. **Validação de Nickname:** Ao tirar o foco de um campo (`onblur`), verifique na API se o nome já existe e mostre uma mensagem de status ao lado do campo.
+10. **Remover da Lista (UI):** Em uma lista gerada via AJAX, inclua um botão "Excluir" em cada linha que remove o elemento do DOM após a confirmação do servidor.
+11. **Somatório de Valores:** Busque uma lista de preços, converta-os para números, some-os e atualize um elemento `<h3>Total: R$ ...</h3>`.
+12. **Alternar Visualização:** Crie botões "Grade" e "Lista". Ao clicar, renderize os mesmos dados do AJAX aplicando classes CSS diferentes ao container.
+13. **Acordeão de Perguntas:** Busque uma lista de "FAQ". Renderize apenas as perguntas; ao clicar em uma, exiba ou esconda a resposta correspondente.
+14. **Carregamento Incremental:** Crie um botão "Carregar Mais" que busca os próximos 5 itens da API e os anexa ao final da lista atual usando `appendChild`.
+15. **Uso de `<template>`:** Defina um template HTML. No `onload` do AJAX, clone o template e preencha-o para cada item recebido.
+16. **Gráfico de Barras:** Receba 5 números de uma API e ajuste a propriedade `height` de 5 `divs` verticais para criar uma representação visual.
+17. **Atualização de Perfil:** Crie um formulário preenchido via GET. Ao salvar, envie um PUT e atualize o cabeçalho da página com o novo nome sem recarregar.
+18. **Notificação de Sucesso (Toast):** Após um POST bem-sucedido, crie dinamicamente uma `div` de aviso que desaparece sozinha após 3 segundos.
+19. **Preview de Post:** Ao digitar o ID em um input, mostre um "mini preview" (apenas o título) em uma pequena caixa antes de carregar o conteúdo completo.
+20. **Dashboard de Status:** Faça 3 requisições independentes (posts, álbuns e todos). Atualize 3 contadores diferentes no HTML conforme cada uma finalizar.
+21. Botão “Carregar Posts”. GET `/posts` → crie cards (título + body resumido) em `<div id="feed">`.
+22. `<select>` de usuários (1–10) → carregue `/users/{id}/posts` → tabela com ID, Título e Body (resumido).
+23. Formulário (título + corpo) → botão “Publicar” (POST `/posts`) → mostre “✅ Post criado com ID: X” e limpe campos.
+24. Botão “Atualizar Todos”. Carregue `/todos` → mostre os 10 primeiros com checkbox (marcar os `completed`).
+25. `<input>` de busca + Enter → carregue `/comments` → filtre por `name` contendo o termo → liste resultados.
+26. Botão “Carregar Álbum + Fotos”. Carregue `/albums/3` → depois `/albums/3/photos` → título + 4 miniaturas.
+27. `<select>` “Posts / Comments / Albums” → carregue recurso correspondente → tabela com colunas diferentes por tipo.
+28. Botão “Carregar e Ordenar”. `/users` → ordene por nome → `<ol>` com nome + cidade (`address.city`).
+29. Formulário busca TODO por ID → carregue `/todos/{id}` → atualize título, status (cor) + botão “Marcar como feito” (PUT simulado).
+30. Botão “Atualizar Dashboard”. 3 requisições paralelas (users, posts, todos) → 3 cards com contagens totais.
+31. “Like” em post estático → POST `/comments` → atualize contador de likes (simulado +1).
+32. `<input>` “Pesquisar usuário” com debounce 500ms → `/users` filtrado por nome → sugestões em dropdown.
+33. Botão “Carregar Galeria”. `/photos` (limite 8) → grid clicável → ao clicar, mostra imagem maior abaixo.
+34. `<select>` “Inicial da Cidade” → filtre `/users` cujo `address.city` comece com a letra escolhida.
+35. Formulário “Editar Post”: carregue `/posts/5`, preencha, salve com PUT → mostre “Post atualizado!” + título novo.
+36. Botão “Carregar Timeline Mista”: posts + comments → intercale em uma única lista.
+37. Botão “Modo Noturno” → carregue `tema.json` (`{"cor": "#333", "texto": "#fff"}`) → aplique `style` no `body`.
+38. Mini-chat: botão “Enviar” → POST `/comments` → adicione mensagem imediatamente em `<ul id="chat">`.
+39. `<select>` “Álbum” (1–10) → título + carrossel simples de 3 fotos com setas (controle por índice).
+40. Botão “Atualizar Tudo”: 4 requisições → atualize header, sidebar, main e footer com conteúdos distintos.
+
+#### Difícil
+
+1. Botão “Carregar Posts com Progresso”. Mostre `<progress>` via `onprogress`. Em erro, mensagem vermelha + “Tentar novamente”.
+2. “Infinite Scroll” simulado: botão “Carregar mais” → `/posts?_page=X&_limit=5` → adicionar ao final → desabilitar após página 5.
+3.  Botão “Cancelar Requisição”: inicie GET longa → mostre “Carregando…” → botão cancelar com `xhr.abort()` → status “Cancelado”.
+4.  Formulário “Criar Usuário” com validação → POST → sucesso: atualizar tabela + toast com ID; erro: mensagem específica.
+5.  Buscador avançado: nome + email → duas requisições sequenciais → juntar resultados → cards com nome + último comentário.
+6.  “Editor de Perfil em Tempo Real”: `blur` em campo → PATCH `/users/1` com campo alterado → atualizar navbar (avatar + nome).
+7.  3 abas (Posts, Todos, Fotos) → ao trocar aba: `abort()` requisição anterior + loader específico + novo conteúdo.
+8.  “Jogo de Memória com API”: 6 cards → clique carrega foto aleatória de `/photos` → comparar `thumbnailUrl` → marcar par + pontuação.
+9.  “Notificações Simuladas”: botão simular → GET `/todos` → notificação aleatória no topo (fade-in) + botão “Marcar como lida”.
+10. **Projeto Final – Dashboard Completo**  
+    - Botão “Atualizar Dashboard Completo”  
+    - 4 requisições paralelas (users, posts, todos, photos)  
+    - Atualizar: contador usuários, feed posts, tarefas pendentes, galeria 4 fotos  
+    - Tratamento de erro individual por seção + botão “Recarregar apenas esta seção” nos cards com falha
+11. **Upload com Porcentagem:** Implemente o envio de um arquivo via `FormData` e XHR, mostrando a porcentagem textual da subida em tempo real.
+12. **Busca com Debounce:** Implemente um campo de busca que só dispara o AJAX 500ms após o usuário parar de digitar, atualizando os resultados no HTML.
+13. **Sistema de Paginação:** Crie botões "Anterior" e "Próximo" que limpam a tela e carregam o próximo conjunto de dados da API.
+14. **Polling de Notificações:** Crie uma função que a cada 10 segundos verifica novos dados na API e atualiza um contador de "Notificações" no topo da página.
+15. **Botão de Retry:** Se a requisição falhar por erro de conexão, exiba um botão no HTML que permite ao usuário tentar disparar o mesmo AJAX novamente.
+16. **Sincronização de Cliques:** Permita "curtir" vários itens. O HTML deve mudar a cor do botão imediatamente (UI otimista), mas voltar à cor original se o AJAX falhar.
+17. **Leitor de RSS/XML:** Consuma um arquivo XML, percorra os nós usando `responseXML` e gere um layout de notícias dinâmico.
+18. **Destaque de Mudanças:** Ao atualizar uma lista de preços via AJAX, aplique uma classe CSS de animação apenas nas células cujos valores mudaram.
+19. **Skeleton Screen:** Insira blocos cinzas pulsantes no HTML antes de iniciar o AJAX e remova-os apenas quando os dados reais forem renderizados.
+20. **Requisições Encadeadas:** Busque um post e, usando o `userId` retornado, faça uma segunda requisição para buscar o nome do autor, exibindo ambos juntos no final.

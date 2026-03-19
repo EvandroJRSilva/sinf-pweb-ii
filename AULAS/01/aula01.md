@@ -76,4 +76,4 @@ A Notação de Pé de Galinha é mais associada à **fase lógica**. É mais "li
 
 Comparativo das estruturas:
 
-![](imagens/figura01.png)s
+![](imagens/figura01.png)

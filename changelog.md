@@ -1,0 +1,7 @@
+- 2026.1.5
+  - Criação do arquivo `changelog.md`
+  - AULAS/01/
+    - Pequeno ajuste no arquivo aula01.md
+  - AULAS/05/
+    - Atualização do arquivo aula05.md
+    - Acréscimo de arquivos de imagens e de exemplos.
