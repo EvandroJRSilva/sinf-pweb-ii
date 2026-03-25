@@ -1,195 +1,170 @@
 # Aula 06
 
-## HTTP vs. HTTPS [^1]
+## [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API)
 
-[^1]: [Wikipedia - HTTPS](https://en.wikipedia.org/wiki/HTTPS).
+Muitas vezes uma aplicação web precisa **guardar informações do usuário**:  
 
-### HTTP (*Hypertext Transfer Protocol*)
+- Preferências (tema claro/escuro, idioma).  
+- Dados de login e autenticação.  
+- Itens de um carrinho de compras.  
 
-- RFCs
-  - [1945 - HTTP/1.0](https://www.rfc-editor.org/rfc/rfc1945).
-  - [9110 - HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110.html).
-  - [9112 - HTTP/1.1](https://www.rfc-editor.org/rfc/rfc9112).
-  - [9113 - HTTP/2](https://www.rfc-editor.org/rfc/rfc9113).
-  - [9114 - HTTP/3](https://www.rfc-editor.org/rfc/rfc9114).
-- **Porta padrão**: 80.
-  
-<!-- O HTTP consiste em uma **família** de **protocolos sem estado**, de **requisição/resposta**, e da **Camada de Aplicação**, que compartilham uma interface genérica, semântica extensível e mensagens auto-descritivas para permitir uma interação flexível com sistemas de informação com hipertexto e baseado na rede.
+Existem três mecanismos principais para isso:  
+1. **Cookies** – armazenamento leve, também acessível pelo servidor.  
+2. **sessionStorage** – dados temporários, válidos apenas enquanto a aba/janela está aberta.  
+3. **localStorage** – dados persistentes, mantidos mesmo após fechar o navegador.
 
-O HTTP oculta os detalhes de como um serviço é implementado ao apresentar uma interface uniforme a clientes, a qual é independente dos tipos de recurso providos. Da mesma forma, os servidores não precisam estar cientes do contexto do cliente: uma requisição pode ser considerada de forma isolada em vez de ser associada com um tipo específico de cliente ou uma sequência predeterminada de etapas de uma aplicação. Isso permite que implementações de propósito geral sejam usadas eficazmente em variados contextos, a complexidade de interação seja reduzida, e permite evolução indepentente ao logo do tempo.
+### Cookies (HTTP)
 
-O HTTP foi também planejado para ser usado como protocolo de intermediação, no qual proxies e gateways podem traduzir sistemas de informação além do HTTP em uma interface mais genérica.
+Um [cookie HTTP](https://datatracker.ietf.org/doc/html/rfc6265#section-5.4) (um cookie web ou cookie de navegador) é um **pequeno fragmento de dados** que um servidor envia para o navegador do usuário. O navegador pode armazenar estes dados e enviá-los de volta na próxima requisição para o mesmo servidor. Normalmente é utilizado para identificar se duas requisições vieram do mesmo navegador — ao manter um usuário logado, por exemplo. Ele guarda informações dinâmicas para o protocolo HTTP sem estado.
 
-Uma consequência dessa flexibilidade é que o protocolo não pode ser definido em termos de o que acontece atrás da interface. Em vez disso, sua conceituação é limitada em definição da sintaxe de comunicação, a intenção da comunicação recebida e o comportamente esperado dos recipientes. Se a comunicação é considerada de forma isolada, então ações bem sucedidas devem refletir-se em mudanças correspondentes na interface observável fornecida pelos servidores. Entretanto, uma vez que clientes podem agir em paralalo e, talvez, com propósitos opostos, não é possível exigir que tais mudanças sejam observáveis alpem do escopo de uma única resposta. -->
+Cookies são usados principalmente para três propósitos:
 
-O HTTP é um protocolo da camada de aplicação do modelo TCP/IP (Internet) para sistemas de informação colaborativos, distribuídos e hipermídia.
+1. **Gerenciamento de sessão**: Logins, carrinhos de compra, placar de jogos ou qualquer outra atividade que deva ser guardada por um servidor.
+2. **Personalização**: Preferências de usuário, temas e outras configurações.
+3. **Rastreamento**: Registro e análise do comportamento de um usuário.
 
-Seu desenvolvimento foi iniciado por Tim Berners-Lee em 1989, no CERN, e resumido em um documento simples com a descrição de um cliente e um servidor usando a primeira versão, 0.9, do HTTP.
+#### Funcionamento básico
 
-Em 1996 o HTTP/1 é finalizado e documentado, mas continha a desvantagem de necessitar de um conexão TCP separada para cada requisição de recurso. A nova versão, HTTP/1.1 permitiu o reuso de uma mesma conexão TCP para múltiplas requisições de recursos. Essa versão foi sendo atualizada ao longo do tempo.
+1. Ao receber uma requisição HTTP, um servidor pode enviar um cabeçalho [Set-Cookie](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Reference/Headers/Set-Cookie) com a resposta. 
+2. O navegador armazena o cookie e o envia (dentro do [cabeçalho HTTP](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Reference/Headers/Cookie)) em todas as novas requisições feitas para o mesmo servidor.
 
-Em 2015 foi apresentado o HTTP/2, uma revisão da versão anterior, com as seguintes diferenças:
+Exemplo do cabeçalho de uma Resposta HTTP:
 
-- Representação binária e comprimida dos metadados (ou seja, do cabeçalho).
-- Utilização de uma única conexão (normalmente criptografada) TCP por domínio de servidor, em vez de 2 a 8, como era antes.
-- Uso de um ou mais fluxos bidirecionais por conexão TCP, no qual requisições e respostas HTTP são divididas e transmitidas em pacotes pequenos.
-- Capacidade de aplicações no lado do servidor enviarem dados aos clientes sempre que novos dados estejam disponíveis, evitando forçar os clientes a requisitarem novos dados periodicamente.
+```
+HTTP/1.0 200 OK
+Content-type: text/html
+Set-Cookie: yummy_cookie=choco
+Set-Cookie: tasty_cookie=strawberry
 
-Mais recentemente, em 2022, foi disponibilizado o HTTP/3, cuja principal diferença se dá no uso dos protocolos QUIC + UDP na camada de transporte, no lugar do TCP que é utilizado por padrão nas versões anteriores.
+[conteúdo da página]
+```
 
-### HTTPS (*HTTP Secure*)
+Exemplo do cabeçalho de uma Requisição HTTP:
 
-- RFCs
-  - [2818 - HTTP Over TLS](https://datatracker.ietf.org/doc/html/rfc2818).
-  - [9110 - HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110.html).
-- **Porta padrão**: 443.
+```
+GET /sample_page.html HTTP/1.1
+Host: www.example.org
+Cookie: yummy_cookie=choco; tasty_cookie=strawberry
+```
 
-O HTTPS (*HTTP Secure*) é uma extensão do HTTP que fornece segurança na comunicação com o uso de criptografia através dos protocolos **SSL** (*Secure Sockets Layer*) ou **TLS** (*Transport Layer Security*).
+Por que se contentar com o exemplo acima, se podemos ver de verdade?
 
-Os principais motivos para o uso do HTTPS são a **autenticação do site acessado** e a **proteção da privacidade e integridade dos dados transmitidos**, enquanto estão em trânsito. A autenticação de um site/servidor requer um certificado digital de um terceiro confiável. De início, obter essa autenticação era uma operação cara e, por causa disso, somente sites que envolviam transações financeiras tinham conexões HTTPS. Hoje em dia é possível obter o certificado de forma gratuita (exemplo: [AWS Certificate Manager](https://aws.amazon.com/pt/certificate-manager/)).
+#### [Diretivas](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Reference/Headers/Set-Cookie#diretivas)
 
-## Certificados digitais [^2]
+As diretivas são as "configurações" ou "parâmetros" utilizados no `Set-Cookie`. A seguir, **algumas** diretivas:
 
-[^2]: [Wikipedia - TLS + SSL](https://en.wikipedia.org/wiki/Transport_Layer_Security) e [AWS - O que é um certificado SSL/TSL](https://aws.amazon.com/what-is/ssl-certificate/)?.
+- `Expires=<data>` (opcional)
+  - Um timestamp que determina o tempo de vida máximo de um cookie. Se não for especificado, o cookie só vai existir durante a sessão.
+- `Max-Age=<digito-diferente-0>` (opcional)
+  - Número de segundos até o cookie expirar. Tem precedência sobre o Expires.
+- `Secure` (opcional)
+  - Um cookie seguro apenas será enviado para o servidor quando uma requisição utilizando os protocol SSL e HTTPS for realizada.
+- `HttpOnly` (opcional)
+  - Torna o cookie inacessível via JavaScript através da propriedade `Document.cookie`.
 
-- RFCs
-  - [6101 - Secure Sockets Layer (SSL) Protocol Version 3.0](https://datatracker.ietf.org/doc/rfc6101/).
-  - [6176 - Prohibiting Secure Sockets Layer (SSL) Version 2.0](https://datatracker.ietf.org/doc/rfc6176/).
-  - [7568 - Deprecating Secure Sockets Layer Version 3.0](https://datatracker.ietf.org/doc/rfc7568/).
-  - [2246 - The TLS Protocol](https://datatracker.ietf.org/doc/html/rfc2246).
-  - [4346 - The Transport Layer Security (TLS) Protocol Version 1.1](https://datatracker.ietf.org/doc/html/rfc4346).
-  - [5246 - he Transport Layer Security (TLS) Protocol Version 1.2](https://datatracker.ietf.org/doc/html/rfc5246).
-  - [8446 - The Transport Layer Security (TLS) Protocol Version 1.3](https://datatracker.ietf.org/doc/html/rfc8446).
+**[EXEMPLO](./exemplos/cookies.html)**
 
-Um **certificado SSL/TLS** é um **objeto digital** que permite que os sistemas verifiquem a identidade e, posteriormente, estabeleçam uma conexão de rede criptografada com outro sistema usando o protocolo *Secure Sockets Layer*/*Transport Layer Security* (SSL/TLS). 
+### sessionStorage e localStorage
 
-Os certificados são usados em um sistema de criptografia conhecido como *Public Key Infrastructure* (**PKI** – Infraestrutura de chave pública). O sistema **PKI** permite que uma parte estabeleça a identidade de outra usando certificados, se ambas confiarem em um terceiro, conhecido como **autoridade de certificado**. Os certificados SSL/TLS atuam, portanto, como cartões de identidade digital para proteger as comunicações de rede e estabelecer a identidade de sites na Internet e de recursos em redes privadas.
+- `sessionStorage` mantém as informações armazenadas por origem e permanece disponível enquanto há uma sessão aberta no navegador (mesmo a página sendo recarregada). Caso o browser seja fechado a sessão será limpa e as informações serão perdidas.
+- `localStorage` mesmo que o navegador seja fechado, os dados permanecem armazenados.
 
-As características de uma página da Web protegida por SSL/TLS são:
+Esses mecanismos estão disponíveis a partir das seguintes propriedades [`Window.sessionStorage`](https://developer.mozilla.org/pt-BR/docs/Web/API/Window/sessionStorage)  e [`Window.localStorage`](https://developer.mozilla.org/pt-BR/docs/Web/API/Window/localStorage) (para um maior suporte, o objeto Window implementa os objetos Window.LocalStorage e Window.SessionStorage) — ao invocar uma dessas propriedades, é criada uma instância do objeto [`Storage`](https://developer.mozilla.org/pt-BR/docs/Web/API/Storage), que fornece métodos para inserir, recuperar e remover os dados. Sempre será utilizado um **objeto diferente para cada origem** de `sessionStorage` e `localStorage`, dessa forma o controle de ambos é realizado de forma separada.
 
-- Um prefixo **https** no endereço do site no navegador.
-- Um ícone de cadeado e uma barra de endereço verde no navegador da Web.
-  - É possível verificar se o certificado SSL/TLS é válido clicando e expandindo o ícone de cadeado na barra de endereço URL.
+#### Interfaces
 
-### Criptografia
+- [`Storage`](https://developer.mozilla.org/pt-BR/docs/Web/API/Storage): Permite que você insira, recupere e remova dados de um domínio no storage(session ou local).
+- [`Window`](https://developer.mozilla.org/pt-BR/docs/Web/API/Window): A API de Web Storage estende o objeto [`Window`](https://developer.mozilla.org/pt-BR/docs/Web/API/Window) com duas novas propriedades — [`Window.sessionStorage`](https://developer.mozilla.org/pt-BR/docs/Web/API/Window/sessionStorage) e [`Window.localStorage`](https://developer.mozilla.org/pt-BR/docs/Web/API/Window/localStorage) — fornecendo acesso à sessão do domínio atual e local para o objeto [`Storage`](https://developer.mozilla.org/pt-BR/docs/Web/API/Storage) respectivamente.
+- [`StorageEvent`]([`Storage`](https://developer.mozilla.org/pt-BR/docs/Web/API/Storage)): Um evento de storage é chamado em um objeto window do documento quando ocorre uma mudança no storage.
 
-A criptografia SSL/TLS possui duas chaves diferentes para criptografar e descriptografar uma mensagem: 
+**EXEMPLOS**: [sessionStorate](./exemplos/sessionStorage.html) e [localStorage](./exemplos/localStorage.html).
 
-- **Chave pública**: é uma chave criptográfica que o servidor Web fornece ao navegador no certificado SSL/TLS. O navegador usa a chave para criptografar as informações antes de enviá-las ao servidor Web.
-- **Chave privada**: Somente o servidor Web tem a chave privada. Um arquivo criptografado pela chave privada só pode ser descriptografado pela chave pública, e vice-versa. Se a chave pública puder descriptografar apenas o arquivo que foi criptografado pela chave privada, a capacidade de descriptografar esse arquivo garante que o destinatário e o remetente pretendidos sejam quem afirmam ser.
+### Comparação entre os métodos
 
-### Autenticação
+| Mecanismo          | Duração        | Acessível pelo servidor | Capacidade | Uso típico                   |
+| ------------------ | -------------- | ----------------------- | ---------- | ---------------------------- |
+| **Cookies**        | Até expirar    | ✅ Sim                   | \~4 KB     | Autenticação, sessões, login |
+| **sessionStorage** | Até fechar aba | ❌ Não                   | \~5 MB     | Dados temporários de sessão  |
+| **localStorage**   | Persistente    | ❌ Não                   | \~5 MB     | Preferências, dados offline  |
 
-O servidor envia a chave pública no certificado SSL/TLS ao navegador. O navegador verifica o certificado de um terceiro confiável. Consequentemente, ele consegue verificar se o servidor Web é quem afirma ser.
+## [`Fetch API`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 
-### Assinatura digital
+Usa objetos [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) e [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) (e outras coisas e conceitos envolvidas nas requisições de redes, as quais não são nosso objetivo por enquanto).
 
-A assinatura digital é um número exclusivo para cada certificado SSL/TLS. O destinatário gera uma nova assinatura digital e a compara à assinatura original para verificar se terceiros não adulteraram o certificado enquanto ele percorria a rede.
+Para fazer uma requisição de um recurso é usado o método [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch). Esse método tem apenas um argumento mandatório (a URL do recurso) e returna um objeto [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) que se resolve em um objeto [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) para a respectiva requisição.
 
-### Autoridades de certificação
+### `Promise`
 
-A **autoridade de certificação** (**CA** - *Certificate authority*) é uma organização que vende certificados SSL/TLS para proprietários da Web, empresas de hospedagem na Web ou empresas. 
+Um objeto [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) é um proxy para um valor que não é necessariamente conhecido no momento em que a promessa (*promise*) é criada. Ela permite associar manipuladores (*handlers*) ao valor de sucesso ou ao motivo da falha de uma ação assíncrona. Isso permite que métodos assíncronos retornem valores como métodos síncronos: em vez de retornar imediatamente o valor final, o método assíncrono retorna uma promessa para fornecer o valor em algum momento futuro.
 
-A CA valida os detalhes do domínio e do proprietário antes de emitir o certificado SSL/TLS. **Para ser uma CA**, a organização **deve atender** a: 
+Uma `Promise` está em um dos seguintes estados:
 
-- Requisitos específicos definidos pelo sistema operacional, pelos navegadores ou pela empresa de dispositivos móveis; e
-- Se inscrever para ser listada como uma autoridade de certificação raiz. 
- 
-Algumas autoridades (CAs), e como está no mercado ([levantamento feito pela w3techs](https://w3techs.com/technologies/overview/ssl_certificate)):
+- *pending*: estado inicial, nem cumprido (*fulfilled*) nem rejeitado (*rejected*).
+- *fulfilled*: quando a operação foi concluída com sucesso.
+- *rejected*: quando a operação falha.
 
-| Empresa | Uso | Market share |
-|---------|-----|--------------|
-| Let's Encrypt | 60,1% | 63,6% |
-| GlobalSign | 22% | 23,3% |
-| Sectigo | 6,3% | 6,7% |
-| GoDaddy Group | 3,8% | 4% |
-| DigiCert Group | 1,9% | 2% |
-| Actalls | 0,6% | 0,7 % |
-| Certum | 0,5 % | 0,6 % |
-| Secom Trust | 0,3% | 0,3 % |
-| SSL.com | 0,1% | 0,1% |
+A partir do estado *pending* uma `promise` pode ser tanto cumprida (*fulfilled*) quanto rejeitada (*rejected*). Quando uma dessas opções acontece os manipuladores associados, encadeados pelo método [`then`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) são chamados.
 
-### Validade
+Uma `promise` é considerada *resolvida* se for cumprida ou rejeitada, mas não pendente.
 
-Um certificado SSL/TLS tem um período de validade máximo de 13 meses, valor esse que foi sendo reduzido gradualmente ao longo dos anos para reduzir riscos de segurança.
+<figure style="text-align:center;">
+  <img src="./imagens/promises.png">
+</figure>
 
-Quando o certificado SSL/TLS expira, os visitantes da Web recebem um aviso no navegador informando que o site não é seguro.
+Sintaxe de uma `promise`:
 
-### Informações incluídas em um certificado SSL/TLS
+```javascript
+const promise = new Promise((resolve, reject) => {
+  // Código assíncrono aqui
+  if (/* operação bem sucedida */) {
+    resolve("Suuuuuuuuucessooooooo!");
+  } else {
+    reject("Algo de errado não está certo.");
+  }
+});
+```
 
-- Nome de domínio.
-- Autoridade de certificação.
-- Assinatura digital da autoridade de certificação.
-- Data de emissão.
-- Data de validade.
-- Chave pública.
-- Versão SSL/TLS.
+#### `Promises` em cadeia
 
-TLS significa segurança da camada de transporte. É um sucessor e uma continuação do protocolo SSL/TLS versão 3.0. Existem apenas pequenas diferenças técnicas entre o SSL/TLS e o TLS. Como o SSL/TLS, o TLS fornece um canal de transmissão de dados criptografados entre um navegador e o servidor Web. Os certificados SSL/TLS modernos usam o protocolo TLS em vez de SSL/TLS, mas SSL/TLS continua sendo um acrônimo bastante usado pelos especialistas em segurança. Embora não seja exatamente o mesmo, os termos SSL e TLS são comumente usados para se referir à mesma coisa. Também podem se referir ao protocolo de criptografia criptográfica como SSL/TLS.
+Os métodos [`then`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then), [`catch`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch) e [`finally`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally) são usados para associar uma ação adicional com uma `promise` que se torna resolvida.
 
-### Como funciona o certificado
+O método [`then`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) aceita **até** dois argumentos:
 
-Os navegadores usam o certificado SSL/TLS para iniciar uma conexão segura com o servidor Web por meio do handshake SSL/TLS. O handshake SSL/TLS faz parte da tecnologia de comunicação do protocolo seguro de transferência de hipertexto (HTTPS). É uma combinação de HTTP e SSL/TLS. O HTTP é um protocolo que os navegadores da Web usam para enviar informações em texto simples a um servidor Web. O HTTP transmite dados não criptografados, ou seja, as informações enviadas de um navegador podem ser interceptadas e lidas por terceiros. Os navegadores usam HTTP com SSL/TLS ou HTTPS para proporcionar uma comunicação totalmente segura.
+- `onfulfilled`: função de retorno de chamada para o caso cumprido da `promise`.
+- `onrejected`: função de retorno de chamada para o caso rejeitado.
 
-#### *Handshake*
+Cada [`then`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) retorna um objeto de `promise` recém-gerado, que pode ser usado opcionalmente para encadeamento. Por exemplo:
 
-1. O navegador abre um site seguro por SSL/TLS e se conecta ao servidor da web.
-2. O navegador tenta verificar a autenticidade do servidor web solicitando informações identificáveis. 
-3. O servidor Web envia o certificado SSL/TLS que contém uma chave pública como resposta.
-4. O navegador verifica o certificado SSL/TLS, garantindo que ele seja válido e corresponda ao domínio do site. Quando o navegador estiver satisfeito com o certificado SSL/TLS, ele usará a chave pública para criptografar e enviar uma mensagem que contenha uma chave de sessão secreta.
-5. O servidor web usa sua chave privada para descriptografar a mensagem e recuperar a chave de sessão. Em seguida, ele usa a chave de sessão para criptografar e enviar uma mensagem de confirmação para o navegador.
-6. Agora, o navegador e o servidor da Web mudam para usar a mesma chave de sessão para trocar mensagens com segurança. 
+```javascript
+const minhaPromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("foo");
+  }, 300);
+});
 
-#### Chave de sessão
+minhaPromise
+  .then(handleFulfilledA)
+  .then(handleFulfilledB)
+  .then(handleFulfilledC)
+  .catch(handleRejectedAny);
+```
 
-Uma chave de sessão mantém a comunicação criptografada entre o navegador e o servidor Web após a conclusão da autenticação SSL/TLS inicial. A chave de sessão é uma chave de cifra para criptografia simétrica. A criptografia simétrica usa a mesma chave para criptografia e descriptografia. A criptografia assimétrica ocupa imenso poder de computação. Portanto, o servidor web alterna para criptografia simétrica que requer menos cálculos para manter uma conexão SSL/TLS.
+**EXEMPLOS**: [1](./exemplos/fetch-txt.html) e [2](./exemplos/fetch-json.html).
 
-### Tipos de certificados SSL/TLS
+#### Fetch com `async` e `await`
 
-Os certificados SSL/TLS diferem conforme a validação e o domínio. Certificados com diferentes níveis de validação são classificados como:
+Muitos programadores preferem utilizar `async` e `await`. Alguns dos possíveis motivos são que o código fica mais parecido com uma comunicação síncrona, e também fica mais limpo e legível. Basicamente:
 
-- Certificados de validação estendida
-- Certificados validados pela organização
-- Certificados validados por domínio
+- `async`: faz uma função retornar uma `Promise`.
+- `await`: pausa a execução de uma função `async` até que a `Promise` seja resolvida ou rejeitada.
 
-Os certificados SSL/TLS compatíveis com diferentes tipos de domínio são:
+**EXEMPLOS:** [1](./exemplos/async-await1.html) e [2](./exemplos/async-await2.html).
 
-- Certificado de domínio único
-- Certificado curinga
-- Certificado de vários domínios
+## Materiais interessantes
 
-#### Certificados de validação estendida
+- [Geeks for Geeks - Fetch API in JavaScript](https://www.geeksforgeeks.org/javascript/javascript-fetch-method/).
+- [Understanding Promises, Async/Await, and the Fetch API in JavaScript](https://medium.com/@walidelbourdiney25/understanding-promises-async-await-and-the-fetch-api-in-javascript-84b3ca37c3ee).
 
-O certificado de validação estendida (EV SSL/TLS) é um certificado digital que tem o mais alto nível de criptografia, validação e confiança. Ao solicitar um EV SSL/TLS, uma organização ou proprietário da Web é submetido a verificações rigorosas feitas por autoridades de certificação. Isso inclui a verificação do endereço comercial físico, o pedido de certificado adequado e os direitos exclusivos de uso do domínio.
+## Exercícios
 
-As empresas usam o EV SSL/TLS para proteger os usuários contra terceiros não autorizados. Isso é importante quando a empresa processa dados confidenciais no site, como transações financeiras e prontuários médicos. Um certificado EV SSL/TLS contém detalhes da organização comercial, que podem ser visualizados em um navegador.
-
-#### Certificados de validação da organização
-
-Os certificados de validação da organização (OV SSL/TLS) são inferiores aos EV SSL/TLS em termos de validação e confiança. Como os EV SSL/TLSs, as empresas devem passar por um processo de verificação ao solicitar o OV SSL/TLS. Embora o processo de verificação seja menos rigoroso, os candidatos devem provar a propriedade do domínio às autoridades de certificação.
-
-O certificado OV SSL/TLS contém informações comerciais validadas e pode ser inspecionado no navegador. Empresas comerciais e com atendimento direto ao público usam o certificado OV SSL/TLS para criar confiança entre os clientes. O OV SSL/TLS fornece criptografia robusta para proteger a privacidade dos clientes durante a navegação na Web.
-
-#### Certificados de validação de domínio
-
-Os certificados de validação de domínio (DV SSL/TLS) são certificados digitais que têm a validação mais baixa. Solicitá-los também custa menos. Diferentemente dos EV SLLs e dos OV SSL/TLSs, os solicitantes de certificados DV passam por um processo de verificação menos rigoroso. O solicitante comprova a propriedade do domínio respondendo a um e-mail de verificação ou telefonema.
-
-Um certificado DV não contém informações completas da organização ou empresa do solicitante. Portanto, não oferece total garantia aos usuários. Os certificados DV são adequados para sites informativos, como blogs. Não são ideais para gateways de pagamento, empresas de assistência médica ou outros sites que lidam com dados sigilosos.
-
-#### Certificados SSL/TLS de domínio único
-
-O certificado SSL/TLS de domínio único é um certificado SSL/TLS que protege apenas um domínio ou subdomínio. Um domínio é a URL ou endereço principal de um site, como amazon.com. Um subdomínio é um endereço da Web com uma extensão de texto que precede o domínio principal, como aws.amazon.com.
-
-Por exemplo, você pode usar um certificado SSL/TLS de domínio único em http://exemplo.com. No entanto, não é possível usar o certificado para http://exemplo.com e sub.example.com simultaneamente.
-
-#### Certificados SSL/TLS curinga
-
-O certificado SSL/TLS curinga é um certificado SSL/TLS que protege um domínio e todos os seus subdomínios. Por exemplo, você pode usar um certificado SSL/TLS curinga para proteger http://exemplo.com, blog.exemplo.com e shop.exemplo.com.
-
-#### Certificados SSL/TLS de vários domínios
-
-Os certificados de vários domínios também são conhecidos como certificados de comunicações unificadas. Um certificado SSL/TLS de vários domínios oferece proteção SSL/TLS para vários nomes de domínio hospedados no mesmo servidor ou em servidores diferentes com a mesma propriedade. Por exemplo, você compra um certificado de vários domínios para http://example1.com, domain2.co.uk,shop.business3.com e chat.message.au.
-
-### Acrescentando ao projeto
-
-Em uma pesquisa rápida no Google, são sugeridas [3 formas](https://www.google.com/search?q=how+to+use+ssl%2Ftls+encryption+for+a+college+work&client=ubuntu-sn&hs=fZL&sca_esv=f0ead55d09cdc2fd&channel=fs&sxsrf=AE3TifOIPhAo0XWxdWa8F8tasc1elH6luA%3A1761228664696&ei=eDf6aPOhKsbx1sQP-IDloA0&ved=0ahUKEwjzvbWHwLqQAxXGuJUCHXhAGdQQ4dUDCBA&uact=5&oq=how+to+use+ssl%2Ftls+encryption+for+a+college+work&gs_lp=Egxnd3Mtd2l6LXNlcnAiMGhvdyB0byB1c2Ugc3NsL3RscyBlbmNyeXB0aW9uIGZvciBhIGNvbGxlZ2Ugd29yazIFECEYoAEyBRAhGKABMgUQIRigATIFECEYoAFIoIoBULUKWPRYcAF4AZABAZgBxgOgAY0hqgEKMC4xMC43LjEuMbgBA8gBAPgBAZgCE6AC3R_CAgoQABiwAxjWBBhHwgIHEAAYgAQYE8ICCBAAGBMYFhgewgIIEAAYgAQYogTCAgUQABjvBcICBhAAGBYYHsICCBAAGBYYChgemAMAiAYBkAYIkgcKMS4xMC41LjIuMaAH81myBwowLjEwLjUuMi4xuAfXH8IHBjAuMTIuN8gHNg&sclient=gws-wiz-serp) de utilizar a criptografia SSL/TLS no projeto da disciplina.
+TODO
