@@ -11,3 +11,5 @@
     - Acréscimo de exemplos em exemplos/
     - Acréscimo de uma imagem em imagens/
     - Exclusão de arquivos antigos.
+- 2026.1.6.1
+  - Acrescentado o arquivo `exercícios_av1.html`
