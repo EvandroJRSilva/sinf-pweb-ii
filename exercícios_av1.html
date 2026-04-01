@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                background-color: #213567;
+                margin: 2% 20%;
+            }
+            
+            h1 {
+                color: white;
+                text-shadow: #cfd4e6 1px 1px 5px;
+            }
+
+            .questoes > li {
+                list-style-position: inside;
+                margin-bottom: 20px;
+                background-color: #badbff;
+                
+                /*display: flex;
+                flex-direction: column;
+                gap: 10px;*/
+
+                border: 1px solid;
+                border-color: lightgray;
+                border-radius: 5px;
+                box-shadow: 1px 2px 5px white;
+            }
+
+            .questoes > li::marker{
+                font-weight: bold;
+            }
+
+            /*.questoes > li > :first-child {
+                padding-top: 10px;
+            }*/
+            
+            .alternativa {
+                list-style-type: none;
+                padding-left: 20px;
+            }
+
+            .alternativa li::before {
+                content: counter(list-item, lower-alpha) ")";
+                position: absolute;
+                left: -20px;
+            }
+
+            .alternativa li {
+                position: relative;
+            }
+
+            .correta {
+                font-weight: bold;
+                font-size: 1.1em;
+                color: #0555ba;
+            }
+
+            pre {
+                color: white;
+                background-color: #5768a7;
+                margin-right: 45%;
+                padding: 3px 0px;
+                border: 2px solid;
+                border-color: #0f2882;
+                border-radius: 5px;
+            }
+
+            code {
+                font-family: monospace;
+                font-size: 1.3em;
+                color: white;
+                background-color: #613ba5;
+                padding: 0.1em 0.2em;
+                border-radius: 3px;
+            }
+
+            pre code {
+                color: unset;
+                background-color: unset;
+                padding: unset;
+            }
+
+            blockquote code {
+                padding: unset;
+            }
+
+            blockquote {
+                color: white;
+                background-color: #0f2882;
+                text-align: justify;
+                padding: 0px 10px;
+                border-left: #5768a7 10px solid;
+                border-right: #5768a7 10px solid;
+            }
+
+            button{
+                background-color: #cfd4e6;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--
+        Fontes para consulta:
+
+        - https://eloquentjavascript.net/11_async.html
+        - https://developer.mozilla.org/pt-BR/docs/conflicting/Learn/JavaScript/Asynchronous/Introducing
+        - https://developer.mozilla.org/pt-BR/docs/Learn_web_development/Extensions/Async_JS/Introducing
+        - https://developer.mozilla.org/pt-BR/docs/Web/API/Fetch_API
+        - https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Guides/Cookies
+        - https://developer.mozilla.org/en-US/docs/Web/API/Cookie_Store_API
+        - https://developer.mozilla.org/pt-BR/docs/Web/API/Web_Storage_API
+        -->
+        <h1 style="text-align: center;">Exercícios para AV1</h1>
+        <ol class="questoes">
+            <li>Qual das opções abaixo representa melhor a característica de uma operação assíncrona em JavaScript?
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>Bloqueia toda a execução até terminar.</li>
+                    <li>Executa em paralelo com outras linguagens compiladas.</li>
+                    <li id="1">Permite que o restante do código continue executando enquanto espera um resultado.</li>
+                    <li>Substitui completamente a execução síncrona.</li>
+                    <li>Sempre exige uso de <code>async/await</code>.</li>
+                </ol><br>
+                <button onclick=mostraResposta(1)>Mostrar resposta</button>
+            </li>
+            <li>Complete: O método <code>fetch()</code> retorna um objeto do tipo __________, que representa a resposta futura de uma operação de rede.
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>Callback.</li>
+                    <li id="2">Promise.</li>
+                    <li>Await.</li>
+                    <li>Storage.</li>
+                    <li>Cookie.</li>
+                </ol><br>
+                <button onclick=mostraResposta(2)>Mostrar resposta</button>
+            </li>
+            <li>Sobre <code>setTimeout()</code>:
+                <div style="padding-top: 10px;">
+                    (&emsp;) É uma função assíncrona.<br>
+                    (&emsp;) Executa imediatamente o código dentro dela.<br>
+                    (&emsp;) Pode ser usada para simular atraso em código.<br>
+                    (&emsp;) Sempre bloqueia a execução principal.<br>
+                    (&emsp;) Aceita dois argumentos principais: função e tempo.
+                </div>
+                <p><b>Alternativas:</b></p>
+                <ol class="alternativa">
+                    <li id="3">V, F, V, F, V</li>
+                    <li>F, V, F, V, F</li>
+                    <li>V, V, F, V, V</li>
+                    <li>V, F, V, V, V</li>
+                    <li>F, F, F, V, V</li>
+                </ol><br>
+                <button onclick=mostraResposta(3)>Mostrar resposta</button>
+            </li>
+            <li>Associe os termos à descrição correta:
+                <div style="white-space:nowrap; padding-top: 10px;">
+                    <ol style="display:inline-block;width:20%;">
+                        <li><b>Promise</b></li>
+                        <li><b>Callback</b></li>
+                        <li><b><code>fetch()</code></b></li>
+                        <li><b><code>await</code></b></li>
+                        <li><b>Cookies</b></li>
+                    </ol>
+                    <div style="display:inline-block;width:50%;">
+                    (&emsp;) Forma tradicional de lidar com comunicação assíncrona antes de Promises.<br>
+                    (&emsp;) Mecanismo de persistência enviado junto em requisições HTTP.<br>
+                    (&emsp;) Função moderna para requisições de rede.<br>
+                    (&emsp;) Palavra-chave para pausar até resolver Promise.<br>
+                    (&emsp;) Objeto que representa valor futuro.<br>
+                    </div>
+                </div><br>
+                <ol class="alternativa">
+                    <li>1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 5</li>
+                    <li>2 &rarr; 3 &rarr; 4 &rarr; 1 &rarr; 5</li>
+                    <li>1 &rarr; 3 &rarr; 2 &rarr; 5 &rarr; 4</li>
+                    <li>3 &rarr; 1 &rarr; 4 &rarr; 2 &rarr; 5</li>
+                    <li id="4">2 &rarr; 5 &rarr; 3 &rarr; 4 &rarr; 1</li>
+                </ol><br>
+                <button onclick=mostraResposta(4)>Mostrar resposta</button>
+            </li>
+            <li>Analise as afirmativas a seguir
+                <blockquote>Cookies podem ser enviados automaticamente em requisições HTTP.</blockquote>
+                <p style="font-weight: bold;padding-left: 250px;">PORQUE</p>
+                <blockquote>O navegador inclui cookies associados ao domínio ao enviar uma requisição.</blockquote>
+                <ol class="alternativa">
+                    <li id="5">Asserção verdadeira, razão verdadeira, e a razão justifica.</li>
+                    <li>Asserção verdadeira, razão verdadeira, mas a razão não justifica.</li>
+                    <li>Asserção verdadeira, razão falsa.</li>
+                    <li>Asserção falsa, razão verdadeira.</li>
+                    <li>Ambas falsas.</li>
+                </ol><br>
+                <button onclick=mostraResposta(5)>Mostrar resposta</button>
+            </li>
+            <li>Qual método da <code>Fetch API</code> converte uma resposta JSON em objeto JavaScript?
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li><code>response.text()</code></li>
+                    <li id="6"><code>response.json()</code></li>
+                    <li><code>response.body()</code></li>
+                    <li><code>JSON.parse()</code></li>
+                    <li><code>fetch.json()</code></li>
+                </ol><br>
+                <button onclick=mostraResposta(6)>Mostrar resposta</button>
+            </li>
+            <li>Quais das opções abaixo são <b>vantagens do uso de Promises</b> em comparação a callbacks?
+                <ol style="list-style-type: upper-roman; 
+                list-style-position: inside;padding-top: 10px;">
+                    <li>Tratamento de erro simplificado com <code>.catch()</code>></li>
+                    <li>Melhor leitura de código</li>
+                    <li>Encadeamento de operações assíncronas</li>
+                    <li>Sempre execução mais rápida que callbacks</li>
+                    <li>Evitam <i>callback hell</i></li>
+                </ol>
+                <p><b>Alternativas:</b></p>
+                <ol class="alternativa">
+                    <li id="7">I, II, III, V</li>
+                    <li>I, III, IV</li>
+                    <li>II, IV, V</li>
+                    <li>I, II, IV, V</li>
+                    <li>Todas as alternativas</li>
+                </ol><br>
+                <button onclick=mostraResposta(7)>Mostrar resposta</button>
+            </li>
+            <li>Observer o código a seguir:<br>
+                <pre><code>console.log("Início")
+setTimeout(() => console.log("Assíncrono"), 0);
+console.log("Fim");</code></pre>
+                <p>Qual será a saída no console?</p>
+                <ol class="alternativa">
+                    <li>Início &rarr; Assíncrono &rarr; Fim</li>
+                    <li>Assíncrono &rarr; Início &rarr; Fim</li>
+                    <li id="8">Início &rarr; Fim &rarr; Assíncrono</li>
+                    <li>Fim &rarr; Início &rarr; Assíncrono</li>
+                    <li>Ordem imprevisível</li>
+                </ol><br>
+                <button onclick=mostraResposta(8)>Mostrar resposta</button>
+            </li>
+            <li>Ordene as etapas de uma requisição <code>fetch()</code> até consumir os dados JSON:<br>
+                <div style="padding-top: 10px;">
+                    (&emsp;) Obter objeto Promise da chamada <code>fetch()</code>.<br>
+                    (&emsp;) Usar <code>.json()</code> na resposta.<br>
+                    (&emsp;) Esperar resolução da Promise.<br>
+                    (&emsp;) Usar os dados convertidos.<br>
+                </div><br>
+                <ol class="alternativa">
+                    <li id="9">1 → 3 → 2 → 4</li>
+                    <li>1 → 2 → 3 → 4</li>
+                    <li>2 → 1 → 3 → 4</li>
+                    <li>3 → 1 → 4 → 2</li>
+                    <li>4 → 3 → 2 → 1</li>
+                </ol><br>
+                <button onclick=mostraResposta(9)>Mostrar resposta</button>
+            </li>
+            <li>Ao chamar <code>fetch(url)</code>, qual é o comportamento padrão da Promise retornada quando o servidor responde com um status HTTP 404?
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>A Promise é rejeitada automaticamente.</li>
+                    <li id="10">A Promise é resolvida e a <code>Response</code> tem <code>ok === false</code>.</li>
+                    <li>A Promise lança uma exceção síncrona.</li>
+                    <li>A Promise se transforma em um objeto <code>Error</code>.</li>
+                    <li>O navegador recarrega a página automaticamente.</li>
+                </ol><br>
+                <button onclick=mostraResposta(10)>Mostrar resposta</button>
+            </li>
+            <li>Complete: o método <code>response.json()</code> do objeto <code>Response</code> retorna uma __________ que produz o objeto JavaScript quando o corpo for convertido de JSON.
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>callback</li>
+                    <li id="11">Promise</li>
+                    <li>string síncrona</li>
+                    <li>Error</li>
+                    <li>iterador</li>
+                </ol><br>
+                <button onclick=mostraResposta(11)>Mostrar resposta</button>
+            </li>
+            <li>Quais das opções a seguir representam <b>formas corretas</b> de tratar o resultado de uma Promise do <code>fetch</code> para obter o JSON?
+                <ol style="list-style-type: upper-alpha; padding-top: 10px;">
+                    <li><code>{ fetch(...).then(r => r.json()).then(data => /* usar data */) }</code></li>
+                    <li><code>{ const r = fetch(...); const data = r.json(); /* usar data */ }</code></li>
+                    <li><code>{ const r = await fetch(...); const data = await r.json(); }</code></li>
+                    <li><code>{ fetch(...).json().then(data => /* usar data */) }</code></li>
+                    <li><code>{ JSON.parse(fetch(...)) }</code></li>
+                </ol><br>
+                <ol class="alternativa">
+                    <li id="12">A e C apenas</li>
+                    <li>B e D apenas</li>
+                    <li>A, C e D</li>
+                    <li>C e E apenas</li>
+                    <li>Todas as alternativas</li>
+                </ol><br>
+                <button onclick=mostraResposta(12)>Mostrar resposta</button>
+            </li>
+            <li>Associe cada termo à sua definição (coloque a alternativa que contém a associação correta):
+                <div style="white-space:nowrap; padding-top: 10px;">
+                    <ol style="display: inline-block;width: 20%;">
+                        <li><code>async/await</code></li>
+                        <li><code>callback</code></li>
+                        <li><code>fetch</code></li>
+                        <li><code>localStorage</code></li>
+                        <li><code>HttpOnly</code> (em cookies)</li>
+                    </ol>
+                    <ol style="display: inline-block;width: 40%;list-style-type: upper-alpha;">
+                        <li>Marca que impede que JavaScript no cliente acesse o cookie.</li>
+                        <li>API para requisições HTTP no navegador que retorna Promises.</li>
+                        <li>Mecanismo antigo para passar uma função que é invocada quando algo termina.</li>
+                        <li>Sintaxe que permite escrever código assíncrono com aparência síncrona.</li>
+                        <li>Armazenamento chave/valor persistente no browser (por origem).</li>
+                    </ol>
+                </div><br>
+                <ol class="alternativa">
+                    <li id="13">1–D, 2–C, 3–B, 4–E, 5–A</li>
+                    <li>1–C, 2–D, 3–A, 4–B, 5–E</li>
+                    <li>1–B, 2–A, 3–D, 4–C, 5–E</li>
+                    <li>1–E, 2–D, 3–C, 4–B, 5–A</li>
+                    <li>1–A, 2–B, 3–C, 4–D, 5–E</li>
+                </ol><br>
+                <button onclick=mostraResposta(13)>Mostrar resposta</button>
+            </li>
+            <li>Analise as afirmativas a seguir (<b>A</b> - asserção; <b>R</b> - razão):
+                <blockquote><code>async/await</code> torna o tratamento de erros mais direto porque permite usar <code>try/catch</code>.</blockquote>
+                <p style="font-weight: bold;padding-left: 250px;">PORQUE</p>
+                <blockquote>O navegador inclui cookies associados ao domínio ao enviar uma requisição.</blockquote>
+                <ol class="alternativa">
+                    <li><b>A</b> e <b>R</b> verdadeiras, <b>R</b> justifica <b>A</b>.</li>
+                    <li><b>A</b> e <b>R</b> verdadeiras, <b>R</b> não justifica <b>A</b>.</li>
+                    <li id="14"><b>A</b> verdadeira, <b>R</b> falsa.</li>
+                    <li><b>A</b> falsa, <b>R</b> verdadeira.</li>
+                    <li><b>A</b> e <b>R</b> falsas.</li>
+                </ol><br>
+                <button onclick=mostraResposta(14)>Mostrar resposta</button>
+            </li>
+            <li>Coloque em ordem o fluxo típico ao usar <code>fetch</code> com <code>.then</code> para obter e usar JSON:<br>
+                <div style="padding-top: 10px;">
+                    (&emsp;) Chamar <code>fetch(url)</code> → retorna Promise.<br>
+                    (&emsp;) Chamar <code>.then(response => response.json())</code>.<br>
+                    (&emsp;) Chamar <code>.then(data => /* usar dados */)</code>.<br>
+                    (&emsp;) (Opcional) chamar <code>.catch(...)</code> para tratar erros de rede ou exceções.<br><br>
+                </div>
+                <ol class="alternativa">
+                    <li id="15">1 → 2 → 3 → 4</li>
+                    <li>2 → 1 → 3 → 4</li>
+                    <li>1 → 3 → 2 → 4</li>
+                    <li>4 → 1 → 2 → 3</li>
+                    <li>1 → 2 → 4 → 3</li>
+                </ol><br>
+                <button onclick=mostraResposta(15)>Mostrar resposta</button>
+            </li>
+            <li>Qual afirmação é verdadeira sobre <code>response.ok</code> em um objeto <code>Response</code> do Fetch?
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li><code>response.ok</code> é <code>true</code> apenas quando o status é 200 exatamente.</li>
+                    <li id="16"><code>response.ok</code> é <code>true</code> para status na faixa 200–299.</li>
+                    <li><code>response.ok</code> indica se o corpo é JSON válido.</li>
+                    <li><code>response.ok</code> causa uma rejeição automática da Promise se <code>false</code>.</li>
+                    <li><code>response.ok</code> indica se o cabeçalho <code>Content-Type</code> existe.</li>
+                </ol><br>
+                <button onclick=mostraResposta(16)>Mostrar resposta</button>
+            </li>
+            <li>Qual das opções <strong>não</strong> é verdade sobre cookies HTTP (em geral)?
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>Podem ter expiração configurada.</li>
+                    <li>Podem ser enviados automaticamente em requisições HTTP ao domínio correspondente.</li>
+                    <li id="17">Sempre estão disponíveis ao código JavaScript (sem restrição).</li>
+                    <li>Podem ser marcados como <code>Secure</code> para só serem enviados via HTTPS.</li>
+                    <li>Podem ter a flag <code>SameSite</code> para controlar envio em contextos cross-site.</li>
+                </ol><br>
+                <button onclick=mostraResposta(17)>Mostrar resposta</button>
+            </li>
+            <li>Quais das opções abaixo são verdadeiras sobre a <b>Web Storage API</b> (localStorage / sessionStorage)?
+                <ol style="list-style-type: upper-roman;list-style-position: inside;
+                padding-top: 10px;"">
+                    <li>Os valores são armazenados como strings.</li>
+                    <li>A API é assíncrona e baseada em Promises.</li>
+                    <li>Alterações em <code>localStorage</code> em uma aba podem disparar evento <code>storage</code> em outra aba da mesma origem.</li>
+                    <li><code>sessionStorage</code> é compartilhado entre abas que abriram a mesma janela.</li>
+                    <li><code>localStorage</code> pode ser usado entre diferentes origens.</li>
+                </ol>
+                <p>Assinale a alternativa correta:</p>
+                <ol class="alternativa">
+                    <li id="18">A e C apenas.</li>
+                    <li>B e D apenas.</li>
+                    <li>A, B e C.</li>
+                    <li>C e E apenas.</li>
+                    <li>Todas as alternativas.</li>
+                </ol><br>
+                <button onclick=mostraResposta(18)>Mostrar resposta</button>
+            </li>
+            <li>Considere o código:
+                <pre><code>fetch('/dados')
+  .then(r => {
+    if (!r.ok) throw new Error('erro');
+    return r.json();
+  })
+  .then(data => console.log(data))
+  .catch(err => console.error(err));
+                </code></pre>
+                <p>Qual é o propósito do <code>if (!r.ok) throw new Error('erro');</code> ?</p>
+                <ol class="alternativa">
+                    <li>Garantir que erros de parse de JSON sejam tratados.</li>
+                    <li id="19">Forçar rejeição quando o status HTTP não indica sucesso.</li>
+                    <li>Evitar que `response.json()` seja chamado em respostas 200.</li>
+                    <li>Transformar a resposta em texto.</li>
+                    <li>Iniciar uma segunda requisição automaticamente.</li>
+                </ol><br>
+                <button onclick=mostraResposta(19)>Mostrar resposta</button>
+            </li>
+            <li>O atributo <code>HttpOnly</code> em um cookie tem como finalidade:
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>Fazer com que o cookie seja criptografado.</li>
+                    <li id="20">Evitar que o cookie seja acessível via <code>document.cookie</code> no JavaScript do cliente.</li>
+                    <li>Permitir que o cookie seja enviado somente em conexões HTTP simples (sem HTTPS).</li>
+                    <li>Tornar o cookie visível somente em ferramentas de desenvolvedor.</li>
+                    <li>Multiplicar automaticamente sua validade.</li>
+                </ol><br>
+                <button onclick=mostraResposta(20)>Mostrar resposta</button>
+            </li>
+            <li>Analise as afirmativas a seguir (<b>A</b> - asserção; <b>R</b> - razão):
+                <blockquote>A API <code>localStorage</code> é adequada para armazenar tokens de autenticação sensíveis.</blockquote>
+                <p style="font-weight: bold;padding-left: 250px;">PORQUE</p>
+                <blockquote>Itens em <code>localStorage</code> podem ser acessados por qualquer script executado na mesma origem, portanto não são seguros contra XSS.</blockquote>
+                <ol class="alternativa">
+                    <li><b>A</b> e <b>R</b> verdadeiras e <b>R</b> justifica <b>A</b>.</li>
+                    <li><b>A</b> e <b>R</b> verdadeiras e <b>R</b> não justifica <b>A</b>.</li>
+                    <li><b>A</b> verdadeira, <b>R</b> falsa.</li>
+                    <li id="21"><b>A</b> falsa, <b>R</b> verdadeira.</li>
+                    <li><b>A</b> e <b>R</b> falsas.</li>
+                </ol><br>
+                <button onclick=mostraResposta(21)>Mostrar resposta</button>
+            </li>
+            <li>Complete: o evento <code>storage</code> é disparado quando __________.
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>qualquer alteração em <code>localStorage</code> ocorre na <strong>mesma aba</strong> que executa a alteração.</li>
+                    <li id="22">é feita uma alteração em <code>localStorage</code> em uma aba e outra aba da <strong>mesma origem</strong> recebe a notificação.</li>
+                    <li><code>sessionStorage</code> é alterado na mesma aba.</li>
+                    <li>um cookie é criado via <code>document.cookie</code>.</li>
+                    <li>o navegador fecha.</li>
+                </ol><br>
+                <button onclick=mostraResposta(22)>Mostrar resposta</button>
+            </li>
+            <li>Sobre <code>sessionStorage</code>:
+                <div style="padding-top: 10px;">
+                    (&emsp;) Os dados sobrevivem após fechar completamente o navegador.<br>
+                    (&emsp;) Cada aba/janela tem seu próprio <code>sessionStorage</code> separado.<br>
+                    (&emsp;) Valores são armazenados como strings.<br>
+                    (&emsp;) Eventos <code>storage</code> são disparados na mesma aba que realizou a alteração.<br>
+                    (&emsp;) <code>sessionStorage</code> está limitado à mesma origem.
+                </div><br>
+                <ol class="alternativa">
+                    <li id="23">F, V, V, F, V</li>
+                    <li>V, F, F, V, F</li>
+                    <li>F, V, V, V, V</li>
+                    <li>V, V, V, F, V</li>
+                    <li>F, F, V, F, F</li>
+                </ol><br>
+                <button onclick=mostraResposta(23)>Mostrar resposta</button>
+            </li>
+            <li>Qual a finalidade da flag <code>SameSite</code> em cookies?
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>Especificar que o cookie deve ser criptografado.</li>
+                    <li id="24">Controlar se o cookie é enviado em requisições cross-site (proteção contra CSRF).</li>
+                    <li>Indicar a data de expiração do cookie.</li>
+                    <li>Definir o domínio que irá expor o cookie via document.cookie.</li>
+                    <li>Tornar o cookie somente legível por service workers.</li>
+                </ol><br>
+                <button onclick=mostraResposta(24)>Mostrar resposta</button>
+            </li>
+            <li>Considere:
+                <pre><code>async function f() {
+  const r = await fetch('/api');
+  const data = await r.json();
+  return data;
+}</code></pre>
+                <p>Se a resposta do servidor for um JSON malformado, o que acontece dentro de <code>f()</code>?</p>
+                <ol class="alternativa">
+                    <li><code>r.json()</code> resolve com <code>undefined</code>.</li>
+                    <li id="25"><code>r.json()</code> rejeita e isso faz <code>await</code> lançar uma exceção que pode ser capturada com <code>try/catch</code>.</li>
+                    <li>O <code>fetch</code> bloqueia indefinidamente.</li>
+                    <li><code>f()</code> retorna uma Promise resolvida com <code>null</code>.</li>
+                    <li>O navegador recarrega a página.</li>
+                </ol><br>
+                <button onclick=mostraResposta(25)>Mostrar resposta</button>
+            </li>
+            <li>Associe a API ao seu comportamento:
+                <div style="white-space:nowrap; padding-top: 10px;">
+                    <ol style="display: inline-block; width: 20%;">
+                        <li><code>document.cookie</code></li>
+                        <li><code>localStorage</code></li>
+                        <li><code>Cookie Store API</code></li>
+                        <li><code>fetch</code></li>
+                        <li><code>sessionStorage</code></li>
+                    </ol>
+                    <ol style="display: inline-block;width: 40%;list-style-type: upper-alpha;">
+                        <li>Acessível via JavaScript como string (síncrono) — permite leitura/escrita simples de cookies (quando não HttpOnly).</li>
+                        <li>Armazenamento chave/valor persistente por origem, síncrono.</li>
+                        <li>API moderna baseada em Promises para gerenciar cookies de forma assíncrona.</li>
+                        <li>Faz requisições HTTP e retorna Promises.</li>
+                        <li>Armazenamento por sessão (aba/janela), limpo ao fechar.</li>
+                    </ol>
+                </div>
+                <p>Qual conjunto corresponde corretamente?</p>
+                <ol class="alternativa">
+                    <li id="26">1–A, 2–B, 3–C, 4–D, 5–E</li>
+                    <li>1–B, 2–A, 3–D, 4–C, 5–E</li>
+                    <li>1–E, 2–D, 3–C, 4–B, 5–A</li>
+                    <li>1–C, 2–B, 3–A, 4–D, 5–E</li>
+                    <li>1–A, 2–E, 3–B, 4–C, 5–D</li>
+                </ol><br>
+                <button onclick=mostraResposta(26)>Mostrar resposta</button>
+            </li>
+            <li>Uma vantagem da Cookie Store API em relação ao uso de <code>document.cookie</code> é:
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>Ela é síncrona e muito mais rápida.</li>
+                    <li id="27">Provê uma interface baseada em Promises (assíncrona) para ler/escrever cookies.</li>
+                    <li>Exclui automaticamente cookies antigos sem intervenção do desenvolvedor.</li>
+                    <li>Permite leitura de cookies HttpOnly no cliente.</li>
+                    <li>Substitui localStorage.</li>
+                </ol><br>
+                <button onclick=mostraResposta(27)>Mostrar resposta</button>
+            </li>
+            <li>Você faz um <code>fetch</code> para uma API e quer garantir que tanto erros de rede quanto respostas HTTP com erro (404, 500) sejam tratados pelo mesmo <code>catch</code>. Qual abordagem é mais razoável?
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li><code>fetch(url).catch(...)</code> — isso já captura 404s automaticamente.</li>
+                    <li id="28"><code>fetch(url).then(r => { if(!r.ok) throw new Error(); return r.json(); }).catch(...)</code> — checar <code>r.ok</code> e lançar se necessário.</li>
+                    <li><code>fetch(url).then(r => r.json()).catch(...)</code> — sem checar <code>r.ok</code>.</li>
+                    <li>Envolver <code>fetch</code> em <code>try/catch</code> sem <code>await</code>.</li>
+                    <li>Usar <code>response.text()</code> sempre em vez de JSON.</li>
+                </ol><br>
+                <button onclick=mostraResposta(28)>Mostrar resposta</button>
+            </li>
+            <li>Analise as afirmativas a seguir (<b>A</b> - asserção; <b>R</b> - razão):
+                <blockquote><code>localStorage</code> é compartilhado entre todas as abas que pertencem à mesma origem (domínio + porta + protocolo).</blockquote>
+                <p style="font-weight: bold;padding-left: 250px;">PORQUE</p>
+                <blockquote>O evento <code>storage</code> é disparado nas demais abas quando uma aba modifica <code>localStorage</code></blockquote>
+                <ol class="alternativa">
+                    <li id="29"><b>A</b> e <b>R</b> verdadeiras e <b>R</b> justifica <b>A</b>.</li>
+                    <li><b>A</b> e <b>R</b> verdadeiras e <b>R</b> não justifica <b>A</b>.</li>
+                    <li><b>A</b> verdadeira e <b>R</b> falsa.</li>
+                    <li><b>A</b> falsa e <b>R</b> verdadeira.</li>
+                    <li><b>A</b> e <b>R</b> falsas.</li>
+                </ol><br>
+                <button onclick=mostraResposta(29)>Mostrar resposta</button>
+            </li>
+            <li>Qual das alternativas <b>não</b> é correta sobre <code>response.json()</code>?
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>Retorna uma Promise que resolve com o JSON parseado.</li>
+                    <li>Pode falhar (rejeitar) se o corpo não for JSON válido.</li>
+                    <li id="30">Pode ser chamada múltiplas vezes no mesmo <code>Response</code> sem restrições.</li>
+                    <li>É assíncrona.</li>
+                    <li>Depende do conteúdo do corpo para resolver.</li>
+                </ol><br>
+                <button onclick=mostraResposta(30)>Mostrar resposta</button>
+            </li>
+            <li> Analise o código a seguir:
+                <pre><code>async function exemplo() {
+  return 5;
+}
+console.log(exemplo());</code></pre>
+                <p>O que será exibido no console?</p>
+                <ol class="alternativa">
+                    <li><code>5</code> diretamente</li>
+                    <li id="31">Uma Promise resolvida com valor <code>5</code></li>
+                    <li><code>undefined</code></li>
+                    <li>Erro de execução</li>
+                    <li>Nada</li>
+                </ol><br>
+                <button onclick=mostraResposta(31)>Mostrar resposta</button>
+            </li>
+            <li>Quais cenários justificam o uso de <code>async/await</code>?
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li id="32">Substituir funções síncronas pesadas.</li>
+                    <li id="32">Melhorar legibilidade em operações assíncronas encadeadas.</li>
+                    <li id="32">Garantir ordem lógica de execução.</li>
+                    <li>Evitar <code>try/catch</code>.</li>
+                    <li>Reduzir tempo de rede.</li>
+                </ol><br>
+                <button onclick=mostraResposta(32)>Mostrar resposta</button>
+            </li>
+            <li>Associe o uso correto das APIs:
+                <div style="white-space:nowrap; padding-top: 10px;">
+                    <ol style="display: inline-block; width: 20%;">
+                        <li><b>Cookies</b></li>
+                        <li><b>localStorage</b></li>
+                        <li><b>sessionStorage</b></li>
+                        <li><b>Cookie Store API</b></li>
+                        <li><b>Fetch API</b></li>
+                    </ol>
+                    <ol style="display: inline-block;width: 40%;list-style-type: upper-alpha;">
+                        <li>Persistência curta, apenas por aba.</li>
+                        <li>Persistência longa, em par chave-valor.</li>
+                        <li>Comunicação cliente-servidor.</li>
+                        <li>Controle assíncrono moderno sobre cookies.</li>
+                        <li>Identificação em requisições.</li>
+                    </ol>
+                </div>
+                <p><b>Alternativas:</b></p> 
+                <ol class="alternativa">
+                    <li>1-E, 2-C, 3-D, 4-A, 5-B</li>
+                    <li>1-D, 2-C, 3-E, 4-A, 5-B</li>
+                    <li id="33">1-E, 2-B, 3-A, 4-D, 5-C</li>
+                    <li>1-C, 2-D, 3-E, 4-A, 5-B</li>
+                    <li>1-B, 2-D, 3-E, 4-C, 5-A</li>
+                </ol><br>
+                <button onclick=mostraResposta(33)>Mostrar resposta</button>
+            </li>
+            <li>Analise as afirmativas a seguir (<b>A</b> - asserção; <b>R</b> - razão):
+                <blockquote>Cookies são sempre acessíveis pelo JavaScript.</blockquote>
+                <p style="font-weight: bold;padding-left: 250px;">PORQUE</p>
+                <blockquote>A flag <code>HttpOnly</code> pode restringir o acesso aos cookies pelo cliente.</blockquote>
+                <ol class="alternativa">
+                    <li>Asserção verdadeira, razão verdadeira, mas a razão justifica.</li>
+                    <li>Asserção verdadeira, razão verdadeira, mas a razão não justifica.</li>
+                    <li>Asserção verdadeira, razão falsa.</li>
+                    <li id="34">Asserção falsa, razão verdadeira.</li>
+                    <li>Ambas falsas.</li>
+                </ol><br>
+                <button onclick=mostraResposta(34)>Mostrar resposta</button>
+            </li>
+            <li>Coloque em ordem lógica o ciclo de uso da <b>Fetch API</b> para realizar uma requisição e processar a resposta:<br>
+                <ol start="padding-top: 10px;">
+                    <li>Processar os dados recebidos (ex.: <code>response.json()</code>).</li>
+                    <li>Chamar <code>fetch(url)</code>.</li>
+                    <li>Aguardar a Promise ser resolvida.</li>
+                    <li>Encadear <code>.then()</code> para tratar a resposta.</li>
+                </ol><br>
+                <ol class="alternativa">
+                    <li>1 → 2 → 3 → 4</li>
+                    <li id="35">2 → 3 → 4 → 1</li>
+                    <li>2 → 4 → 3 → 1</li>
+                    <li>3 → 2 → 1 → 4</li>
+                    <li>4 → 3 → 2 → 1</li>
+                </ol><br>
+                <button onclick=mostraResposta(35)>Mostrar resposta</button>
+            </li>
+            <li>Associe cada <b>API</b> à sua principal funcionalidade:
+                <div style="white-space: nowrap; padding-top: 10px;">
+                    <ol style="display: inline-block; width: 20%;">
+                        <li><b>Fetch API</b></li>
+                        <li><b>Cookie Store API</b></li>
+                        <li><b>Web Storage API</b></li>
+                    </ol>
+                    <ol style="display: inline-block;width: 40%;list-style-type: upper-alpha;">
+                        <li>Permite armazenar pequenos pares chave-valor no navegador de forma síncrona.</li>
+                        <li>Facilita a leitura e escrita de cookies de forma assíncrona.</li>
+                        <li>Realiza requisições HTTP e retorna Promises.</li>
+                    </ol>
+                </div><br>
+                <ol class="alternativa">
+                    <li>1–A, 2–B, 3–C</li>
+                    <li id="36">1–C, 2–B, 3–A</li>
+                    <li>1–B, 2–C, 3–A</li>
+                    <li>1–A, 2–C, 3–B</li>
+                    <li>1–C, 2–A, 3–B</li>
+                </ol><br>
+                <button onclick=mostraResposta(36)>Mostrar resposta</button>
+            </li>
+            <li>Analise as afirmativas a seguir (<b>A</b> - asserção; <b>R</b> - razão):
+                <blockquote>A <b>Web Storage API</b> é assíncrona, permitindo operações de leitura e escrita sem bloquear o fluxo principal.</blockquote>
+                <p style="font-weight: bold;padding-left: 250px;">PORQUE</p>
+                <blockquote>O armazenamento local (<code>localStorage</code>) e de sessão (<code>sessionStorage</code>) utilizam um modelo baseado em Promises.</blockquote>
+                <ol class="alternativa">
+                    <li>A e R são verdadeiras, e R justifica A.</li>
+                    <li>A e R são verdadeiras, mas R não justifica A.</li>
+                    <li>A é verdadeira, e R é falsa.</li>
+                    <li>A é falsa, e R é verdadeira.</li>
+                    <li id="37">A e R são falsas.</li>
+                </ol><br>
+                <button onclick=mostraResposta(37)>Mostrar resposta</button>
+            </li>
+            <li>Qual das alternativas <b>não é uma vantagem</b> de usar <b>cookies</b> para persistência de dados?
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>Podem ser enviados automaticamente em cada requisição HTTP.</li>
+                    <li>Permitem definir políticas de expiração.</li>
+                    <li>São limitados em tamanho (aprox. 4KB por cookie).</li>
+                    <li id="38">São compartilhados entre diferentes navegadores do usuário.</li>
+                    <li>Podem ser usados para autenticação de sessão.</li>
+                </ol><br>
+                <button onclick=mostraResposta(38)>Mostrar resposta</button>
+            </li>
+            <li>Complete a frase: O método <code>fetch()</code> retorna uma __________, que representa o resultado futuro de uma requisição e permite encadear métodos como <code>.then()</code> e <code>.catch()</code>.
+                <ol class="alternativa" style="padding-top: 10px;">
+                    <li>função</li>
+                    <li>callback</li>
+                    <li id="39">promessa (Promise)</li>
+                    <li>resposta imediata</li>
+                    <li>sessão</li>
+                </ol><br>
+                <button onclick=mostraResposta(39)>Mostrar resposta</button>
+            </li>
+            <li>Analise o código abaixo:
+                <pre><code>localStorage.setItem("tema", "escuro");
+sessionStorage.setItem("usuario", "Ana");
+console.log(localStorage.getItem("tema"));
+console.log(sessionStorage.getItem("usuario"));</code></pre>
+                <p>O que será impresso no console durante a primeira execução no navegador?</p>
+                <ol class="alternativa">
+                    <li><code>undefined</code> e <code>undefined</code></li>
+                    <li id="40"><code>escuro</code> e <code>Ana</code></li>
+                    <li><code>"tema"</code> e <code>"usuario"</code></li>
+                    <li><code>null</code> e <code>null</code></li>
+                    <li>Erro de execução</li>
+                </ol><br>
+                <button onclick=mostraResposta(40)>Mostrar resposta</button>
+            </li>
+        </ol>
+<script>
+  function mostraResposta(questao){
+    const correta = document.getElementById(questao);
+    //correta.style.cssText = "font-weight: bold; font-size: 1.1em; color: orange;";
+    correta.classList.add("correta");
+  }
+</script>
