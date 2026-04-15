@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>REST API Explorer</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f14;
+      --surface: #13161d;
+      --card: #1a1e28;
+      --border: #252a38;
+      --get: #3ecf8e;
+      --post: #4f9cf9;
+      --put: #f9a825;
+      --delete: #f95f5f;
+      --text: #e8eaf0;
+      --muted: #6b7394;
+      --font-ui: 'Syne', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* GRID BACKGROUND */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(78,156,249,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(78,156,249,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* HEADER */
+    header {
+      margin-bottom: 52px;
+    }
+    .header-label {
+      font-family: var(--font-code);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800;
+      line-height: 1.05;
+      background: linear-gradient(120deg, #e8eaf0 30%, var(--muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .subtitle {
+      font-family: var(--font-code);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .base-url-bar {
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-family: var(--font-code);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .base-url-bar span { color: var(--get); }
+
+    /* LAYOUT */
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 700px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      animation: fadeUp 0.5s ease both;
+    }
+    .card:hover { border-color: #333a52; transform: translateY(-2px); }
+    .card:nth-child(1) { animation-delay: 0s; }
+    .card:nth-child(2) { animation-delay: 0.07s; }
+    .card:nth-child(3) { animation-delay: 0.14s; }
+    .card:nth-child(4) { animation-delay: 0.21s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .method-badge {
+      font-family: var(--font-code);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+    .badge-get    { background: rgba(62,207,142,0.12); color: var(--get); }
+    .badge-post   { background: rgba(79,156,249,0.12); color: var(--post); }
+    .badge-put    { background: rgba(249,168,37,0.12); color: var(--put); }
+    .badge-delete { background: rgba(249,95,95,0.12);  color: var(--delete); }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+    }
+    .card-desc {
+      font-family: var(--font-code);
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .card-body { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+
+    /* ENDPOINT */
+    .endpoint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-family: var(--font-code);
+      font-size: 12px;
+    }
+    .endpoint-method { font-weight: 700; }
+    .m-get    { color: var(--get); }
+    .m-post   { color: var(--post); }
+    .m-put    { color: var(--put); }
+    .m-delete { color: var(--delete); }
+    .endpoint-path { color: var(--muted); }
+    .endpoint-path em { color: var(--text); font-style: normal; }
+
+    /* FIELDS */
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-label {
+      font-family: var(--font-code);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    input, textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--font-code);
+      font-size: 12px;
+      padding: 9px 12px;
+      outline: none;
+      transition: border-color 0.15s;
+      resize: vertical;
+    }
+    input:focus, textarea:focus { border-color: #4f9cf955; }
+    textarea { min-height: 80px; line-height: 1.5; }
+
+    /* BUTTONS */
+    .btn {
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: opacity 0.15s, transform 0.15s;
+      width: 100%;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-get    { background: var(--get);    color: #0a2218; }
+    .btn-post   { background: var(--post);   color: #0a1628; }
+    .btn-put    { background: var(--put);    color: #271a00; }
+    .btn-delete { background: var(--delete); color: #270a0a; }
+
+    /* RESPONSE */
+    .response-area {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .response-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 12px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-code);
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--muted);
+      display: inline-block;
+      margin-right: 6px;
+      transition: background 0.2s;
+    }
+    .status-dot.ok     { background: var(--get); box-shadow: 0 0 6px var(--get); }
+    .status-dot.error  { background: var(--delete); box-shadow: 0 0 6px var(--delete); }
+    .status-dot.warn   { background: var(--put); box-shadow: 0 0 6px var(--put); }
+
+    .response-code {
+      padding: 12px;
+      font-family: var(--font-code);
+      font-size: 11.5px;
+      color: #a8b4d0;
+      white-space: pre-wrap;
+      word-break: break-all;
+      min-height: 70px;
+      line-height: 1.7;
+    }
+    .response-code .key   { color: #7ec8e3; }
+    .response-code .str   { color: #a8e6a3; }
+    .response-code .num   { color: #f9c860; }
+    .response-code .bool  { color: #f9a060; }
+    .response-code .null  { color: var(--muted); }
+
+    /* LOG */
+    .log-section {
+      margin-top: 36px;
+      animation: fadeUp 0.5s ease 0.3s both;
+    }
+    .log-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .log-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      font-family: var(--font-code);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .clear-btn {
+      font-family: var(--font-code);
+      font-size: 10px;
+      color: var(--muted);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .clear-btn:hover { color: var(--delete); border-color: var(--delete); }
+
+    .log-list {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    .log-list::-webkit-scrollbar { width: 4px; }
+    .log-list::-webkit-scrollbar-track { background: transparent; }
+    .log-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .log-item {
+      display: grid;
+      grid-template-columns: 80px 90px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-code);
+      font-size: 11px;
+      animation: slideIn 0.2s ease;
+    }
+    .log-item:last-child { border-bottom: none; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-8px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .log-time { color: var(--muted); }
+    .log-method { font-weight: 700; }
+    .log-msg { color: #b0b8d0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .log-status { font-weight: 700; border-radius: 4px; padding: 2px 7px; font-size: 10px; }
+    .log-status.ok { background: rgba(62,207,142,0.12); color: var(--get); }
+    .log-status.err { background: rgba(249,95,95,0.12); color: var(--delete); }
+
+    .empty-log {
+      padding: 28px;
+      text-align: center;
+      font-family: var(--font-code);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* SPINNER */
+    .spinner {
+      width: 13px; height: 13px;
+      border: 2px solid transparent;
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+    .loading .spinner { display: block; }
+    .loading .btn-label { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="header-label">// interactive demo</div>
+    <h1>REST API Explorer</h1>
+    <div class="subtitle">jsonplaceholder.typicode.com — a free fake REST API for testing</div>
+    <div class="base-url-bar">
+      BASE URL &nbsp;→&nbsp; <span>https://jsonplaceholder.typicode.com</span>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- GET -->
+    <div class="card">
+      <div class="card-header">
+        <span class="method-badge badge-get">GET</span>
+        <span class="card-title">Fetch Post</span>
+        <span class="card-desc">Read resource</span>
+      </div>
+      <div class="card-body">
+        <div class="endpoint">
+          <span class="endpoint-method m-get">GET</span>
+          <span class="endpoint-path">/posts/<em id="get-id-preview">1</em></span>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Post ID</div>
+          <input type="number" id="get-id" value="1" min="1" max="100" oninput="document.getElementById('get-id-preview').textContent=this.value||'?'"/>
+        </div>
+        <button class="btn btn-get" onclick="doGet()">
+          <span class="spinner"></span>
+          <span class="btn-label">▶ Send GET</span>
+        </button>
+        <div class="response-area">
+          <div class="response-bar">
+            <span><span class="status-dot" id="get-dot"></span>Response</span>
+            <span id="get-status">—</span>
+          </div>
+          <div class="response-code" id="get-res">// awaiting request...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST -->
+    <div class="card">
+      <div class="card-header">
+        <span class="method-badge badge-post">POST</span>
+        <span class="card-title">Create Post</span>
+        <span class="card-desc">Create resource</span>
+      </div>
+      <div class="card-body">
+        <div class="endpoint">
+          <span class="endpoint-method m-post">POST</span>
+          <span class="endpoint-path">/posts</span>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Title</div>
+          <input type="text" id="post-title" value="My new post" />
+        </div>
+        <div class="field-group">
+          <div class="field-label">Body</div>
+          <textarea id="post-body">This is the body of the post.</textarea>
+        </div>
+        <button class="btn btn-post" onclick="doPost()">
+          <span class="spinner"></span>
+          <span class="btn-label">▶ Send POST</span>
+        </button>
+        <div class="response-area">
+          <div class="response-bar">
+            <span><span class="status-dot" id="post-dot"></span>Response</span>
+            <span id="post-status">—</span>
+          </div>
+          <div class="response-code" id="post-res">// awaiting request...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PUT -->
+    <div class="card">
+      <div class="card-header">
+        <span class="method-badge badge-put">PUT</span>
+        <span class="card-title">Update Post</span>
+        <span class="card-desc">Replace resource</span>
+      </div>
+      <div class="card-body">
+        <div class="endpoint">
+          <span class="endpoint-method m-put">PUT</span>
+          <span class="endpoint-path">/posts/<em id="put-id-preview">1</em></span>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Post ID</div>
+          <input type="number" id="put-id" value="1" min="1" max="100" oninput="document.getElementById('put-id-preview').textContent=this.value||'?'"/>
+        </div>
+        <div class="field-group">
+          <div class="field-label">New Title</div>
+          <input type="text" id="put-title" value="Updated title" />
+        </div>
+        <div class="field-group">
+          <div class="field-label">New Body</div>
+          <textarea id="put-body">Updated body content.</textarea>
+        </div>
+        <button class="btn btn-put" onclick="doPut()">
+          <span class="spinner"></span>
+          <span class="btn-label">▶ Send PUT</span>
+        </button>
+        <div class="response-area">
+          <div class="response-bar">
+            <span><span class="status-dot" id="put-dot"></span>Response</span>
+            <span id="put-status">—</span>
+          </div>
+          <div class="response-code" id="put-res">// awaiting request...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DELETE -->
+    <div class="card">
+      <div class="card-header">
+        <span class="method-badge badge-delete">DELETE</span>
+        <span class="card-title">Delete Post</span>
+        <span class="card-desc">Remove resource</span>
+      </div>
+      <div class="card-body">
+        <div class="endpoint">
+          <span class="endpoint-method m-delete">DELETE</span>
+          <span class="endpoint-path">/posts/<em id="del-id-preview">1</em></span>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Post ID</div>
+          <input type="number" id="del-id" value="1" min="1" max="100" oninput="document.getElementById('del-id-preview').textContent=this.value||'?'"/>
+        </div>
+        <div style="background:rgba(249,95,95,0.06); border:1px solid rgba(249,95,95,0.15); border-radius:6px; padding:10px 12px; font-family:var(--font-code); font-size:11px; color:#f97070; line-height:1.5;">
+          ⚠ This will permanently remove the resource from the server. This action cannot be undone.
+        </div>
+        <button class="btn btn-delete" onclick="doDelete()">
+          <span class="spinner"></span>
+          <span class="btn-label">▶ Send DELETE</span>
+        </button>
+        <div class="response-area">
+          <div class="response-bar">
+            <span><span class="status-dot" id="del-dot"></span>Response</span>
+            <span id="del-status">—</span>
+          </div>
+          <div class="response-code" id="del-res">// awaiting request...</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /layout -->
+
+  <!-- REQUEST LOG -->
+  <div class="log-section">
+    <div class="log-header">
+      <div class="log-title">// Request Log</div>
+      <button class="clear-btn" onclick="clearLog()">Clear</button>
+    </div>
+    <div class="log-list" id="log-list">
+      <div class="empty-log" id="log-empty">No requests made yet.</div>
+    </div>
+  </div>
+
+</div><!-- /wrapper -->
+
+<script>
+  const BASE = 'https://jsonplaceholder.typicode.com';
+  const logs = [];
+
+  function now() {
+    return new Date().toLocaleTimeString('en-GB', { hour12: false });
+  }
+
+  function syntaxHighlight(json) {
+    return json
+      .replace(/("(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*?")\s*:/g, '<span class="key">$1</span>:')
+      .replace(/"(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*?"/g, '<span class="str">$&</span>')
+      .replace(/\b(\d+)\b/g, '<span class="num">$1</span>')
+      .replace(/\btrue\b/g, '<span class="bool">true</span>')
+      .replace(/\bfalse\b/g, '<span class="bool">false</span>')
+      .replace(/\bnull\b/g, '<span class="null">null</span>');
+  }
+
+  function setResponse(resEl, dotEl, statusEl, status, data, isOk) {
+    const text = JSON.stringify(data, null, 2);
+    resEl.innerHTML = syntaxHighlight(text);
+    dotEl.className = 'status-dot ' + (isOk ? 'ok' : 'error');
+    statusEl.textContent = status;
+    statusEl.style.color = isOk ? 'var(--get)' : 'var(--delete)';
+  }
+
+  function setLoading(btn, on) {
+    btn.classList.toggle('loading', on);
+    btn.disabled = on;
+  }
+
+  function addLog(method, path, statusText, isOk) {
+    const item = { time: now(), method, path, statusText, isOk };
+    logs.unshift(item);
+    renderLog();
+  }
+
+  function renderLog() {
+    const el = document.getElementById('log-list');
+    const empty = document.getElementById('log-empty');
+    if (!logs.length) { empty.style.display = ''; return; }
+    empty.style.display = 'none';
+    const colors = { GET: 'var(--get)', POST: 'var(--post)', PUT: 'var(--put)', DELETE: 'var(--delete)' };
+    el.innerHTML = logs.map(l => `
+      <div class="log-item">
+        <span class="log-time">${l.time}</span>
+        <span class="log-method" style="color:${colors[l.method]}">${l.method}</span>
+        <span class="log-msg">${l.path}</span>
+        <span class="log-status ${l.isOk ? 'ok' : 'err'}">${l.statusText}</span>
+      </div>
+    `).join('');
+  }
+
+  function clearLog() { logs.length = 0; renderLog(); document.getElementById('log-empty').style.display = ''; }
+
+  /* ── GET ── */
+  async function doGet() {
+    const id = document.getElementById('get-id').value || 1;
+    const btn = document.querySelector('.btn-get');
+    const res = document.getElementById('get-res');
+    const dot = document.getElementById('get-dot');
+    const stat = document.getElementById('get-status');
+    setLoading(btn, true);
+    try {
+      const r = await fetch(`${BASE}/posts/${id}`);
+      const data = await r.json();
+      setResponse(res, dot, stat, r.status + ' OK', data, r.ok);
+      addLog('GET', `/posts/${id}`, r.status + ' OK', r.ok);
+    } catch (e) {
+      res.textContent = '// Network error: ' + e.message;
+      dot.className = 'status-dot error';
+      addLog('GET', `/posts/${id}`, 'Error', false);
+    }
+    setLoading(btn, false);
+  }
+
+  /* ── POST ── */
+  async function doPost() {
+    const title = document.getElementById('post-title').value;
+    const body  = document.getElementById('post-body').value;
+    const btn   = document.querySelector('.btn-post');
+    const res   = document.getElementById('post-res');
+    const dot   = document.getElementById('post-dot');
+    const stat  = document.getElementById('post-status');
+    setLoading(btn, true);
+    try {
+      const r = await fetch(`${BASE}/posts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, body, userId: 1 })
+      });
+      const data = await r.json();
+      setResponse(res, dot, stat, r.status + ' Created', data, r.ok);
+      addLog('POST', '/posts', r.status + ' Created', r.ok);
+    } catch (e) {
+      res.textContent = '// Network error: ' + e.message;
+      dot.className = 'status-dot error';
+      addLog('POST', '/posts', 'Error', false);
+    }
+    setLoading(btn, false);
+  }
+
+  /* ── PUT ── */
+  async function doPut() {
+    const id    = document.getElementById('put-id').value || 1;
+    const title = document.getElementById('put-title').value;
+    const body  = document.getElementById('put-body').value;
+    const btn   = document.querySelector('.btn-put');
+    const res   = document.getElementById('put-res');
+    const dot   = document.getElementById('put-dot');
+    const stat  = document.getElementById('put-status');
+    setLoading(btn, true);
+    try {
+      const r = await fetch(`${BASE}/posts/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: Number(id), title, body, userId: 1 })
+      });
+      const data = await r.json();
+      console.log(r)
+      console.log(data)
+      setResponse(res, dot, stat, r.status + ' OK', data, r.ok);
+      addLog('PUT', `/posts/${id}`, r.status + ' OK', r.ok);
+    } catch (e) {
+      res.textContent = '// Network error: ' + e.message;
+      dot.className = 'status-dot error';
+      addLog('PUT', `/posts/${id}`, 'Error', false);
+    }
+    setLoading(btn, false);
+  }
+
+  /* ── DELETE ── */
+  async function doDelete() {
+    const id  = document.getElementById('del-id').value || 1;
+    const btn = document.querySelector('.btn-delete');
+    const res = document.getElementById('del-res');
+    const dot = document.getElementById('del-dot');
+    const stat = document.getElementById('del-status');
+    setLoading(btn, true);
+    try {
+      const r = await fetch(`${BASE}/posts/${id}`, { method: 'DELETE' });
+      const data = {};
+      setResponse(res, dot, stat, r.status + ' OK', data, r.ok);
+      res.innerHTML = syntaxHighlight(JSON.stringify({ deleted: true, id: Number(id) }, null, 2));
+      addLog('DELETE', `/posts/${id}`, r.status + ' OK', r.ok);
+    } catch (e) {
+      res.textContent = '// Network error: ' + e.message;
+      dot.className = 'status-dot error';
+      addLog('DELETE', `/posts/${id}`, 'Error', false);
+    }
+    setLoading(btn, false);
+  }
+</script>
+</body>
+</html>

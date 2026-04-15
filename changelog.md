@@ -13,3 +13,7 @@
     - Exclusão de arquivos antigos.
 - 2026.1.6.1
   - Acrescentado o arquivo `exercícios_av1.html`
+- 2026.1.7
+  - AULAS/07/
+    - atualização do arquivo `aula07.md`
+  - modificação no arquivo `.gitignore`
