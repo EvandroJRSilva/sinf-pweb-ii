@@ -17,3 +17,7 @@
   - AULAS/07/
     - atualização do arquivo `aula07.md`
   - modificação no arquivo `.gitignore`
+- 2026.1.8
+  - AULAS/08/
+    - atualização do arquivo `aula08.md`
+    - imagens acrescentadas em `/imagens/`
