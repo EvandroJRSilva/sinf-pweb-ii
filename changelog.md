@@ -15,9 +15,16 @@
   - Acrescentado o arquivo `exercícios_av1.html`
 - 2026.1.7
   - AULAS/07/
-    - atualização do arquivo `aula07.md`
-  - modificação no arquivo `.gitignore`
+    - Atualização do arquivo `aula07.md`
+  - Modificação no arquivo `.gitignore`
 - 2026.1.8
   - AULAS/08/
-    - atualização do arquivo `aula08.md`
-    - imagens acrescentadas em `/imagens/`
+    - Atualização do arquivo `aula08.md`
+    - Imagens acrescentadas em `/imagens/`
+- 2026.1.9
+  - AULAS/06/
+    - Modificações feitas em sala dos exemplos `conteudo.txt` e `sessionStorage.html`.
+  - AULAS/09/
+    - Atualização do arquivo `aula09.md`.
+    - Novas imagens acrescentadas, e antigas apagadas.
+    - Outros arquivos apagados.
