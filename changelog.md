@@ -28,3 +28,7 @@
     - Atualização do arquivo `aula09.md`.
     - Novas imagens acrescentadas, e antigas apagadas.
     - Outros arquivos apagados.
+- 2026.1.10
+  - AULAS/10/
+    - Atualização do arquivo `aula10.md`.
+    - Imagens acrescentadas.
