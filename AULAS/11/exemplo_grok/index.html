@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque - FastAPI</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f8f9fa; }
+        h1 { color: #2c3e50; }
+        .card { background: white; padding: 15px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input, button, select { padding: 8px; margin: 5px; }
+        button { background: #3498db; color: white; border: none; cursor: pointer; }
+        button:hover { background: #2980b9; }
+        #resultado { margin-top: 20px; white-space: pre-wrap; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>Controle de Estoque Simples</h1>
+
+    <div class="card">
+        <h2>Listar todos os itens</h2>
+        <button onclick="listarItens()">Listar Itens</button>
+    </div>
+
+    <div class="card">
+        <h2>Buscar item por ID (Path Parameter)</h2>
+        <input type="number" id="itemId" placeholder="ID do item" value="1">
+        <button onclick="buscarPorId()">Buscar</button>
+    </div>
+
+    <div class="card">
+        <h2>Buscar por nome (Query Parameters + Validação)</h2>
+        <input type="text" id="termoBusca" placeholder="Digite parte do nome">
+        <select id="ordenar">
+            <option value="nome">Ordenar por Nome</option>
+            <option value="quantidade">Ordenar por Quantidade</option>
+            <option value="preco">Ordenar por Preço</option>
+        </select>
+        <button onclick="buscarPorNome()">Buscar</button>
+    </div>
+
+    <div class="card">
+        <h2>Filtro Avançado (Query Parameter Model)</h2>
+        <input type="number" id="minQtd" placeholder="Qtd mínima">
+        <input type="number" id="maxPreco" placeholder="Preço máximo" step="0.01">
+        <input type="text" id="nomeContem" placeholder="Nome contém">
+        <button onclick="aplicarFiltro()">Aplicar Filtro</button>
+    </div>
+
+    <div class="card">
+        <h2>Adicionar Novo Item</h2>
+        <input type="text" id="nomeNovo" placeholder="Nome do produto">
+        <input type="number" id="qtdNovo" placeholder="Quantidade">
+        <input type="number" id="precoNovo" placeholder="Preço" step="0.01">
+        <button onclick="adicionarItem()">Adicionar</button>
+    </div>
+
+    <div id="resultado" class="card"></div>
+
+    <script>
+        const API_URL = "http://127.0.0.1:8000";
+
+        async function fazerRequisicao(url, method = "GET", body = null) {
+            const options = { method };
+            if (body) {
+                options.headers = { "Content-Type": "application/json" };
+                options.body = JSON.stringify(body);
+            }
+            const resp = await fetch(url, options);
+            const data = await resp.json();
+            document.getElementById("resultado").innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        }
+
+        function listarItens() {
+            fazerRequisicao(`${API_URL}/items/`);
+        }
+
+        function buscarPorId() {
+            const id = document.getElementById("itemId").value;
+            fazerRequisicao(`${API_URL}/items/${id}`);
+        }
+
+        function buscarPorNome() {
+            const q = document.getElementById("termoBusca").value;
+            const ordenar = document.getElementById("ordenar").value;
+            let url = `${API_URL}/buscar/?ordenar_por=${ordenar}`;
+            if (q) url += `&q=${encodeURIComponent(q)}`;
+            fazerRequisicao(url);
+        }
+
+        function aplicarFiltro() {
+            const minQtd = document.getElementById("minQtd").value;
+            const maxPreco = document.getElementById("maxPreco").value;
+            const nomeContem = document.getElementById("nomeContem").value;
+
+            let url = `${API_URL}/filtro/`;
+            let params = [];
+            if (minQtd) params.push(`min_quantidade=${minQtd}`);
+            if (maxPreco) params.push(`max_preco=${maxPreco}`);
+            if (nomeContem) params.push(`nome_contem=${encodeURIComponent(nomeContem)}`);
+
+            if (params.length) url += "?" + params.join("&");
+            fazerRequisicao(url);
+        }
+
+        async function adicionarItem() {
+            const nome = document.getElementById("nomeNovo").value;
+            const quantidade = parseInt(document.getElementById("qtdNovo").value);
+            const preco = parseFloat(document.getElementById("precoNovo").value);
+
+            if (!nome || !quantidade || !preco) {
+                alert("Preencha todos os campos");
+                return;
+            }
+
+            await fazerRequisicao(`${API_URL}/items/`, "POST", { nome, quantidade, preco });
+            // Limpa os campos após adicionar
+            document.getElementById("nomeNovo").value = "";
+            document.getElementById("qtdNovo").value = "";
+            document.getElementById("precoNovo").value = "";
+        }
+    </script>
+</body>
+</html>

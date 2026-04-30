@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Controle de Estoque — FastAPI Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ====== RESET & VARIÁVEIS ====== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0e0f13;
+      --surface:   #16181f;
+      --border:    #2a2d38;
+      --accent:    #4fffb0;
+      --accent2:   #ffcf4f;
+      --danger:    #ff5f5f;
+      --text:      #d8dce8;
+      --muted:     #6b7087;
+      --mono:      'IBM Plex Mono', monospace;
+      --sans:      'IBM Plex Sans', sans-serif;
+      --radius:    6px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+    }
+
+    /* ====== TOPO ====== */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    header .logo {
+      font-family: var(--mono);
+      font-size: 1rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    header .logo span { color: var(--muted); }
+    header .badge {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      background: #1e2530;
+      border: 1px solid var(--border);
+      color: var(--accent2);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    header a {
+      margin-left: auto;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    header a:hover { color: var(--accent); }
+
+    /* ====== LAYOUT ====== */
+    .shell {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: calc(100vh - 57px);
+    }
+
+    /* ====== SIDEBAR ====== */
+    aside {
+      border-right: 1px solid var(--border);
+      padding: 24px 0;
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0 20px 8px;
+    }
+    .nav-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      padding: 10px 20px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: all .15s;
+    }
+    .nav-btn:hover { color: var(--text); background: #1a1d26; }
+    .nav-btn.active { color: var(--accent); border-left-color: var(--accent); background: #121620; }
+    .nav-sep { border-bottom: 1px solid var(--border); margin: 12px 0; }
+
+    /* ====== CONTEÚDO ====== */
+    main { padding: 32px; overflow-y: auto; }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    h2 {
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .topic-tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent2);
+      background: #1e1a0f;
+      border: 1px solid #3a3010;
+      padding: 2px 8px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    /* ====== CARDS ====== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .product-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      transition: border-color .15s;
+    }
+    .product-card:hover { border-color: #3d4155; }
+    .product-card .pname {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+    .product-card .pcat {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent2);
+      margin-bottom: 10px;
+    }
+    .product-card .pinfo {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .product-card .pinfo strong { color: var(--text); }
+    .product-card .card-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .stock-badge {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #0e2218;
+      color: var(--accent);
+      border: 1px solid #1a4030;
+    }
+    .stock-badge.low { background: #281010; color: var(--danger); border-color: #3a1818; }
+
+    /* ====== FORMULÁRIOS ====== */
+    .form-group { margin-bottom: 16px; }
+    label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+    input, select {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color .15s;
+    }
+    input:focus, select:focus { border-color: var(--accent); }
+    select option { background: #1a1d26; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* ====== BOTÕES ====== */
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: opacity .15s;
+      letter-spacing: 0.04em;
+    }
+    .btn:hover { opacity: .8; }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-warn { background: var(--accent2); color: #000; }
+    .btn-sm { padding: 5px 10px; font-size: 0.68rem; }
+
+    /* ====== FILTROS ====== */
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .filter-bar input, .filter-bar select { width: auto; flex: 1; min-width: 130px; }
+
+    /* ====== TOAST ====== */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 12px 20px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all .25s;
+      pointer-events: none;
+      z-index: 999;
+      max-width: 320px;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+    #toast.error { border-color: var(--danger); color: var(--danger); }
+
+    /* ====== REQUEST LOG ====== */
+    .log-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-top: 20px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      max-height: 240px;
+      overflow-y: auto;
+    }
+    .log-entry { border-bottom: 1px solid var(--border); padding: 6px 0; }
+    .log-entry:last-child { border-bottom: none; }
+    .log-entry .method { font-weight: 600; }
+    .method.GET { color: #4fc3ff; }
+    .method.POST { color: var(--accent); }
+    .method.PUT { color: var(--accent2); }
+    .method.PATCH { color: #c084fc; }
+    .method.DELETE { color: var(--danger); }
+    .log-entry .status { color: var(--accent); }
+    .log-entry .status.err { color: var(--danger); }
+
+    /* ====== ESTOQUE VIEW ====== */
+    .estoque-controls { display: flex; gap: 10px; align-items: flex-end; }
+    .estoque-controls input { flex: 1; }
+
+    /* ====== MODAL ====== */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px;
+      width: 420px;
+      max-width: 95vw;
+    }
+    .modal h3 {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+
+    /* ====== EMPTY STATE ====== */
+    .empty {
+      text-align: center;
+      padding: 48px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.8rem;
+    }
+    .empty-icon { font-size: 2rem; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">estoque<span>/</span>api</div>
+  <div class="badge">FastAPI Demo</div>
+  <a href="http://localhost:8000/docs" target="_blank">↗ Swagger UI</a>
+</header>
+
+<div class="shell">
+  <aside>
+    <div class="section-label">Produtos</div>
+    <button class="nav-btn active" onclick="showView('listar')">
+      📦 Listar Produtos
+    </button>
+    <button class="nav-btn" onclick="showView('criar')">
+      ➕ Cadastrar Produto
+    </button>
+    <div class="nav-sep"></div>
+    <div class="section-label">Operações</div>
+    <button class="nav-btn" onclick="showView('estoque')">
+      🔄 Ajustar Estoque
+    </button>
+    <button class="nav-btn" onclick="showView('buscar')">
+      🔍 Buscar por ID
+    </button>
+    <div class="nav-sep"></div>
+    <div class="section-label">Logs</div>
+    <button class="nav-btn" onclick="showView('logs')">
+      📋 Request Log
+    </button>
+  </aside>
+
+  <main>
+    <!-- ============================================================
+         VIEW: Listar Produtos
+         Demonstra: Query Parameters, Query Parameter Models, Headers,
+                    Cookies, String Validations, Numeric Validations
+    ============================================================ -->
+    <div class="view active" id="view-listar">
+      <h2>Listar Produtos</h2>
+      <div class="topic-tag">
+        Query Parameters · Query Parameter Models · String Validations · Numeric Validations · Cookie Parameters · Header Parameters · Header Parameter Models
+      </div>
+
+      <div class="filter-bar">
+        <input type="text" id="f-busca" placeholder="Buscar por nome (min 2 chars)" />
+        <select id="f-categoria">
+          <option value="">Todas as categorias</option>
+          <option value="papelaria">Papelaria</option>
+          <option value="informatica">Informática</option>
+          <option value="limpeza">Limpeza</option>
+          <option value="outros">Outros</option>
+        </select>
+        <input type="number" id="f-preco-min" placeholder="Preço mín" min="0" step="0.01" />
+        <input type="number" id="f-preco-max" placeholder="Preço máx" min="0" step="0.01" />
+        <input type="number" id="f-limite" placeholder="Limite" value="10" min="1" max="100" />
+        <button class="btn btn-primary" onclick="listarProdutos()">Buscar</button>
+      </div>
+
+      <div id="produto-grid" class="card-grid"></div>
+    </div>
+
+    <!-- ============================================================
+         VIEW: Criar Produto
+         Demonstra: Request Body, Body - Fields, Response Model
+    ============================================================ -->
+    <div class="view" id="view-criar">
+      <h2>Cadastrar Produto</h2>
+      <div class="topic-tag">Request Body · Body - Fields · Response Model</div>
+
+      <div style="max-width: 480px;">
+        <div class="form-group">
+          <label>NOME DO PRODUTO</label>
+          <input type="text" id="c-nome" placeholder="Ex: Caneta Azul" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>CATEGORIA</label>
+            <select id="c-categoria">
+              <option value="papelaria">Papelaria</option>
+              <option value="informatica">Informática</option>
+              <option value="limpeza">Limpeza</option>
+              <option value="outros">Outros</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>QUANTIDADE INICIAL</label>
+            <input type="number" id="c-quantidade" value="0" min="0" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>PREÇO UNITÁRIO (R$)</label>
+          <input type="number" id="c-preco" placeholder="0.00" min="0.01" step="0.01" />
+        </div>
+        <button class="btn btn-primary" onclick="criarProduto()">Cadastrar Produto</button>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         VIEW: Ajustar Estoque
+         Demonstra: Path Parameters, Body - Multiple Parameters,
+                    Numeric Validations
+    ============================================================ -->
+    <div class="view" id="view-estoque">
+      <h2>Ajustar Estoque</h2>
+      <div class="topic-tag">Path Parameters · Body - Multiple Parameters · Numeric Validations</div>
+
+      <div style="max-width: 480px;">
+        <div class="form-group">
+          <label>ID DO PRODUTO (Path Parameter)</label>
+          <input type="number" id="e-id" placeholder="Ex: 1" min="1" />
+        </div>
+        <div class="form-group">
+          <label>AJUSTE DE QUANTIDADE (Body Parameter)</label>
+          <input type="number" id="e-ajuste" placeholder="+50 entrada / -10 saída" />
+        </div>
+        <button class="btn btn-warn" onclick="ajustarEstoque()">Aplicar Ajuste</button>
+        <p style="font-size:.75rem; color:var(--muted); margin-top:10px;">
+          ℹ️ Valores positivos = entrada de estoque. Negativos = saída.
+        </p>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         VIEW: Buscar por ID
+         Demonstra: Path Parameters + Response Model
+    ============================================================ -->
+    <div class="view" id="view-buscar">
+      <h2>Buscar Produto por ID</h2>
+      <div class="topic-tag">Path Parameters · Response Model · Extra Data Types (datetime)</div>
+
+      <div style="max-width: 480px;">
+        <div class="form-group">
+          <label>ID DO PRODUTO</label>
+          <div style="display:flex; gap:8px;">
+            <input type="number" id="b-id" placeholder="Ex: 1" min="1" />
+            <button class="btn btn-primary" onclick="buscarPorId()">Buscar</button>
+          </div>
+        </div>
+        <div id="produto-detalhe"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: Logs -->
+    <div class="view" id="view-logs">
+      <h2>Request Log</h2>
+      <div class="topic-tag">Histórico de requisições à API</div>
+      <div id="log-container" class="log-box">
+        <div class="empty">Nenhuma requisição ainda.</div>
+      </div>
+      <button class="btn btn-secondary" style="margin-top:10px" onclick="limparLogs()">Limpar</button>
+    </div>
+  </main>
+</div>
+
+<!-- Modal de Edição -->
+<div class="modal-backdrop" id="modal-editar">
+  <div class="modal">
+    <h3>✏️ Editar Produto</h3>
+    <input type="hidden" id="ed-id" />
+    <div class="form-group">
+      <label>NOME</label>
+      <input type="text" id="ed-nome" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>CATEGORIA</label>
+        <select id="ed-categoria">
+          <option value="papelaria">Papelaria</option>
+          <option value="informatica">Informática</option>
+          <option value="limpeza">Limpeza</option>
+          <option value="outros">Outros</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>QUANTIDADE</label>
+        <input type="number" id="ed-quantidade" min="0" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>PREÇO (R$)</label>
+      <input type="number" id="ed-preco" step="0.01" min="0.01" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarEdicao()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  /* ============================================================
+     CONFIGURAÇÃO
+  ============================================================ */
+  const BASE = "http://localhost:8000";
+  const logs = [];
+
+  /* ============================================================
+     UTILITÁRIOS
+  ============================================================ */
+  function showView(name) {
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById(`view-${name}`).classList.add("active");
+    event.currentTarget.classList.add("active");
+  }
+
+  function toast(msg, tipo = "ok") {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.className = tipo === "ok" ? "show" : "show error";
+    setTimeout(() => t.className = "", 3000);
+  }
+
+  function addLog(method, url, status) {
+    logs.unshift({ method, url, status, ts: new Date().toLocaleTimeString() });
+    const c = document.getElementById("log-container");
+    c.innerHTML = logs.map(l => `
+      <div class="log-entry">
+        <span class="method ${l.method}">${l.method}</span>
+        <span style="color:var(--text)"> ${l.url}</span>
+        <span class="status ${l.status >= 400 ? 'err' : ''}" style="float:right">
+          ${l.status} · ${l.ts}
+        </span>
+      </div>`).join("");
+  }
+
+  function limparLogs() {
+    logs.length = 0;
+    document.getElementById("log-container").innerHTML =
+      '<div class="empty">Nenhuma requisição ainda.</div>';
+  }
+
+  /* ============================================================
+     FUNÇÃO CENTRAL DE FETCH — adiciona headers customizados
+     para demonstrar Header Parameters e Header Parameter Models
+  ============================================================ */
+  async function apiFetch(method, path, body = null, queryParams = {}) {
+    const url = new URL(BASE + path);
+
+    // Adiciona query params à URL
+    Object.entries(queryParams).forEach(([k, v]) => {
+      if (v !== "" && v !== null && v !== undefined) url.searchParams.set(k, v);
+    });
+
+    const opts = {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        // ======================================================
+        // TÓPICO: Header Parameters
+        // Header simples lido como parâmetro individual no backend
+        // ======================================================
+        "x-idioma": "pt-BR",
+
+        // ======================================================
+        // TÓPICO: Header Parameter Models
+        // Múltiplos headers agrupados em um modelo Pydantic
+        // ======================================================
+        "x-app-versao": "1.0.0",
+        "x-app-cliente": "frontend-html",
+      },
+    };
+
+    if (body) opts.body = JSON.stringify(body);
+
+    const res = await fetch(url.toString(), opts);
+    addLog(method, url.pathname + url.search, res.status);
+    return res;
+  }
+
+  /* ============================================================
+     LISTAR PRODUTOS
+     Usa: Query Parameters, Query Parameter Models,
+          String Validations, Numeric Validations
+  ============================================================ */
+  async function listarProdutos() {
+    const busca = document.getElementById("f-busca").value;
+    const categoria = document.getElementById("f-categoria").value;
+    const precoMin = document.getElementById("f-preco-min").value;
+    const precoMax = document.getElementById("f-preco-max").value;
+    const limite = document.getElementById("f-limite").value;
+
+    // Estes parâmetros são validados pelo FastAPI via Query Parameter Model
+    const params = {
+      busca,
+      categoria,
+      preco_min: precoMin,
+      preco_max: precoMax,
+      limite,
+      em_estoque: false,  // mostra todos, inclusive sem estoque
+    };
+
+    const res = await apiFetch("GET", "/produtos", null, params);
+    const grid = document.getElementById("produto-grid");
+
+    if (!res.ok) {
+      toast("Erro ao buscar produtos", "err");
+      return;
+    }
+
+    const data = await res.json();
+
+    if (data.length === 0) {
+      grid.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>Nenhum produto encontrado.</div>';
+      return;
+    }
+
+    grid.innerHTML = data.map(p => `
+      <div class="product-card">
+        <div class="pname">${p.nome}</div>
+        <div class="pcat">${p.categoria}</div>
+        <div class="pinfo">
+          <span>Qtd: <strong>${p.quantidade}</strong></span>
+          <span class="stock-badge ${p.quantidade <= 5 ? 'low' : ''}">
+            ${p.quantidade <= 5 ? '⚠ baixo' : '✓ ok'}
+          </span>
+        </div>
+        <div class="pinfo">
+          <span>Preço:</span>
+          <strong>R$ ${p.preco.toFixed(2)}</strong>
+        </div>
+        <div class="pinfo" style="font-size:.65rem; color:var(--muted)">
+          ID: #${p.id} · ${new Date(p.criado_em).toLocaleDateString("pt-BR")}
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-secondary btn-sm" onclick="abrirModal(${p.id})">Editar</button>
+          <button class="btn btn-danger btn-sm" onclick="deletarProduto(${p.id})">Excluir</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  /* ============================================================
+     BUSCAR POR ID
+     Usa: Path Parameters, Response Model, Extra Data Types
+  ============================================================ */
+  async function buscarPorId() {
+    const id = document.getElementById("b-id").value;
+    if (!id) { toast("Informe o ID", "err"); return; }
+
+    // O ID vai na URL → Path Parameter
+    const res = await apiFetch("GET", `/produtos/${id}`);
+    const div = document.getElementById("produto-detalhe");
+
+    if (res.status === 404) {
+      div.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>Produto não encontrado.</div>';
+      return;
+    }
+
+    const p = await res.json();
+    // "criado_em" é um datetime (Extra Data Types) retornado pelo servidor
+    div.innerHTML = `
+      <div class="product-card" style="margin-top:16px">
+        <div class="pname">${p.nome}</div>
+        <div class="pcat">${p.categoria}</div>
+        <div class="pinfo"><span>Quantidade:</span><strong>${p.quantidade}</strong></div>
+        <div class="pinfo"><span>Preço:</span><strong>R$ ${p.preco.toFixed(2)}</strong></div>
+        <div class="pinfo">
+          <span>Cadastrado em:</span>
+          <strong>${new Date(p.criado_em).toLocaleString("pt-BR")}</strong>
+        </div>
+      </div>`;
+    toast(`Produto #${id} encontrado!`);
+  }
+
+  /* ============================================================
+     CRIAR PRODUTO
+     Usa: Request Body, Body - Fields, Response Model
+  ============================================================ */
+  async function criarProduto() {
+    const nome = document.getElementById("c-nome").value;
+    const categoria = document.getElementById("c-categoria").value;
+    const quantidade = parseInt(document.getElementById("c-quantidade").value);
+    const preco = parseFloat(document.getElementById("c-preco").value);
+
+    if (!nome || !preco) { toast("Preencha todos os campos", "err"); return; }
+
+    // Objeto enviado como JSON no corpo (Request Body)
+    const body = { nome, categoria, quantidade, preco };
+
+    const res = await apiFetch("POST", "/produtos", body);
+
+    if (res.ok) {
+      const p = await res.json();
+      toast(`✓ Produto "${p.nome}" criado com ID #${p.id}`);
+      document.getElementById("c-nome").value = "";
+      document.getElementById("c-preco").value = "";
+      document.getElementById("c-quantidade").value = "0";
+    } else {
+      const err = await res.json();
+      toast(JSON.stringify(err.detail), "err");
+    }
+  }
+
+  /* ============================================================
+     AJUSTAR ESTOQUE
+     Usa: Path Parameters, Body - Multiple Parameters
+  ============================================================ */
+  async function ajustarEstoque() {
+    const id = document.getElementById("e-id").value;
+    const ajuste = parseInt(document.getElementById("e-ajuste").value);
+
+    if (!id || isNaN(ajuste)) { toast("Preencha ID e ajuste", "err"); return; }
+
+    // ID vai na URL (Path Param), ajuste vai no corpo (Body Param)
+    const res = await apiFetch("PATCH", `/produtos/${id}/estoque`, ajuste);
+
+    if (res.ok) {
+      const d = await res.json();
+      toast(`✓ Estoque: ${d.quantidade_anterior} → ${d.quantidade_atual}`);
+    } else {
+      const err = await res.json();
+      toast(err.detail, "err");
+    }
+  }
+
+  /* ============================================================
+     EDITAR PRODUTO (modal)
+     Usa: Path Parameters, Body - Multiple Parameters
+  ============================================================ */
+  async function abrirModal(id) {
+    const res = await apiFetch("GET", `/produtos/${id}`);
+    const p = await res.json();
+    document.getElementById("ed-id").value = p.id;
+    document.getElementById("ed-nome").value = p.nome;
+    document.getElementById("ed-categoria").value = p.categoria;
+    document.getElementById("ed-quantidade").value = p.quantidade;
+    document.getElementById("ed-preco").value = p.preco;
+    document.getElementById("modal-editar").classList.add("open");
+  }
+
+  function fecharModal() {
+    document.getElementById("modal-editar").classList.remove("open");
+  }
+
+  async function salvarEdicao() {
+    const id = document.getElementById("ed-id").value;
+    const body = {
+      nome: document.getElementById("ed-nome").value,
+      categoria: document.getElementById("ed-categoria").value,
+      quantidade: parseInt(document.getElementById("ed-quantidade").value),
+      preco: parseFloat(document.getElementById("ed-preco").value),
+    };
+
+    const res = await apiFetch("PUT", `/produtos/${id}`, body);
+
+    if (res.ok) {
+      toast("✓ Produto atualizado!");
+      fecharModal();
+      listarProdutos();
+    } else {
+      const err = await res.json();
+      toast(err.detail, "err");
+    }
+  }
+
+  /* ============================================================
+     DELETAR PRODUTO
+     Usa: Path Parameters
+  ============================================================ */
+  async function deletarProduto(id) {
+    if (!confirm(`Excluir produto #${id}?`)) return;
+    const res = await apiFetch("DELETE", `/produtos/${id}`);
+    if (res.status === 204) {
+      toast(`Produto #${id} excluído`);
+      listarProdutos();
+    } else {
+      const err = await res.json();
+      toast(err.detail, "err");
+    }
+  }
+
+  /* ====== Carrega a lista ao abrir ====== */
+  listarProdutos();
+</script>
+</body>
+</html>

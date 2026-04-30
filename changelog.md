@@ -1,26 +1,26 @@
 - 2026.1.5
-  - Criação do arquivo `changelog.md`
+  - Criação do arquivo `changelog.md`.
   - AULAS/01/
-    - Pequeno ajuste no arquivo `aula01.md`
+    - Pequeno ajuste no arquivo `aula01.md`.
   - AULAS/05/
-    - Atualização do arquivo `aula05.md`
+    - Atualização do arquivo `aula05.md`.
     - Acréscimo de arquivos de imagens e de exemplos.
 - 2026.1.6
   - AULAS/06/
-    - Atualização do arquivo `aula06.md`
+    - Atualização do arquivo `aula06.md`.
     - Acréscimo de exemplos em exemplos/
     - Acréscimo de uma imagem em imagens/
     - Exclusão de arquivos antigos.
 - 2026.1.6.1
-  - Acrescentado o arquivo `exercícios_av1.html`
+  - Acrescentado o arquivo `exercícios_av1.html`.
 - 2026.1.7
   - AULAS/07/
-    - Atualização do arquivo `aula07.md`
-  - Modificação no arquivo `.gitignore`
+    - Atualização do arquivo `aula07.md`.
+  - Modificação no arquivo `.gitignore`.
 - 2026.1.8
   - AULAS/08/
-    - Atualização do arquivo `aula08.md`
-    - Imagens acrescentadas em `/imagens/`
+    - Atualização do arquivo `aula08.md`.
+    - Imagens acrescentadas em `/imagens/`.
 - 2026.1.9
   - AULAS/06/
     - Modificações feitas em sala dos exemplos `conteudo.txt` e `sessionStorage.html`.
@@ -32,3 +32,12 @@
   - AULAS/10/
     - Atualização do arquivo `aula10.md`.
     - Imagens acrescentadas.
+- 2026.1.11
+  - AULAS/Apresentação/
+    - Removido o arquivo `Apresentação.pdf`.
+  - AULAS/11/
+    - Atualização do arquivo `aula11.md`.
+    - Arquivos de exemplo seguindo tutorial do FastAPI na pasta `exemplo_tutorial/`.
+    - Arquivos de exemplo gerado pelo Grok na pasta `exemplo_grok/`.
+    - Arquivos de exemplo gerado pelo Claude na pasta `exemplo_claude/`.
+  - `.gitignore` atualizado.
