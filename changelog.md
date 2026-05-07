@@ -41,3 +41,7 @@
     - Arquivos de exemplo gerado pelo Grok na pasta `exemplo_grok/`.
     - Arquivos de exemplo gerado pelo Claude na pasta `exemplo_claude/`.
   - `.gitignore` atualizado.
+- 2026.1.12
+  - AULAS/12/
+    - Criação do arquivo `aula12.md`.
+    - Criação de imagens ilustrativas.
