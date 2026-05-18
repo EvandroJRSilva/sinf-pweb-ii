@@ -45,3 +45,8 @@
   - AULAS/12/
     - Criação do arquivo `aula12.md`.
     - Criação de imagens ilustrativas.
+- 2026.1.13
+  - AULAS/13/
+    - Criação do arquivo `aula13.md`.
+    - Adição de imagens ilustrativas.
+  - Modificação no `.gitignore` para não subir o código de que exemplo, o qual pode ser pego a partir do link presente no arquivo da aula.
