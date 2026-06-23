@@ -53,3 +53,7 @@
 - 2026.1.14
   - AULAS/14/
     - Criação do arquivo `aula14.md`
+- 2026.1.15
+  - AULAS/15/
+    - Criação do arquivo `aula15.md`
+    - Adição de imagens na pasta `/imagens/`
