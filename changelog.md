@@ -50,3 +50,6 @@
     - Criação do arquivo `aula13.md`.
     - Adição de imagens ilustrativas.
   - Modificação no `.gitignore` para não subir o código de que exemplo, o qual pode ser pego a partir do link presente no arquivo da aula.
+- 2026.1.14
+  - AULAS/14/
+    - Criação do arquivo `aula14.md`
