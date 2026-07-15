@@ -57,3 +57,6 @@
   - AULAS/15/
     - Criação do arquivo `aula15.md`
     - Adição de imagens na pasta `/imagens/`
+- 2026.1.15.1
+  - Plano de Ensino/
+    - Atualização do arquivo `plano_ensino.pdf`.
