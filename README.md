@@ -26,10 +26,13 @@ Repositório para os materiais da disciplina P. Web II.
 
 #### Atualizada
 
-- ROADMAP.SH. **Backend Developer**. Developer Roadmaps, 2026. Disponível em: https://roadmap.sh/backend. Acesso em: 07 fev. 2026.
-- HAVERBEKE, Marijn. **Eloquent JavaScript**. 4 ed. No starch press. Disponível em [https://eloquentjavascript.net/](https://eloquentjavascript.net/). Acesso em 21 ago. 2025.
-- GRINBERG, Miguel. **Flask Web Development: Developing Web Applications with Python**. 2 ed. O'Reilly Media, 2018.
-- **Mozilla Developer Network (MDN Web Docs)**. Disponível em [https://developer.mozilla.org/pt-BR/](https://developer.mozilla.org/pt-BR/). Acesso em 21 ago. 2025.
+- CONNOLLY, Randy; HOAR, Ricardo. **Fundamentals of Web Development**. 3.ed. [S.l.]: Pearson: 2022.
+- KLEPPMANN, Martin. **Designing Data-Intensive Applications - The Big Ideas Behind Reliable, Scalable, and Maintanable Systems**. 1.ed. Sebastopol, CA: O'Reilly Media, 2017.
+- JIN, Brenda; SAHNI, Saurabh; SHEVAT, Amir. **Designing Web APIs - Building APIs that Developers Love**. 1.ed. Sebastopol, CA: O'Reilly Media, 2018.
+- EJSMONT, Artur. **Web Scalability for Startup Engineers - Tips & Techniques for Scaling Your Web Application**. 1. ed. [S.l.]: McGraw-Hill Education, 2015.
+- FIELDING, Roy T.; NOTTINGHAM, Mark; RESCHEKE, Julian. **RFC 9110: STD 97: HTTP Semantics**. IETF, 2022. Disponível em: [https://www.rfc-editor.org/info/rfc9110/](https://www.rfc-editor.org/info/rfc9110/). Acesso em: 03 ago. 2026.
+- FIELDING, Roy T.; NOTTINGHAM, Mark; RESCHEKE, Julian. **RFC 9111: STD 98: HTTP Caching**. IETF, 2022. Disponível em: [https://www.rfc-editor.org/info/rfc9111/](https://www.rfc-editor.org/info/rfc9111/). Acesso em: 03 ago. 2026.
+- BERNERS-LEE, Tim; FIELDING, Roy T.; MASINTER, Larry M. **RFC 3986: STD 66: Uniform Resource Identifier (URI): Generic Syntax**. IETF, 2005. Disponível em: [https://www.rfc-editor.org/info/rfc3986/](https://www.rfc-editor.org/info/rfc3986/). Acesso em: 03 ago. 2026.
 
 
 ### Complementar
@@ -44,88 +47,118 @@ Repositório para os materiais da disciplina P. Web II.
 
 #### Atualizada
 
-- PILGRIM, Mark. **Dive into HTML5 with illustrations from the public domain**. Disponível em [https://mislav.github.io/diveintohtml5/](https://mislav.github.io/diveintohtml5/) (HTML, contéudo em Inglês), ou [https://www.jesusda.com/docs/ebooks/ebook_manual_en_dive-into-html5.pdf](https://www.jesusda.com/docs/ebooks/ebook_manual_en_dive-into-html5.pdf) (PDF), ou [https://github.com/zenorocha/diveintohtml5](https://github.com/zenorocha/diveintohtml5) (conteúdo traduzido). Acesso a todas as páginas citadas em 20 ago. 2025.
+- FIELDING, Roy T.; NOTTINGHAM, Mark; RESCHEKE, Julian. **RFC 9112: STD 99: HTTP/1.1**. IETF, 2022. Disponível em: [https://www.rfc-editor.org/info/rfc9112/](https://www.rfc-editor.org/info/rfc9112/). Acesso em: 03 ago. 2026.
+- THOMSON, Martin; BENFIELD, Cory. **RFC 9113: HTTP/2**. IETF, 2022. Disponível em: [https://www.rfc-editor.org/info/rfc9113/](https://www.rfc-editor.org/info/rfc9113/). Acesso em: 03 ago. 2026.
+- BISHOP, Mike. **RFC 9114: HTTP/3**. IETF, 2022. Disponível em: [https://www.rfc-editor.org/info/rfc9114/](https://www.rfc-editor.org/info/rfc9114/). Acesso em: 03 ago. 2026.
 - **OWASP Application Security Verification Standard (ASVS)**. Disponível em [https://owasp.org/www-project-application-security-verification-standard/](https://owasp.org/www-project-application-security-verification-standard/). Acesso em 21 ago. 2025.
+- ROADMAP.SH. **Backend Developer**. Developer Roadmaps, 2026. Disponível em: https://roadmap.sh/backend. Acesso em: 07 fev. 2026.
 - **SQL Tutorial**. Disponível em [https://www.sqltutorial.org/](https://www.sqltutorial.org/). Acesso em 21 ago. 2025.
+- HAVERBEKE, Marijn. **Eloquent JavaScript**. 4 ed. No starch press. Disponível em [https://eloquentjavascript.net/](https://eloquentjavascript.net/). Acesso em 21 ago. 2025.
+- PILGRIM, Mark. **Dive into HTML5 with illustrations from the public domain**. Disponível em [https://mislav.github.io/diveintohtml5/](https://mislav.github.io/diveintohtml5/) (HTML, contéudo em Inglês), ou [https://www.jesusda.com/docs/ebooks/ebook_manual_en_dive-into-html5.pdf](https://www.jesusda.com/docs/ebooks/ebook_manual_en_dive-into-html5.pdf) (PDF), ou [https://github.com/zenorocha/diveintohtml5](https://github.com/zenorocha/diveintohtml5) (conteúdo traduzido). Acesso a todas as páginas citadas em 20 ago. 2025.
+- GRINBERG, Miguel. **Flask Web Development: Developing Web Applications with Python**. 2 ed. O'Reilly Media, 2018.
+- **Mozilla Developer Network (MDN Web Docs)**. Disponível em [https://developer.mozilla.org/pt-BR/](https://developer.mozilla.org/pt-BR/). Acesso em 21 ago. 2025.
 
 ## Conteúdo Programático
 
-### Unidade 1 - Bancos de Dados e Comunicação Síncrona vs. Assíncrona
+### Unidade 1 - Fundamentos da Comunicação Web e o Papel do Backend
 
-- Bancos de Dados Relacionais
-	- Conceitos
-		- Transações
-		- ACID
-		- Normalização
-	- SQLite
-	- PostgreSQL
-	- ORMs
-- Comunicação síncrona vs. assíncrona
-	- XMLHttpResquest API
-	- Fetch API
-	- Cookie Store API
+- O que é Backend e seu lugar no ecossistema web
+  - Frontend × Backend × Full-stack
+  - Responsabilidades do lado servidor
+  - Evolução histórica resumida da web e do servidor
+- Arquitetura Cliente-Servidor
+  - Modelo clássico e suas variações
+  - Papéis, responsabilidades e fluxo de comunicação
+  - *Stateless* vs *Stateful* (introdução)
+- Protocolo HTTP em profundidade
+  - Estrutura de uma mensagem HTTP
+  - Métodos (GET, POST, PUT, PATCH, DELETE, etc.) e sua semântica
+  - Códigos de status e categorias
+  - Headers importantes
+  - Corpo da mensagem e tipos de conteúdo
+  - HTTP/1.1, HTTP/2 e HTTP/3 (visão conceitual de diferenças)
+- Ciclo de vida de uma requisição HTTP
+  - Do navegador/cliente até o servidor e de volta
+  - Resolução de DNS, conexão, processamento e resposta
+  - Papel dos proxies e intermediários
+- Recursos, URIs e identificação
+  - URI, URL e URN
+  - Identificação de recursos
+  - Conceito de hipermídia (HATEOAS em nível introdutório)
+- Introdução a APIs e Serviços Web
+  - O que é uma API e por que existe
+  - APIs como contrato
+  - Diferença entre API e aplicação web tradicional
+- Princípios REST
+  - Recursos, verbos e representações
+  - Características principais do estilo REST
+  - Quando REST faz sentido (e quando não)
 
-### Unidade 2 - APIs, Autenticação, Segurança, Caching, Servidores e Integração
+### Unidade 2 - Processamento no Servidor, Estado e Segurança Básica
 
-- APIs
-	- REST
-	- JSON APIs
-- Autenticação
-	- Basic Authentication
-	- Token Authentication
-	- Cookie Based Authentication
-	- Web Authentication API
-	- JWT
-	- OAuth
-- Segurança
-	- HTTPs
-	- OWASP Risks
-	- CORS
-	- SSL/TLS
-	- CSP
-	- Server Security
-	- API Security Best Practices
-	- Hashing Algorithms
-		- MD5
-		- SHA
-		- scrypt
-		- bcrypt
-- Caching
-	- HTTP Caching
-	- Redis
-- Web Servers
-	- Nginx
-	- Apache
-- Padrões de integração
-	- Streaming
-	- Structured Outputs
-	- Function Calling
+- Processamento de requisições no servidor
+  - Conceito de handler / controller / endpoint
+  - Roteamento (mapeamento de URL + método → lógica)
+- *Pipeline* de processamento e *middlewares* 
+  - Fluxo de passagem da requisição
+  - Pontos de interceptação (autenticação, logging, validação etc.)
+- Gerenciamento de Estado
+  - Por que a web é naturalmente stateless
+  - Cookies, sessões e tokens (conceitos e trade-offs)
+  - Quando manter estado e quando evitar
+- Autenticação e Autorização (fundamentos)
+  - Diferença clara entre os dois conceitos
+  - Modelos básicos (sessão, token, basic)
+  - Princípios de identidade e controle de acesso
+- Validação e sanitização de entradas
+  - Por que validar no backend é obrigatório
+  - Tipos de validação (sintática, semântica, de negócio)
+  - Conceito de confiança zero nas entradas do cliente
+- Tratamento de erros e design de respostas
+  - Erros esperados vs inesperados
+  - Códigos de status adequados
+  - Mensagens de erro úteis e seguras
+- Persistência de dados
+  - Por que o backend precisa persistir dados
+  - Tipos gerais de armazenamento (relacional, documento, chave-valor — apenas conceitos)
+  - Separação entre lógica de negócio e armazenamento
+- Logging, auditoria e observabilidade básica
+  - O que registrar e por quê
+  - Níveis de log
+  - Conceitos iniciais de rastreabilidade de requisições
 
-### Unidade 3 - Tópicos
+### Unidade 3 - Design de Sistemas Backend, Escalabilidade e Boas Práticas
 
-- CI/CD
-- Testes
-	- Teste de unidade
-	- Teste funcional
-	- Teste de integração
-- Containerização
-	- Docker
-	- Kubernetes
-- Padrões de arquitetura
-	- Monolítico
-	- Microserviços
-	- MVC
-	- SOA
-	- Serverless
-- Escalando Bancos de Dados
-	- Database Indexes
-- Bancos de Dados NoSQL
-	- Firebase (realtime)
-	- MongoDB (documents)
-	- Redis (key-value)
-	- ClickHouse/Cassandra (column)
-	- Neo4j (graph)
-	- Influx DB (time series)
+- Design de APIs — boas práticas
+  - Recursos bem modelados
+  - Versionamento
+  - Paginação, filtros e ordenação (conceitos)
+  - Documentação como contrato
+- Segurança no Backend
+  - Principais categorias de riscos (baseado no pensamento do OWASP Top 10, sem aprofundar exploits)
+  - HTTPS / TLS
+  - Princípios de proteção de dados e de endpoints
+- Escalabilidade
+  - Escala vertical × horizontal
+  - Gargalos comuns
+  - *Load balancing* (visão conceitual)
+- *Caching* e performance
+  - Onde e por que cachear
+  - Cache no servidor, em intermediários e no cliente
+  - Invalidação de cache (problema clássico)
+- Idempotência, consistência e tolerância a falhas (introdução)
+  - Operações idempotentes
+  - Consistência eventual (conceito)
+  - O que significa um sistema tolerante a falhas em nível introdutório
+- Estilos arquiteturais (visão geral e *trade-offs*)
+  - Monólito
+  - Orientado a serviços
+  - Microserviços (apenas visão de alto nível e quando considerar)
+  - Critérios de escolha
+- Ambientes, ciclo de vida e deploy
+  - Desenvolvimento, homologação e produção
+  - O que muda entre ambientes
+  - Conceito de pipeline e entrega contínua (visão de princípios)
 
 ## Avaliação
 
@@ -159,260 +192,43 @@ O documento deve ser enviado para o e-mail <a href="mailto:evandro.silva@ufpi.ed
 
 ## Calendário
 
-<link rel="stylesheet" href="calendario.css">
-
-<span class="badge aula">AULA</span>
-<span class="badge feriado">FERIADO</span>
-<span class="badge prova">PROVA</span>
-
-<div class="tabelas">
-    <table class="calendario">
-  	<thead>
-  		<tr><th colspan="5">Março</th></tr>
-  		<tr>
-  			<th>Seg</th>
-  			<th>Ter</th>
-  			<th>Qua</th>
-  			<th>Qui</th>
-  			<th>Sex</th>
-  		</tr>
-  	</thead>
-  	<tbody>
-  		<tr>
-  			<td>02</td>
-  			<td>03</td>
-  			<td>04</td>
-  			<td>05</td>
-  			<td>06</td>
-  		</tr>
-  		<tr>
-  			<td>09</td>
-  			<td>10</td>
-  			<td class="aula" conteudo="Apresentação da disciplina; BDs Relacionais: Transações e ACID.">11</td>
-  			<td class="aula" conteudo="Normalização.">12</td>
-  			<td>13</td>
-  		</tr>
-  		<tr>
-  			<td>16</td>
-  			<td>17</td>
-  			<td class="aula" conteudo="SQLite e PostgreSQL.">18</td>
-  			<td class="aula" conteudo="Comunicação síncrona vs. assícrona. AJAX. Fetch API.">19</td>
-  			<td>20</td>
-  		</tr>
-  		<tr>
-  			<td>23</td>
-  			<td>24</td>
-  			<td class="aula" conteudo="Fetch API (continuação)">25</td>
-  			<td class="aula" conteudo="Cookie Store API">26</td>
-  			<td>27</td>
-  		</tr>
-  		<tr>
-  			<td>30</td>
-  			<td>31</td>
-  			<td></td>
-  			<td></td>
-  			<td></td>
-  		</tr>
-  	</tbody>
-  </table>
-
-  <table class="calendario">
-  	<thead>
-  		<tr><th colspan="5">Abril</th></tr>
-  		<tr>
-  			<th>Seg</th>
-  			<th>Ter</th>
-  			<th>Qua</th>
-  			<th>Qui</th>
-  			<th>Sex</th>
-  		</tr>
-  	</thead>
-  	<tbody>
-  		<tr>
-  			<td></td>
-  			<td></td>
-  			<td class="aula" conteudo="Revisão">01</td>
-  			<td class="prova" conteudo="AV1">02</td>
-  			<td class="feriado" conteudo="Sexta-feira da paixão">03</td>
-  		</tr>
-  		<tr>
-  			<td>06</td>
-  			<td>07</td>
-  			<td class="aula" conteudo="REST APIs. JSON APIs.">08</td>
-  			<td class="aula" conteudo="Autenticação: Básica e Token.">09</td>
-  			<td>10</td>
-  		</tr>
-  		<tr>
-  			<td>13</td>
-  			<td>14</td>
-  			<td class="aula" conteudo="Autenticação: Cookie e Web Authentication API.">15</td>
-  			<td class="aula" conteudo="Autenticação: JWT e OAuth.">16</td>
-  			<td>17</td>
-  		</tr>
-  		<tr>
-  			<td>20</td>
-  			<td class="feriado" conteudo="Tiradentes">21</td>
-  			<td class="aula" conteudo="Segurança: HTTPs, OWASP Risks, CORS e SSL/TLS.">22</td>
-  			<td class="aula" conteudo="Segurança: CSP e Server Security. Melhores práticas.">23</td>
-  			<td>24</td>
-  		</tr>
-  		<tr>
-  			<td>27</td>
-  			<td>28</td>
-  			<td class="aula" conteudo="Hashing algorithms: MD5 e SHA.">29</td>
-  			<td class="aula" conteudo="Hashing algorithms: scrypt e bcrypt.">30</td>
-  			<td></td>
-  		</tr>
-  	</tbody>
-  </table>
-
-  <table class="calendario">
-  	<thead>
-  		<tr><th colspan="5">Maio</th></tr>
-  		<tr>
-  			<th>Seg</th>
-  			<th>Ter</th>
-  			<th>Qua</th>
-  			<th>Qui</th>
-  			<th>Sex</th>
-  		</tr>
-  	</thead>
-  	<tbody>
-  		<tr>
-  			<td></td>
-  			<td></td>
-  			<td></td>
-  			<td></td>
-  			<td class="feriado" conteudo="Dia do Trabalho">01</td>
-  		</tr>
-  		<tr>
-  			<td>04</td>
-  			<td>05</td>
-  			<td class="aula" conteudo="HTTP caching. Redis.">06</td>
-  			<td class="aula" conteudo="Nginx.">07</td>
-  			<td>08</td>
-  		</tr>
-  		<tr>
-  			<td>11</td>
-  			<td>12</td>
-  			<td class="aula" conteudo="Apache server.">13</td>
-  			<td class="aula" conteudo="Padrões de integração.">14</td>
-  			<td>15</td>
-  		</tr>
-  		<tr>
-  			<td>18</td>
-  			<td>19</td>
-  			<td class="prova" conteudo="AV2">20</td>
-  			<td class="prova" conteudo="AV2">21</td>
-  			<td>22</td>
-  		</tr>
-  		<tr>
-  			<td>25</td>
-  			<td>26</td>
-  			<td class="aula" conteudo="CI/CD.">27</td>
-  			<td class="aula" conteudo="Testes.">28</td>
-  			<td>29</td>
-  		</tr>
-  	</tbody>
-  </table>
-
-  <table class="calendario">
-  	<thead>
-  		<tr><th colspan="5">Junho</th></tr>
-  		<tr>
-  			<th>Seg</th>
-  			<th>Ter</th>
-  			<th>Qua</th>
-  			<th>Qui</th>
-  			<th>Sex</th>
-  		</tr>
-  	</thead>
-  	<tbody>
-  		<tr>
-  			<td>01</td>
-  			<td>02</td>
-  			<td class="aula" conteudo="Docker.">03</td>
-  			<td class="feriado" conteudo="Corpus Christi">04</td>
-			<td>05</td>
-  		</tr>
-  		<tr>
-  			<td>08</td>
-  			<td>09</td>
-  			<td class="aula" conteudo="Kubernetes.">10</td>
-  			<td class="aula" conteudo="Padrões de arquitetura.">11</td>
-  			<td>12</td>
-  		</tr>
-  		<tr>
-  			<td>15</td>
-  			<td>16</td>
-  			<td class="aula" conteudo="Database Indexes.">17</td>
-  			<td class="aula" conteudo="Firebase. MongoDB.">18</td>
-  			<td>19</td>
-  		</tr>
-  		<tr>
-  			<td>22</td>
-  			<td>23</td>
-  			<td class="aula" conteudo="Redis. ClickHouse/Cassandra">24</td>
-  			<td class="aula" conteudo="Neo4j. Influx DB.">25</td>
-  			<td>26</td>
-  		</tr>
-  		<tr>
-  			<td>29</td>
-  			<td>30</td>
-  			<td></td>
-  			<td></td>
-  			<td></td>
-  		</tr>
-  	</tbody>
-  </table>
-
-  <table class="calendario">
-  	<thead>
-  		<tr><th colspan="5">Julho</th></tr>
-  		<tr>
-  			<th>Seg</th>
-  			<th>Ter</th>
-  			<th>Qua</th>
-  			<th>Qui</th>
-  			<th>Sex</th>
-  		</tr>
-  	</thead>
-  	<tbody>
-  		<tr>
-  			<td></td>
-  			<td></td>
-  			<td class="prova" conteudo="AV3">01</td>
-  			<td class="prova" conteudo="AV3">02</td>
-			<td>03</td>
-  		</tr>
-  		<tr>
-  			<td>06</td>
-  			<td>07</td>
-  			<td class="prova" conteudo="Avaliação Final">08</td>
-  			<td>09</td>
-  			<td>10</td>
-  		</tr>
-  		<tr>
-  			<td>13</td>
-  			<td>14</td>
-  			<td>15</td>
-  			<td>16</td>
-  			<td>17</td>
-  		</tr>
-  		<tr>
-  			<td>20</td>
-  			<td>21</td>
-  			<td>22</td>
-  			<td>23</td>
-  			<td>24</td>
-  		</tr>
-  		<tr>
-  			<td>27</td>
-  			<td>28</td>
-  			<td>29</td>
-  			<td>30</td>
-  			<td>31</td>
-  		</tr>
-  	</tbody>
-  </table>
-</div>
+| **AULA** | **Data** | **Dia da semana** | **CONTEÚDO** |
+|---|---|---|---|
+| 01 | 12/08/26 | Quarta | Apresentação da disciplina <br> O que é Backend e seu lugar no ecossistema web |
+| 02 | 13/08/26 | Quinta | Arquitetura Cliente-Servidor |
+| 03 | 19/08/26 | Quarta | Protocolo HTTP em profundidade (parte 1) |
+| 04 | 20/08/26 | Quinta | Protocolo HTTP em profundidade (parte 2) |
+| 05 | 26/08/26 | Quarta | Ciclo de vida de uma requisição HTTP | 
+| 06 | 27/08/26 | Quinta | Recursos, URIs e identificação |
+| 07 | 02/09/26 | Quarta | Introdução a APIs e Serviços Web |
+| 08 | 03/09/26 | Quinta | Princípios REST |
+| 09 | 09/09/26 | Quarta | Revisão |
+| 10 | 10/09/26 | Quinta | Primeira Avaliação |
+| 11 | 16/09/26 | Quarta | Processamento de requisições no servidor |
+| 12 | 17/09/26 | Quinta | Pipeline de processamento e middlewares |
+| 13 | 23/09/26 | Quarta | Gerenciamento de Estado |
+| 14 | 24/09/26 | Quinta | Autenticação e Autorização |
+|    | 30/09/26 | Quarta | **SINFO** |
+| 15 | 01/10/26 | Quinta | Validação e sanitização de entradas |
+| 16 | 07/10/26 | Quarta | Tratamento de erros e design de respostas |
+| 17 | 08/10/26 | Quinta | Persistência de dados |
+| 18 | 14/10/26 | Quarta | Logging, auditoria e observabilidade básica |
+| 	 | 15/10/26 | Quinta | Recesso acadêmico |
+| 	 | 21/10/26 | Quarta | **BRACIS** |
+| 	 | 22/10/26 | Quinta | **BRACIS** |
+| 	 | 28/10/26 | Quarta | Feriado: Dia do Servidor Público |
+| 19 | 29/10/26 | Quinta | Revisão |
+| 20 | 04/11/26 | Quarta | Segunda Avaliação |
+| 21 | 05/11/26 | Quinta | Design de APIs — boas práticas |
+| 22 | 11/11/26 | Quarta | Segurança no Backend |
+| 23 | 12/11/26 | Quinta | Escalabilidade |
+| 24 | 18/11/26 | Quarta | Caching e performance |
+| 25 | 19/11/26 | Quinta | Idempotência, consistência e tolerância a falhas (introdução) |
+| 26 | 25/11/26 | Quarta | Estilos arquiteturais (visão geral e *trade-offs*) |
+| 27 | 26/11/26 | Quinta | Ambientes, ciclo de vida e deploy |
+| 28 | 02/12/26 | Quarta | Projeto integrado |
+| 29 | 03/12/23 | Quinta | Projeto integrado |
+| 30 | 09/12/26 | Quarta | Terceira Avaliação |
+| 31 | 10/12/26 | Quinta | Terceira Avaliação |
+|    | 16/12/26 | Quarta | Prova Final |
+|    | 17/12/26 | Quinta | |
