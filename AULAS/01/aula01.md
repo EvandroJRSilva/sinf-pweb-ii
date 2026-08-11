@@ -1,79 +1,155 @@
 # Aula 01
 
-## Bancos de Dados Relacionais - Revisão[^1]
+## Breve histórico da Internet
 
-[^1]: Traduzido e adaptado de https://grokipedia.com/page/Relational_database
+### 1961 - 1972: Desenvolvimento da Comutação de Pacotes
 
-Um Banco de Dados Relacional é um tipo de Sistema de Gerenciamento de Banco de Dados (**SGBD**) que organiza os dados em relações, as quais consistem em estruturas tabulares contendo linhas (**tuplas**) e colunas (**atributos**), aderindo ao modelo relacional introduzido por [Edgar F. Codd](https://grokipedia.com/page/Edgar_F._Codd) em 1970. Esse modelo representa os dados como conjuntos de relações onde cada relação é composta por **entidades** e suas **associações** através de atributos compartilhados, o que permite o armazenamento, recuperação e manipulação eficientes sem depender de detalhes de armazenamento físico.
+- **Década de 60:** Início do Programa de Ciência da Computação na **ARPA** (*Advanced Research Projects Agency* - Agência de Projetos de Pesquisa Avançada), órgão do Departamento de Defesa dos Estados Unidos.
+  - **1967:** A ARPA apresentou suas ideias para a **Rede da Agência de Projetos de Pesquisa Avançados** ([ARPANET](https://en.wikipedia.org/wiki/ARPANET) - *ARPA NETwork*). A ideia era que cada computador (não necessariamente do mesmo fabricante) seria ligado a um computador especializado, chamado de **Processador de Mensagens de Interface** (IMP - *Interface Message Processor*). Os IMPs seriam ligados uns aos outros.
+  - **Maio de 1969:** Foi instalado o primeiro roteador de pacotes na UCLA (Universidade da Califórnia em Los Angeles). Pouco tempo depois foram instalados três roteadores de pacotes adicionais no *Stanford Research Institute* (SRI), na Universidade da Califórnia em Santa Bárbara e na Universidade de Utah.
 
-Os princípios fundamentais de bancos de dados relacionais enfatizam a [**independência dos dados**](https://grokipedia.com/page/Data_independence), [**integridade**](https://grokipedia.com/page/Data_integrity) e **consulta declarativa**. 
+### 1972 - 1980: Redes proprietárias e interligação de redes
 
-- A independência lógica dos dados garante que mudanças no esquema conceitual, como a adição de novas relações, não afetam programas que estejam usando o banco. A independência física dos dados protege os usuários contra alterações nas estruturas de armazenamento ou nos métodos de acesso.
-- A integridade dos dados é garantida por meio de restrições como **chaves primárias**, as quais identificam **exclusivamente** cada tupla em uma relação, e **regras de integridade referencial**, as quais mantêm a consistência através das relações.
-- As consultas consistem em operações sobre conjuntos como **seleção**, **projeção** e **junção**, as quais tratam os dados como conjuntos matemáticos, o que permite aos usuários especificar quais dados são necessários sem a necessidade de detalhar como recuperá-los.
+Além da ARPANET (que era uma rede fechada) outras redes foram surgindo:
 
-### Transações
+- **ALOHA**net (no Havaí), utilizando microondas.
+- Redes de pacote por satélite ([RFC 829](https://www.rfc-editor.org/info/rfc829)), e por rádio, da DARPA.
+- [Telenet](https://en.wikipedia.org/wiki/Telenet), rede comercial de comutação de pacotes da [BBN](https://en.wikipedia.org/wiki/RTX_BBN_Technologies).
+- [CYCLADES](https://en.wikipedia.org/wiki/CYCLADES), na França.
+- SNA da IBM.
 
-Uma **transação** é definida como um **[unidade de trabalho](https://grokipedia.com/page/Unit_of_work) lógica** consistindo em uma sequência de operações, como leitura e escrita, as quais são executadas como uma entidade única e indivisível de forma a manter a integridade dos dados.
+A DARPA (*Defense Advanced Research Projects Agency* - Agência de de Projetos de Pesquisa Avançada de Defesa), foi pioneira na interconexão de redes, ou redes de redes. O termo cunhado naquele tempo: *internetting*. Eles tiveram a ideia de um dispositivo chamado ***gateway***** para atuar como o hardware intermediário na transferência de dados de uma rede para outra.
 
-As transações normalmente começam com uma declaração `BEGIN`, seguida de uma série de operações de banco de dados, sendo concluídas com um `COMMIT`, para aplicar permanentemente as mudanças, ou um `ROLLBACK` para desfazê-las, o que garante que falhas parciais não deixem o banco de dados em um estado inconsistente. Esse mecanismo permite que operações complexas, como a transferência de fundos entre contas, sejam tratadas **atomicamente**, prevenindo situações problemáticas caso haja falha em alguma operação.
+Os princı́pios de arquitetura da *internetting* foram incorporadas ao TCP (*Transmission Control Protocol*). [RFC 761](https://datatracker.ietf.org/doc/html/rfc761), primeiro RFC do TCP.
 
-### ACID
+### 1980 - 1990: Proliferação de redes
 
-The reliability of transactions in relational databases is ensured through the ACID properties (atomicity, consistency, isolation, durability), a set of guarantees that ensure reliable transaction processing; the acronym was coined by Theo Härder and Andreas Reuter in 1983.[67] Atomicity requires that a transaction is executed completely or not at all; if any operation fails, the entire transaction is rolled back, restoring the database to its pre-transaction state. Consistency mandates that a transaction brings the database from one valid state to another, preserving integrity constraints such as primary keys, foreign keys, and check constraints after completion. Isolation ensures that concurrent transactions do not interfere with each other, making each transaction appear to execute in isolation even when running in parallel. Durability guarantees that once a transaction is committed, its effects are permanently stored, surviving subsequent system failures through techniques like write-ahead logging.
+- Ao fim da década de 70, cerca de 200 máquinas estavam conectadas à ARPANET. 
+- Ao fim da década de 80 a rede alcançou a marca de 100 mil! 
+- Muito esforço foi feito para interligar universidades, e em **01 Janeiro de 1983** o TCP/IP foi oficialmente adotado como o novo padrão de protocolo das máquinas na rede ARPANET. O **DNS** (*Domain Name System*) foi desenvolvido nesse perı́odo também.
+- Na França a Rede Minitel teve bastante sucesso e incentivo governamental.
 
-A confiabilidade das transações em um banco de dados relacional é garantido atraveás das propriedades **ACID**:
+### Década de 1990: A explosão da Internet
 
-- **A**tomicidade: requer que uma transação seja executada por completo; se alguma operação falhar, a transação inteira é revertida, levando o banco de dados para seu estado anterior à transação.
-- **C**onsistência: exige que uma transação leve o banco de dados de um estado válido para outro, preservando as restrições de integridade, como chaves primárias, chaves estrangeiras e restrições de verificação, após a conclusão.
-- **I**solamento: garante que as transações simultâneas não interfiram umas com as outras, fazendo com que cada transação pareça ser executada isoladamente, mesmo quando em paralelo.
-- **D**urabilidade: garante que, uma vez confirmada uma transação, seus efeitos sejam armazenados permanentemente, sobrevivendo a falhas subsequentes do sistema.
+- A ARPANET deixou de existir, mas tivemos o surgimento da ***World Wide Web*** (WWW), criada no CERN (*European Center for Nuclear Physics*) pelo Físico e Cientista da Computação [Tim Berners-Lee](https://pt.wikipedia.org/wiki/Tim_Berners-Lee) entre 1989 e 1991.
+- **A partir de 1996:** guerra entre os navegadores Netscape e Internet Explorer ([TecMundo: Guerra dos Navegadores](https://www.youtube.com/watch?v=3yTDZTKwj-o)). Além disso, milhares de novas empresas foram surgindo, propondo os mais diversos serviços pela Web. Os principais: correio eletrônico (e-mail), serviço de mensagem instantânea e compartilhamento *peer-to-peer* (**P2P**).
 
-### Domínios e Esquemas
+### Década de 2000
 
-Um domínio representa o conjunto de valores atômicos permitidos a partir dos quais os valores de um atributo específico são extraídos, garantindo a consistência dos dados e a segurança de tipos entre as relações. Esse conceito, introduzido por E.F. Codd, define domínios como conjuntos finitos ou infinitos de valores, como o domínio dos inteiros para atributos numéricos ou o domínio das strings para atributos textuais, impedindo entradas inválidas, como valores não numéricos em um campo de idade. Por exemplo, o domínio para o atributo de idade de um funcionário pode ser restrito a inteiros entre 18 e 65, limitando os valores a esse intervalo e excluindo dados estranhos, como números negativos ou decimais.
+- **2002:** Estourou a [Bolha da Internet](https://pt.wikipedia.org/wiki/Bolha_da_Internet).
+- Países emergentes, como o Brasil, tiveram amplo aumento de sua infraestrutura.
+  - Início da implementação da **banda larga**, começando com velocidades entre 256 kbps e 512 kbps.
+- **2004:** Início da popularização de redes sociais (saudoso Orkut), e também do Google.
+- **2005:** Início do YouTube.
+- **2006:** *Amazon Web Services* (AWS) lança o Amazon S3 (*Simple Storage Service*).
+- **2007:** Implantação da TV Digital no Brasil. 
+  - Lançamento do iPhone: Internet em dispositivos móveis se expande.
+  - Netflix começa com o *streaming*.
+- **2008:** Serviços de armazenamento em nuvem *consumer-friendly* (Dropbox).
 
-O esquema (*scheme*) define a estrutura básica, compreendendo esquemas de relação que especificam os atributos de cada tabela juntamente com seus domínios associados, e o esquema geral do banco de dados como a coleção integrada desses esquemas de relação, incluindo definições para **visões** (*views*), **índices** e **restrições** (*constraints*), quando aplicável. Os **esquemas de relação** servem, portanto, como descritores fundamentais, nomeando a tabela e mapeando cada atributo ao seu domínio, enquanto o **esquema do banco de dados** fornece uma visão holística da organização entre as tabelas sem se aprofundar nas instâncias de dados. Essa separação permite um design abstrato independente do armazenamento físico, facilitando a manutenção e a escalabilidade em sistemas de grande porte.
+### Década de 2010
 
-### Modelo Entidade-Relacionamento (MER)
+- **2010:** Banda Larga (no Brasil) já alcançava velocidades de 30 Mbps.
+- **2011:** Popularização de serviços de *streamings* (Netflix passa a operar no Brasil).
+- **2012:** Facebook passa a ser a rede social dominante.
+  - *Deep Learning* se populariza: início de vários sistemas e serviços de processamento avançado de imagens e vídeos.
+- Velocidade da Internet passa dos 100 Mbps.
+- Serviços de mensagem (WhatsApp e similares) se popularizam.
+- Serviço de armazenamento em nuvem massivos (Google Drive, iCloud, etc.).
+- **2017:** [*Attention Is All You Need*](https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf), artigo onde é proposta uma nova arquitetura de *Deep Learning* chamada de *Transformer* - a base para as IAs generativas modernas.
 
-O **Modelo Entidade-Relacionamento** (MER) é a base do design de bancos de dados relacionais. Ele serve como uma planta arquitetônica, descrevendo a estrutura lógica dos dados de forma independente de como eles serão implementados fisicamente. Seus dois principais componentes são as **entidades** e seus **relacionamentos**.
+### Década de 2020
 
-#### Entidades
+- **2020:** Pandemia obriga bilhões de pessoas a passarem mais tempo em casa, o que gera enorme demanda e pressão sobre serviços online.
+- **2022:** Lançamento do ChatGPT (*Chat Generative Pre-trained Transformer*).
+- Advento de diversas outras IAs generativas.
+- Explosão da demanda de *data-centers*, e surgimento de *mega data-centers*.
 
-Representam objetos do mundo real (ex: Cliente, Produto) ou conceitos abstratos (ex: Venda). As entidades têm suas características descritas através de diferentes tipos de **atributos**:
+## O *back end* e seu lugar no ecossistema web
 
-- **Atributo Simples**: Indivisível (ex: CPF, Idade).
-- **Atributo Composto**: Pode ser dividido em partes menores (ex: Endereço, que se divide em Rua, Número, CEP).
-- **Atributo Monovalorado**: Possui apenas um valor para uma instância (ex: Data de Nascimento).
-- **Atributo Multivalorado**: Pode ter vários valores (ex: Telefone, Habilidades). Geralmente representado por uma elipse dupla.
-- **Atributo Derivado**: Seu valor depende de outro atributo (ex: Idade, que é calculada a partir da Data de Nascimento). Representado por uma elipse tracejada.
-- **Atributo Chave (Identificador)**: Identifica unicamente uma instância da entidade (ex: ID_Cliente). Texto sublinhado.
+<figure style="text-align:center;">
+    <img src="imagens/figura01.png">
+    <figcaption>O ecossistema de desenvolvimento web (fonte: CONNOLY; HOAR, 2022)</figcaption>
+</figure>
 
-#### Relacionamentos
+Resumidamente, o *back end* é o lado do servidor (*server-side*) de uma aplicação. Algumas de suas principais funções são:
 
-Descrevem como as entidades interagem entre si (ex: Cliente compra Produto). Podem classificados de acordo com o **grau** (número de entidades envolvidas) e de acordo com sua **cardinalidade** (número de instâncias de uma entidade que podem estar associadas a instâncias de outra entidade).
+1. **Interligar o *front end* e o banco de dados**.
+2. **Gerenciar os dados e a lógica de negócios**.
+3. **Lidar com autenticação e autorização**.
+4. **Comunicar-se com serviços de terceiros - permissões e integrações de APIs**.
 
-De acordo com o grau:
+Mais recentemente passou a fazer parte dessa *stack* o gerenciamento da comunicação entre agentes de IA e seus serviços (**MCP** - *Model Context Protocol*). Isso se encaixa em qual dos tópicos acima?
 
-- **Unário (Auto-relacionamento)**: Uma entidade se relaciona com ela mesma (ex: Empregado gerencia Empregado).
-- **Binário**: Envolve duas entidades (o mais comum).
-- **Ternário**: Envolve três entidades simultaneamente (ex: Fornecedor, Peça e Projeto).
+### Componentes essenciais do *back end*
 
-De acordo com a cardinalidade:
+1. **Servidores** - aqui devem ser gerenciadas as requisições e respostas HTTP/HTTPS, e portas da Camada de Transporte.
+2. **Bancos de Dados** - armazenamento e gerenciamento dos dados usados pela aplicação.
+3. **APIs** - para comunicação entre diversos sitemas.
+4. **Frameworks** e **bibliotecas** - fornecem ferramentas e componentes pré-prontos para a simplificação do desenvolvimento no *back end*. Alguns dos mais populares, por linguagem:
+   1. C#/.NET: ASP.NET Core.
+   2. Java: Spring [Boot].
+   3. JavaScript/Node.js: Express.js.
+   4. PHP: Laravel.
+   5. Python: Django, FastAPI e Flask.
+   6. Ruby: Ruby on Rails.
 
-- **1:1 (Um para Um)**: Cada registro de A se relaciona com apenas um de B.
-- **1:N (Um para Muitos)**: Um registro de A pode se relacionar com vários de B.
-- **N:N (Muitos para Muitos)**: Vários registros de A se relacionam com vários de B.
+### Conceitos fundamentais
 
-### Diagrama de Entidade-Relacionamento
+A seguir uma lista de alguns dos conceitos fundamentais a serem aprendidos para o desenvolvimento *back end* (esses conceitos não necessariamente são aplicados em todos os casos):
 
-O Diagrama de Entidade-Relacionamento (**DER**) é uma forma visual de representar as entidades e seus respectivos relacionamentos. Existem duas notações bastante comuns: **Peter Chen** e **Pé de Galinha** (ou *Crow's foot*).
-
-A Notação de Peter Chen é comumente associada à **fase conceitual**, pois foca na semântica. É excelente para discutir o modelo com pessoas que não são da área técnica, pois usa formas geométricas para separar claramente o que é objeto, ação e característica.
-
-A Notação de Pé de Galinha é mais associada à **fase lógica**. É mais "limpa" para diagramas complexos porque os atributos ficam dentro dos retângulos e a cardinalidade é representada por símbolos nas extremidades das linhas.
-
-Comparativo das estruturas:
-
-![](imagens/figura01.png)
+- **Servidores** e **hospedagem**
+  - Aqui fica a maior parte dos conteúdos de desenvolvimento *back end*.
+  - **CDN** (*Content Delivery Network*)
+    - Replica arquivos estáticos em servidores espalhados.
+  - O *loop* de funcionamento (*data flow*) de um servidor:
+    1. *Listen* - portas 80 ou 443.
+    2. *Receive* - com a chegada de uma requisição o servidor vai ler o método, a URL, cabeçalhos e corpo.
+    3. *Route* - a partir da leitura anterior, o servidor vai definir qual parte do código (*handler*) vai lidar com a requisição.
+    4. *Middleware* - uma camada extra intermediária que funciona como *pipeline* modular para a organização de tarefas como validações, autenticação e/ou registro (*logging*).
+    5. *Process* - a execução da lógica de negócios, incluindo leitura e escrita no banco de dados.
+    6. *Respond* - o servidor monta a resposta HTTP e envia de volta.
+    7. *Repeat* - volta ao passo 1.
+- **Bancos de Dados**
+  - ACID e transações.
+  - Bancos relacionais e NoSQL, incluindo os vetorizados.
+- **APIs**
+  - Alguns dos principais tipos de API são REST, JSON e GraphQL.
+- **Segurança**, **autenticação** e **autorização**
+  - Melhores práticas.
+  - Tratamento de erros.
+  - *Cross-Site Scripting* (XSS), *Cross-Site Request Forgery* (CSRF), *Rate Limiting*, *HTTPS*, *OWASP*.
+  - *JSON Web Tokens* (JWT), OAuth, *Single Sign-On* (SSO), etc.
+  - *Role-Based Access Control* (RBAC).
+- **Otimização de desempenho**
+  - ***Caching***.
+  - ***Load Balancing***.
+  - ***Message Queues*** (Kafka, RabbitMQ).
+  - ***Database Indexing***.
+  - Domínio sobre os conceitos de processos e *threads*.
+- ***Reverse Proxy***
+  - Faz parte tanto de segurança quanto otimização.
+  - Consiste em um servidor intermediário entre a aplicação e o(s) servidor(es) real(is). É utilizado para:
+    - Segurança, ao ocultar o IP do servidor real.
+    - ***SSL Termination***, que lida com a criptografia do HTTPS.
+    - ***Load Balancing***.
+    - ***Caching***.
+    - **Compressão** de dados.
+- **Arquiteturas de Sistemas**
+  - Monolítica.
+  - Distribuída.
+  - Em camadas.
+  - *Pipeline*.
+  - Microkernel.
+  - Baseada em serviço (*service-based*).
+  - Dirigida a eventos (*event-driven*).
+  - *Space-based*.
+  - *Orchestration-Driven Service-Oriented*.
+  - Microsserviços.
+- **Conteinerização**
+  - Docker, Kubernetes.
+- **Observability**
+  - Técnicas e ferramentas de *logging*, métricas e rastreamento.
+- **DevOps**
+  - **CI/CD** (*Continuous Integration/Continuous Deployment*) a partir de *pipelines* permite o teste e *deploy* automáticos.
+  - Ciclos de entrega (*release*) mais curtos com *downtime* mínimo.

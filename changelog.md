@@ -2,3 +2,8 @@
   - `changelog.md` reiniciado.
   - Novas entradas em `.gitignore`.
   - `README.md` atualizado.
+- 2026.2.1
+  - Pequeno ajuste em `README.md`.
+  - `AULAS/01`
+    - `aula01.md` atualizada.
+    - imagem anterior excluída, e nova imagem adicionada.

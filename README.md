@@ -63,9 +63,9 @@ Repositório para os materiais da disciplina P. Web II.
 ### Unidade 1 - Fundamentos da Comunicação Web e o Papel do Backend
 
 - O que é Backend e seu lugar no ecossistema web
-  - Frontend × Backend × Full-stack
+  - Frontend × Backend
   - Responsabilidades do lado servidor
-  - Evolução histórica resumida da web e do servidor
+  - Evolução histórica resumida da web
 - Arquitetura Cliente-Servidor
   - Modelo clássico e suas variações
   - Papéis, responsabilidades e fluxo de comunicação
@@ -179,6 +179,16 @@ As **notas** obedecem a uma escala de **0,0 (zero)** a **10,0 (dez)**, contando 
 Considerar-se-á **aprovado** na disciplina o aluno que obtiver **assiduidade igual ou superior a 75%** e a média **aritmética igual ou superior a 7,0 (sete)** nas <u>avaliações parciais (média parcial)</u>, ou que se submeta a exame final e obtenha média aritmética (média final) entre a média parcial e exame final igual ou superior a 6,0 (seis).
 
 Terá direito de realizar exame final o aluno que satisfaça os requisitos de assiduidade e que obtenha média parcial maior ou igual a 4,0 (quatro) e menor que 7,0 (sete).
+
+### Primeira e Segunda Avaliações
+
+Para a primeira e segunda avaliações estão previstos trabalhos semanais (ou quinzenais) e uma avaliação escrita. Os trabalhos responderão pela metade da nota (5 pontos), e a avaliação escrita pela outra metade.
+
+Os trabalhos poderão ser realizados em duplas, mas a prova escrita será individual.
+
+### Terceira Avaliação
+
+A terceira avaliação consistirá em um trabalho a ser apresentado. Os requisitos para esse trabalho serão passados em momento oportuno, e feito em duplas.
 
 ### Faltas
 
