@@ -7,3 +7,9 @@
   - `AULAS/01`
     - `aula01.md` atualizada.
     - imagem anterior excluída, e nova imagem adicionada.
+- 2026.2.2
+  - `AULAS/02`
+    - Criação do arquivo `aula02.pdf`.
+    - Remoção do arquivo `aula02.md`.
+    - Pasta `imagens/` excluída.
+  - Nova entrada no `.gitignore`.
