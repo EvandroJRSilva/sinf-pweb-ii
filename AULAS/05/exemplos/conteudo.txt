@@ -1,2 +1,0 @@
-Este é o conteúdo do arquivo de texto que será carregado via AJAX.
-Você pode colocar qualquer texto aqui e ele aparecerá na página.

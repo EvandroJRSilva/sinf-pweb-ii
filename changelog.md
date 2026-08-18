@@ -13,3 +13,15 @@
     - Remoção do arquivo `aula02.md`.
     - Pasta `imagens/` excluída.
   - Nova entrada no `.gitignore`.
+- 2026.2.3
+  - `AULAS/03`
+    - Atualização do arquivo `aula03.md`.
+  - `AULAS/04`
+    - Exclusão da pasta `imagens/`.
+    - Atualização do arquivo `aula04.md`.
+  - `AULAS/05`
+    - Exclusão das pastas `exemplos/` e `imagens/`.
+    - Atualização do arquido `aula05.md`.
+  - `AULAS/06`
+    - Exclusão das pastas `exemplos/` e `imagens/`.
+    - Atualização do arquivo `aula06.md`.
