@@ -25,3 +25,8 @@
   - `AULAS/06`
     - Exclusão das pastas `exemplos/` e `imagens/`.
     - Atualização do arquivo `aula06.md`.
+- 2026.2.4
+  - `AULAS/03`
+    - Atualização parcial do arquivo `aula03.md`.
+  - `AULAS/04`
+    - Atualização parcial do arquivo `aula04.md`, contendo o trabalho semanal.
