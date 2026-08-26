@@ -164,6 +164,7 @@ Uma resposta é cacheável se é permitido ao cache armazenar uma cópia da mens
 
 ### 9. [Methods](https://www.rfc-editor.org/info/rfc9110/#section-9)
 
+<!--
 O token de método de requisição é a fonte primária da semântica de requisição. Ele indica:
     - O propósito pelo qual o cliente fez essa requisição, e
     - O que é esperado pelo cliente como um resultado bem sucedido.
@@ -197,5 +198,31 @@ Algumas regras:
 Métodos adicionas foram especificados para o uso no HTTP. Todos esses métodos devem ser registrados dentro do HTTP Method Registry ([Seção 16.1](https://www.rfc-editor.org/info/rfc9110/#method.extensibility)).
 
 #### 9.2 Propriedades Comuns dos Métodos
+-->
+
+Essa seção estabelece o método de requisição como a principal fonte de semântica da mensagem. O token do método é case-sensitive e indica a intenção do cliente em relação ao recurso-alvo, bem como o resultado esperado em caso de sucesso. 
+
+São definidos os seguintes métodos padronizados: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS e TRACE. O RFC também exige que servidores de propósito geral suportem ao menos GET e HEAD. Métodos não reconhecidos devem gerar 501 (Not Implemented); métodos reconhecidos mas não permitidos para o recurso geram 405 (Method Not Allowed). Métodos adicionais podem ser registrados no registro de métodos HTTP.
+
+Três propriedades transversais organizam o comportamento:
+
+- ***Safe***: o método não solicita (e o cliente não espera) alteração de estado no servidor de origem. GET, HEAD, OPTIONS e TRACE são ***safe***. Essa distinção permite que processos automatizados (*crawlers*, *pré-fetch*) e otimizações de cache operem sem risco de efeitos colaterais indesejados.
+- ***Idempotent***: múltiplas requisições idênticas produzem o mesmo efeito no servidor que uma única requisição. São idempotentes PUT, DELETE e todos os métodos ***safe***. Isso justifica a retransmissão automática em caso de falha de conexão antes da resposta completa.
+- ***Cacheable***: a definição do método deve explicitar sob quais condições a resposta pode ser armazenada e reutilizada. A especificação detalha caching para GET, HEAD e (com restrições) POST.
+
+Cada método recebe definição precisa de semântica, requisitos de processamento e interações com headers de condição, conteúdo e status. 
+
+- **GET** solicita a transferência de uma representação selecionada do recurso-alvo; 
+- **HEAD** é equivalente ao GET, mas sem corpo de resposta;
+- **POST** realiza processamento específico do recurso sobre o conteúdo da requisição (não é ***safe*** nem ***idempotent***); 
+- **PUT** substitui (ou cria) a representação completa do recurso-alvo (***idempotent***); 
+- **DELETE** remove a associação entre o identificador e sua funcionalidade atual; 
+- **CONNECT** estabelece um túnel transparente. OPTIONS descreve as opções de comunicação disponíveis; 
+- **TRACE** realiza um teste de loop-back da mensagem ao longo do caminho.
+
+#### Atividade
+
+- Comparar a tabela de propriedades (safe/idempotent/cacheable) com o comportamento real de caches (RFC 9111) e com a semântica de métodos em APIs REST.
+- **Responder:** por que a definição de “safe” não proíbe efeitos colaterais no servidor (logs, cobrança de anúncios), mas apenas o que o cliente solicitou?
 
 ### [Status Codes](https://www.rfc-editor.org/info/rfc9110/#section-15)

@@ -30,3 +30,11 @@
     - Atualização parcial do arquivo `aula03.md`.
   - `AULAS/04`
     - Atualização parcial do arquivo `aula04.md`, contendo o trabalho semanal.
+- 2026.2.5
+  - `AULAS/03`
+    - Atualização parcial do arquivo `aula03.md`.
+  - `AULAS/04`
+    - Atualização parcial do arquivo `aula04.md`.
+  - `AULAS/05`
+    - Atualização parcial do arquivo `aula05.md`.
+  - Nova entrada no `.gitignore`: "TRABALHOS/".
