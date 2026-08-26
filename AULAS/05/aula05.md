@@ -2,6 +2,8 @@
 
 ## [RFC 9110: STD 97: HTTP Semantics](https://www.rfc-editor.org/info/rfc9110):
 
+TODO: Finalizar de montar o gráfico de roteamento, com detalhes
+
 ### 7. [Routing HTTP Messages](https://www.rfc-editor.org/info/rfc9110/#section-7)
 
 A seção 7 trata de como uma mensagem de requisição é direcionada até o recurso-alvo e como a resposta correspondente retorna.
@@ -16,9 +18,9 @@ O roteamento de uma mensagem de requisição é determinada por cada cliente bas
       - O campo de cabeçalho `Host` fornece informações do *host* e da porta do URI, permitindo ao servidor fazer distinção entre os recursos enquanto atende às requisições para vários nomes de *host*.
       - No HTTP/2 e HTTP/3 o campo de cabeçalho `Host` algumas vezes é suplantado pelo campo de pseudo-cabeçalho `":authority"`.
       - Essa informação da autoridade é crítica para lidar com uma requisição. Um agente de usuário deve obrigatoriamente gerar um campo de cabeçalho `Host` em uma requisição, exceto quando enviar essa informação como um campo de pseudo-cabeçalho `":authority"`.
-2. Configuração de proxy do cliente: uma vez que o URI-alvo e sua origem são determinados, um cliente decide se uma requisição de rede é necessária e, caso positivo, para onde a requisição deve ser direcionada.
-  1. Se o usuário possui um cache e a requisição pode ser satisfeita, então a requisição é direcionada para o cache primeiro.
-  2. Caso a requisição não tenha sido satisfeita pelo cache, então o cliente verifica sua configuração para determinar se o proxy deve ser usado. 
+2. Configuração de proxy do cliente: uma vez que o URI-alvo e sua origem são determinados, um cliente decide se uma requisição de rede é necessária e, caso positivo, para onde a requisição deve ser direcionada
+   1. Se o usuário possui um cache e a requisição pode ser satisfeita, então a requisição é direcionada para o cache primeiro.
+   2. Caso a requisição não tenha sido satisfeita pelo cache, então o cliente verifica sua configuração para determinar se o proxy deve ser usado. 
      - A configuração do proxy é geralmente baseada na correspondência de prefixos de URI, na correspondência de autoridade seletiva ou em ambos, e o próprio proxy geralmente é identificado por um URI "http" ou "https".
      - Se um proxy "http" ou "https" é aplicável, o cliente realiza uma conexão ***inbound*** ao estabelecer (ou reutilizar) uma conexão com esse proxy e, então envia uma mensagem de requisição HTTP contendo o alvo da requisição que corresponde ao seu URI alvo.
 3. Estabelecimento ou reúso de uma conexão ***inbound***

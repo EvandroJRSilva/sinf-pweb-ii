@@ -38,3 +38,8 @@
   - `AULAS/05`
     - Atualização parcial do arquivo `aula05.md`.
   - Nova entrada no `.gitignore`: "TRABALHOS/".
+- 2026.2.6
+  - `AULAS/05`
+    - Adição de um TODO no arquivo `aula05.md`.
+  - `AULAS/06`
+    - Atualização parcial do arquivo `aula06.md`.
