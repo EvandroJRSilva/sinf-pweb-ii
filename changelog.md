@@ -43,3 +43,9 @@
     - Adição de um TODO no arquivo `aula05.md`.
   - `AULAS/06`
     - Atualização parcial do arquivo `aula06.md`.
+- 2026.2.7
+  - `AULAS/07`
+    - Excluídos os arquivos `aula07.md` e `restful-api-demo.html`.
+    - Adicionado o arquivo `aula07.pdf`
+  - `.gitignore`
+    - Adicionada entrada `*.odp`.
