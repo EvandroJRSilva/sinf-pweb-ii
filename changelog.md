@@ -49,7 +49,9 @@
     - Adicionado o arquivo `aula07.pdf`
   - `.gitignore`
     - Adicionada entrada `*.odp`.
-- 2026.2.7
+- 2026.2.8
   - `AULAS/08`
     - Excluída a pasta `imagens/` e seus arquivos.
     - Arquivo `aula08.md` atualizado.
+- 2026.2.9
+  - Incluído arquivo `exercícios_av1.md`.
