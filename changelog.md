@@ -58,3 +58,6 @@
 - 2026.2.8.2
   - Modificada entrada no `changelog.md`.
   - Exclusão das pastas `AULAS/09` até `AULAS/15`, para evitar com que alunos confundam quais são os conteúdos do semestre vigente.
+- 2026.2.9
+  - `AULAS/09`
+    - Adição do arquivo `aula09.pdf`.
