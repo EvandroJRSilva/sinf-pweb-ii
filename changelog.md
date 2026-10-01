@@ -67,3 +67,6 @@
 - 2026.2.11
   - `AULAS/11`
     - Adição do arquivo `aula11.pdf`.
+- 2026.2.12
+  - `AULAS/12`
+    - Adição do arquivo `aula12.pdf`.
