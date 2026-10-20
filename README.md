@@ -224,18 +224,18 @@ O documento deve ser enviado para o e-mail <a href="mailto:evandro.silva@ufpi.ed
 | 17 | 08/10/26 | Quinta | Persistência de dados |
 | 18 | 14/10/26 | Quarta | Logging, auditoria e observabilidade básica |
 | 	 | 15/10/26 | Quinta | Recesso acadêmico |
-| 	 | 21/10/26 | Quarta | **BRACIS** |
-| 	 | 22/10/26 | Quinta | **BRACIS** |
+| 	 | 21/10/26 | Quarta | Correção de trabalhos |
+| 	 | 22/10/26 | Quinta | Correção de trabalhos |
 | 	 | 28/10/26 | Quarta | Feriado: Dia do Servidor Público |
-| 19 | 29/10/26 | Quinta | Revisão |
-| 20 | 04/11/26 | Quarta | Segunda Avaliação |
-| 21 | 05/11/26 | Quinta | Design de APIs — boas práticas |
-| 22 | 11/11/26 | Quarta | Segurança no Backend |
-| 23 | 12/11/26 | Quinta | Escalabilidade |
-| 24 | 18/11/26 | Quarta | Caching e performance |
-| 25 | 19/11/26 | Quinta | Idempotência, consistência e tolerância a falhas (introdução) |
-| 26 | 25/11/26 | Quarta | Estilos arquiteturais (visão geral e *trade-offs*) |
-| 27 | 26/11/26 | Quinta | Ambientes, ciclo de vida e deploy |
+| 19 | 29/10/26 | Quinta | Design de APIs — boas práticas |
+| 20 | 04/11/26 | Quarta | Segurança no Backend |
+| 21 | 05/11/26 | Quinta | Escalabilidade |
+| 22 | 11/11/26 | Quarta | Caching e performance |
+| 23 | 12/11/26 | Quinta | Idempotência, consistência e tolerância a falhas (introdução) |
+| 24 | 18/11/26 | Quarta | Estilos arquiteturais (visão geral e *trade-offs*) |
+| 25 | 19/11/26 | Quinta | Ambientes, ciclo de vida e deploy |
+| 26 | 25/11/26 | Quarta | Projeto integrado |
+| 27 | 26/11/26 | Quinta | Projeto integrado |
 | 28 | 02/12/26 | Quarta | Projeto integrado |
 | 29 | 03/12/23 | Quinta | Projeto integrado |
 | 30 | 09/12/26 | Quarta | Terceira Avaliação |
