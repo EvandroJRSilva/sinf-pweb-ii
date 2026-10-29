@@ -81,3 +81,5 @@
     - Adição do arquivo `aula15.pdf`.
 - 2026.2.15.1
   - Ajuste no arquivo `README.md`.
+- 2026.2.16
+  - Adição do arquivo `aula16.md`.
