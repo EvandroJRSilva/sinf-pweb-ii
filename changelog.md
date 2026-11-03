@@ -83,3 +83,6 @@
   - Ajuste no arquivo `README.md`.
 - 2026.2.16
   - Adição do arquivo `aula16.md`.
+- 2026.2.17
+  - Adição da pasta `imagens/` com a imagem `tls-ssl-handshake.png`.
+  - Adição do arquivo `aula17.md`.
